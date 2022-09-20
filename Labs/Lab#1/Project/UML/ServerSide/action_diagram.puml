@@ -1,0 +1,37 @@
+@startuml
+left to right direction
+
+actor "Сервер" as server 
+rectangle "Сервер" {
+  usecase "Обробка запиту" as UC1
+  usecase "Перевірка\n правильності\nотриманого пакету" as UC2
+  usecase "Декодування\n команди прийнятої\n від клієнта" as UC3
+
+}
+
+rectangle "База даних"{
+    usecase "Читання \nлогіну/паролю із БД"  as BD1
+    usecase "Внесення\n працівників\n в БД"  as BD2
+    usecase "Редагувати\n інформацію\n про працівника\n в БД"  as BD3
+    usecase "Видалення\nпрацівника\n із БД"  as BD4
+    usecase "Читання\n даних про\n працівників із БД"  as BD5
+    usecase "Передача звітності із БД"  as BD6
+    usecase "Запис інформації про \nвиплату\n для працівника у БД" as BD7
+    usecase "Запис інформації \nвходу/виходу працівника у БД"as BD8
+}
+
+server -->  UC2
+UC2 --> UC1
+UC1   --> UC3
+
+UC3  -->  BD1
+UC3  -->  BD2
+UC3  .->  BD3 : розширити
+UC3  .->  BD4 : розширити
+
+UC3  -->  BD5
+UC3  -->  BD6
+UC3 -->   BD7
+UC3 -->   BD8
+
+@endum
