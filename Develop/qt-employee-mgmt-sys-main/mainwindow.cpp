@@ -18,13 +18,22 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->updateEmpDOB->setCalendarPopup(true);
 
     ui->tableView->setAlternatingRowColors(true);
-    ui->tableView->setStyleSheet("alternate-background-color: #E4E4E4;background-color:white;selection-background-color:#1492E6;selection-color:white;");
+    ui->tableView->setStyleSheet("alternate-background-color: #E4E4E4;"
+                                 "background-color:white;"
+                                 "selection-background-color:#1492E6;"
+                                 "selection-color:white;");
 
     ui->updateTableView->setAlternatingRowColors(true);
-    ui->updateTableView->setStyleSheet("alternate-background-color: #E4E4E4;background-color:white;selection-background-color:#1492E6;selection-color:white;");
+    ui->updateTableView->setStyleSheet("alternate-background-color: "
+                                       "#E4E4E4;background-color:white;"
+                                       "selection-background-color:#1492E6;"
+                                       "selection-color:white;");
 
     ui->deleteTableView->setAlternatingRowColors(true);
-    ui->deleteTableView->setStyleSheet("alternate-background-color: #E4E4E4;background-color:white;selection-background-color:#1492E6;selection-color:white;");
+    ui->deleteTableView->setStyleSheet("alternate-background-color: "
+                                       "#E4E4E4;background-color:white;"
+                                       "selection-background-color:#1492E6;"
+                                       "selection-color:white;");
 
 
     if(!dbUtils.connectToDB("payrolldb"))
@@ -446,5 +455,10 @@ void MainWindow::on_aboutButton_clicked()
 
 void MainWindow::on_pushButton_3_clicked()
 {
-      dbUtils.setEmployeeDetails(ui->deleteTableView);
+    dbUtils.setEmployeeDetails(ui->deleteTableView);
+}
+
+void MainWindow::receiveSocket(QTcpSocket *socket)
+{
+    this->socket = socket;
 }

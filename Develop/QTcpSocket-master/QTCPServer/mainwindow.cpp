@@ -6,7 +6,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
     m_server = new QTcpServer();
 
-    if(m_server->listen(QHostAddress::Any, 8080))
+    if(m_server->listen(QHostAddress::Any, 8080)) //start server
     {
        connect(this, &MainWindow::newMessage, this, &MainWindow::displayMessage);
        connect(m_server, &QTcpServer::newConnection, this, &MainWindow::newConnection);
@@ -16,6 +16,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     {
         QMessageBox::critical(this,"QTCPServer",QString("Unable to start the server: %1.").arg(m_server->errorString()));
         exit(EXIT_FAILURE);
+    }
+
+    if(dbUtils.connectToDB())
+    {
+
+        displayMessage("Connected to database "   + dbUtils.dbName +  " sucessufully");
+    }
+    else
+    {
+        displayMessage("Connected to database "   + dbUtils.dbName +  " failure");
     }
 }
 
@@ -62,14 +72,34 @@ void MainWindow::readSocket()
     socketStream.startTransaction();
     socketStream >> buffer;
 
-    if(!socketStream.commitTransaction())
-    {
-        QString message = QString("%1 :: Waiting for more data to come..").arg(socket->socketDescriptor());
-        emit newMessage(message);
-        return;
-    }
+    QString header(buffer);
 
-    QString header = buffer.mid(0,128);
+    if(header == "autorization")
+    {
+        QString login;
+        QString password;
+        socketStream >> buffer;
+        socketStream >> buffer;
+        if(dbUtils.checkUserIsExist(login, password))
+        {
+
+        }
+        else
+        {
+
+        }
+
+        if(!socketStream.commitTransaction())
+        {
+            QString message = QString("%1 :: Waiting for more data to come..").arg(socket->socketDescriptor());
+            emit newMessage(message);
+            return;
+        }
+
+    }
+ return;
+
+
     QString fileType = header.split(",")[0].split(":")[1];
 
     buffer = buffer.mid(128);

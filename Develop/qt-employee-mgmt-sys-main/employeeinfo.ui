@@ -22,17 +22,17 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>-1</x>
      <y>350</y>
-     <width>250</width>
-     <height>250</height>
+     <width>251</width>
+     <height>251</height>
     </rect>
    </property>
    <property name="text">
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="resources.qrc">:/Images/bottom.png</pixmap>
+    <pixmap>:/Images/bottom.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -51,7 +51,7 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="resources.qrc">:/Images/bottom right.png</pixmap>
+    <pixmap>:/Images/bottom right.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -70,7 +70,7 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="resources.qrc">:/Images/top_bar.png</pixmap>
+    <pixmap>:/Images/top_bar.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -89,7 +89,7 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="resources.qrc">:/Images/personal_card.png</pixmap>
+    <pixmap>:/Images/personal_card.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -108,7 +108,7 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="resources.qrc">:/Images/company_card.png</pixmap>
+    <pixmap>:/Images/company_card.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -127,7 +127,7 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="resources.qrc">:/Images/Corporate Management.png</pixmap>
+    <pixmap>:/Images/Corporate Management.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -180,7 +180,6 @@
    <property name="font">
     <font>
      <pointsize>10</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -203,7 +202,6 @@
    <property name="font">
     <font>
      <pointsize>11</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -229,7 +227,6 @@
    <property name="font">
     <font>
      <pointsize>11</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -255,7 +252,6 @@
    <property name="font">
     <font>
      <pointsize>11</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -278,7 +274,6 @@
    <property name="font">
     <font>
      <pointsize>11</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -301,7 +296,6 @@
    <property name="font">
     <font>
      <pointsize>11</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -324,7 +318,6 @@
    <property name="font">
     <font>
      <pointsize>11</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -347,7 +340,6 @@
    <property name="font">
     <font>
      <pointsize>11</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -370,7 +362,6 @@
    <property name="font">
     <font>
      <pointsize>11</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -393,7 +384,6 @@
    <property name="font">
     <font>
      <pointsize>11</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -416,7 +406,6 @@
    <property name="font">
     <font>
      <pointsize>11</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -439,7 +428,6 @@
    <property name="font">
     <font>
      <pointsize>11</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -462,7 +450,6 @@
    <property name="font">
     <font>
      <pointsize>11</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -485,7 +472,6 @@
    <property name="font">
     <font>
      <pointsize>11</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -508,7 +494,6 @@
    <property name="font">
     <font>
      <pointsize>11</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -531,7 +516,6 @@
    <property name="font">
     <font>
      <pointsize>11</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -554,7 +538,6 @@
    <property name="font">
     <font>
      <pointsize>11</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -577,7 +560,6 @@
    <property name="font">
     <font>
      <pointsize>11</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -600,7 +582,6 @@
    <property name="font">
     <font>
      <pointsize>11</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -623,7 +604,6 @@
    <property name="font">
     <font>
      <pointsize>11</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -772,7 +752,6 @@
    <property name="font">
     <font>
      <pointsize>11</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -795,7 +774,6 @@
    <property name="font">
     <font>
      <pointsize>11</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -818,7 +796,6 @@
    <property name="font">
     <font>
      <pointsize>11</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -841,7 +818,6 @@
    <property name="font">
     <font>
      <pointsize>11</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -864,7 +840,6 @@
    <property name="font">
     <font>
      <pointsize>11</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -981,8 +956,6 @@
    </property>
   </widget>
  </widget>
- <resources>
-  <include location="resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

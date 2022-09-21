@@ -94,7 +94,7 @@ QLineEdit
      <property name="geometry">
       <rect>
        <x>-40</x>
-       <y>10</y>
+       <y>0</y>
        <width>325</width>
        <height>125</height>
       </rect>
@@ -122,7 +122,6 @@ QLineEdit
       <font>
        <family>Segoe UI</family>
        <pointsize>13</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -420,9 +419,9 @@ QLineEdit
     <widget class="QLabel" name="label_9">
      <property name="geometry">
       <rect>
-       <x>70</x>
+       <x>60</x>
        <y>560</y>
-       <width>101</width>
+       <width>151</width>
        <height>21</height>
       </rect>
      </property>
@@ -458,7 +457,6 @@ QLineEdit
      <property name="font">
       <font>
        <pointsize>16</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -494,7 +492,6 @@ color:#EB0000;
      <property name="font">
       <font>
        <pointsize>16</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -609,7 +606,6 @@ color:#EB0000;
       <property name="font">
        <font>
         <pointsize>12</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -629,7 +625,6 @@ color:#EB0000;
       <property name="font">
        <font>
         <pointsize>28</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -656,7 +651,6 @@ color:#EB0000;
       <property name="font">
        <font>
         <pointsize>28</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -679,7 +673,6 @@ color:#EB0000;
       <property name="font">
        <font>
         <pointsize>12</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -699,7 +692,6 @@ color:#EB0000;
       <property name="font">
        <font>
         <pointsize>28</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -722,7 +714,6 @@ color:#EB0000;
       <property name="font">
        <font>
         <pointsize>12</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -853,11 +844,11 @@ background:white;
       <attribute name="horizontalHeaderVisible">
        <bool>false</bool>
       </attribute>
-      <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>120</number>
-      </attribute>
       <attribute name="horizontalHeaderMinimumSectionSize">
        <number>30</number>
+      </attribute>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>120</number>
       </attribute>
      </widget>
      <widget class="QLabel" name="label_8">
@@ -872,7 +863,6 @@ background:white;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -900,7 +890,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -928,7 +917,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -956,7 +944,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -983,7 +970,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -1010,7 +996,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -1098,7 +1083,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -1119,7 +1103,6 @@ padding-left:10px;
        <font>
         <family>Arial</family>
         <pointsize>12</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -1139,7 +1122,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -1159,7 +1141,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -1207,7 +1188,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -1267,7 +1247,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -1337,7 +1316,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -1382,7 +1360,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -1402,7 +1379,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -1422,7 +1398,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -1560,7 +1535,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -1580,7 +1554,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -1601,7 +1574,6 @@ padding-left:10px;
        <font>
         <family>Arial</family>
         <pointsize>12</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -1661,7 +1633,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -1716,7 +1687,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -1876,7 +1846,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -1896,7 +1865,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -1916,7 +1884,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -1976,7 +1943,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -1996,7 +1962,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -2073,7 +2038,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -2093,7 +2057,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -2211,7 +2174,6 @@ padding-left:10px;
        <font>
         <family>Arial</family>
         <pointsize>12</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -2310,11 +2272,11 @@ padding-left:10px;
       <attribute name="horizontalHeaderVisible">
        <bool>false</bool>
       </attribute>
-      <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>120</number>
-      </attribute>
       <attribute name="horizontalHeaderMinimumSectionSize">
        <number>30</number>
+      </attribute>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>120</number>
       </attribute>
      </widget>
      <widget class="QLabel" name="label_26">
@@ -2329,7 +2291,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -2357,7 +2318,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -2385,7 +2345,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -2501,11 +2460,11 @@ font-style:italic;</string>
       <attribute name="horizontalHeaderVisible">
        <bool>false</bool>
       </attribute>
-      <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>120</number>
-      </attribute>
       <attribute name="horizontalHeaderMinimumSectionSize">
        <number>30</number>
+      </attribute>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>120</number>
       </attribute>
      </widget>
      <widget class="QLabel" name="label_29">
@@ -2520,7 +2479,6 @@ font-style:italic;</string>
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -2548,7 +2506,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -2576,7 +2533,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -2604,7 +2560,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -2631,7 +2586,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -2658,7 +2612,6 @@ padding-left:10px;
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>

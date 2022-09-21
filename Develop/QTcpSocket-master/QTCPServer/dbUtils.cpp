@@ -12,15 +12,16 @@ class DatabaseUtils
 {
     public:
 
-    QSqlDatabase db = QSqlDatabase::database("firstConn");
+    QString serverName = "localhost\\sqlexpress";
+    QString dbName = "PayrollSystem";
+    QSqlDatabase db{};
 
-    bool connectToDB(QString dbName)
+    bool connectToDB()
     {
-        db = QSqlDatabase::addDatabase("QMYSQL");
-        db.setDatabaseName(dbName);
-        db.setHostName("localhost");
-        db.setUserName("root");
-        db.setPassword("");
+       db = QSqlDatabase::addDatabase("QODBC");
+       db.setConnectOptions();
+       QString dsn= QString("DRIVER={SQL Server};Server=%1;Database=%2;").arg(serverName).arg(dbName);
+       db.setDatabaseName(dsn);
 
         if(db.open())
         {
@@ -40,7 +41,6 @@ class DatabaseUtils
         if(db.isValid())
         {
             qDebug() <<"Connection Valid";
-            db.removeDatabase("firstConn");
             db.close();
         }
         else
@@ -48,6 +48,30 @@ class DatabaseUtils
             qDebug() <<"Connection Invalid";
         }
 
+    }
+
+    bool checkUserIsExist(QString& login , QString& password)
+    {
+        if(!db.isOpen())
+        {
+            qDebug() << "No connection to db :( ";
+            return false;
+        }
+
+        QSqlQuery qry;
+
+        if(qry.exec("SELECT adminLogin, adminPass "
+                    "FROM adminLogIn "
+                    "WHERE adminLogin = \'" + login + "\'"
+                    "AND adminPass = \'" +  password+  "\'"))
+        {
+            if(qry.next())
+            {
+                return true;
+            }
+
+        }
+        return false;
     }
 
     QSqlQueryModel* getDepartmentList()
@@ -141,7 +165,6 @@ class DatabaseUtils
 
         return QString::number(lastID);
     }
-
 
     QString getEmployeeID(QString dept, QString design)
     {

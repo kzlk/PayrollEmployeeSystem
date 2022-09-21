@@ -10,7 +10,10 @@
 #include <QWidget>
 #include <QMouseEvent>
 #include <QPoint>
-
+//network
+#include <QAbstractSocket>
+#include <QHostAddress>
+#include <QTcpSocket>
 namespace Ui {
 class MainWindow;
 }
@@ -87,9 +90,13 @@ private slots:
 
     void on_pushButton_3_clicked();
 
+public slots:
+    void receiveSocket(QTcpSocket* socket);
+
 private:
     Ui::MainWindow *ui;
     bool isMouseDown = false;
+    QTcpSocket *socket;
 };
 
 #endif // MAINWINDOW_H

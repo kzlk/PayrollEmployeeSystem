@@ -130,6 +130,22 @@ void MainWindow::on_pushButton_sendMessage_clicked()
     }
     else
         QMessageBox::critical(this,"QTCPClient","Not connected");
+
+
+    if(socket->waitForConnected())
+        ui->statusBar->showMessage("Connected to Server");
+    else{
+        QMessageBox::critical(this,"QTCPClient", QString("The following error occurred: %1.").arg(socket->errorString()));
+        exit(EXIT_FAILURE);
+    }
+
+    if(socket->isOpen())
+    {
+        ui->statusBar->showMessage("Socket opened");
+        qDebug() << "Socket opened";
+    }
+
+
 }
 
 void MainWindow::on_pushButton_sendAttachment_clicked()

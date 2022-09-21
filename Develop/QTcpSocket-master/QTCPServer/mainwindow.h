@@ -11,6 +11,7 @@
 #include <QStandardPaths>
 #include <QTcpServer>
 #include <QTcpSocket>
+#include "dbUtils.cpp"
 
 namespace Ui {
 class MainWindow;
@@ -18,7 +19,7 @@ class MainWindow;
 
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT
+    Q_OBJECT //can create slot and signal
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
@@ -30,9 +31,8 @@ signals:
 private slots:
     void newConnection();
     void appendToSocketList(QTcpSocket* socket);
-
-    void readSocket();
-    void discardSocket();
+    void readSocket(); //готовность сокета к принятию даних
+    void discardSocket(); //отключения клиента от сокета
     void displayError(QAbstractSocket::SocketError socketError);
 
     void displayMessage(const QString& str);
@@ -45,7 +45,7 @@ private slots:
     void refreshComboBox();
 private:
     Ui::MainWindow *ui;
-
+    DatabaseUtils dbUtils;
     QTcpServer* m_server;
     QSet<QTcpSocket*> connection_set;
 };

@@ -46,24 +46,18 @@ MainWindow::MainWindow(QWidget *parent)
                     book["title"] = qry->value(0).toString();
                     book["category"] = qry->value(1).toString();
 
-
-
                 }
              }else
              {
                 qDebug() << "Error in query";
              }
 
-             qDebug() << book.value("title");
+             //qDebug() << book.value("title");
 
              QJsonDocument doc(book);
+             QByteArray bytes = doc.toJson();
 
-
-
-
-            // QByteArray bytes = doc.toJson();
-
-             //() << bytes;
+             qDebug() << bytes;
 
 
              query = new QSqlQuery(db);
