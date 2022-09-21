@@ -12,6 +12,7 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 #include "dbUtils.cpp"
+#include "CMessage.h"
 
 namespace Ui {
 class MainWindow;
@@ -39,6 +40,8 @@ private slots:
     void sendMessage(QTcpSocket* socket);
     void sendAttachment(QTcpSocket* socket, QString filePath);
 
+    void sendAutorizationStatus(QTcpSocket* socket, bool isAutorized);
+
     void on_pushButton_sendMessage_clicked();
     void on_pushButton_sendAttachment_clicked();
 
@@ -48,6 +51,8 @@ private:
     DatabaseUtils dbUtils;
     QTcpServer* m_server;
     QSet<QTcpSocket*> connection_set;
+    msg::header hd;
+    msg::status st;
 };
 
 #endif // MAINWINDOW_H

@@ -14,7 +14,7 @@
 #include <QStandardPaths>
 //
 #include "mainwindow.h"
-
+#include "CMessage.h"
 namespace Ui {
 class loginForm;
 }
@@ -59,7 +59,8 @@ private:
     QByteArray byteArray{};
     //
     MainWindow *mainWindow;
-
+    msg::header hd{};
+    msg::status st{};
 
 };
 

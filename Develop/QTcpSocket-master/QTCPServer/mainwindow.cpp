@@ -62,9 +62,12 @@ void MainWindow::appendToSocketList(QTcpSocket* socket)
 
 void MainWindow::readSocket()
 {
+    if(dbUtils.db.isOpen())
+    {
     QTcpSocket* socket = reinterpret_cast<QTcpSocket*>(sender());
 
     QByteArray buffer;
+    buffer.clear();
 
     QDataStream socketStream(socket);
     socketStream.setVersion(QDataStream::Qt_5_15);
@@ -74,20 +77,13 @@ void MainWindow::readSocket()
 
     QString header(buffer);
 
-    if(header == "autorization")
+    if(header == hd.autorazation)
     {
-        QString login;
-        QString password;
         socketStream >> buffer;
+        QString login(buffer);
         socketStream >> buffer;
-        if(dbUtils.checkUserIsExist(login, password))
-        {
-
-        }
-        else
-        {
-
-        }
+        QString password(buffer);
+            sendAutorizationStatus(socket, dbUtils.checkUserIsExist(login, password));
 
         if(!socketStream.commitTransaction())
         {
@@ -97,36 +93,46 @@ void MainWindow::readSocket()
         }
 
     }
- return;
+    else
+    {
+        return;
+    }
 
 
-    QString fileType = header.split(",")[0].split(":")[1];
 
-    buffer = buffer.mid(128);
+//    QString fileType = header.split(",")[0].split(":")[1];
 
-    if(fileType=="attachment"){
-        QString fileName = header.split(",")[1].split(":")[1];
-        QString ext = fileName.split(".")[1];
-        QString size = header.split(",")[2].split(":")[1].split(";")[0];
+//    buffer = buffer.mid(128);
 
-        if (QMessageBox::Yes == QMessageBox::question(this, "QTCPServer", QString("You are receiving an attachment from sd:%1 of size: %2 bytes, called %3. Do you want to accept it?").arg(socket->socketDescriptor()).arg(size).arg(fileName)))
-        {
-            QString filePath = QFileDialog::getSaveFileName(this, tr("Save File"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)+"/"+fileName, QString("File (*.%1)").arg(ext));
+//    if(fileType=="attachment"){
+//        QString fileName = header.split(",")[1].split(":")[1];
+//        QString ext = fileName.split(".")[1];
+//        QString size = header.split(",")[2].split(":")[1].split(";")[0];
 
-            QFile file(filePath);
-            if(file.open(QIODevice::WriteOnly)){
-                file.write(buffer);
-                QString message = QString("INFO :: Attachment from sd:%1 successfully stored on disk under the path %2").arg(socket->socketDescriptor()).arg(QString(filePath));
-                emit newMessage(message);
-            }else
-                QMessageBox::critical(this,"QTCPServer", "An error occurred while trying to write the attachment.");
-        }else{
-            QString message = QString("INFO :: Attachment from sd:%1 discarded").arg(socket->socketDescriptor());
-            emit newMessage(message);
-        }
-    }else if(fileType=="message"){
-        QString message = QString("%1 :: %2").arg(socket->socketDescriptor()).arg(QString::fromStdString(buffer.toStdString()));
-        emit newMessage(message);
+//        if (QMessageBox::Yes == QMessageBox::question(this, "QTCPServer", QString("You are receiving an attachment from sd:%1 of size: %2 bytes, called %3. Do you want to accept it?").arg(socket->socketDescriptor()).arg(size).arg(fileName)))
+//        {
+//            QString filePath = QFileDialog::getSaveFileName(this, tr("Save File"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)+"/"+fileName, QString("File (*.%1)").arg(ext));
+
+//            QFile file(filePath);
+//            if(file.open(QIODevice::WriteOnly)){
+//                file.write(buffer);
+//                QString message = QString("INFO :: Attachment from sd:%1 successfully stored on disk under the path %2").arg(socket->socketDescriptor()).arg(QString(filePath));
+//                emit newMessage(message);
+//            }else
+//                QMessageBox::critical(this,"QTCPServer", "An error occurred while trying to write the attachment.");
+//        }else{
+//            QString message = QString("INFO :: Attachment from sd:%1 discarded").arg(socket->socketDescriptor());
+//            emit newMessage(message);
+//        }
+//    }else if(fileType=="message"){
+//        QString message = QString("%1 :: %2").arg(socket->socketDescriptor()).arg(QString::fromStdString(buffer.toStdString()));
+//        emit newMessage(message);
+//    }
+   }
+    else
+    {
+      QString message = QString("Data base is could not open");
+      emit newMessage(message);
     }
 }
 
@@ -277,6 +283,31 @@ void MainWindow::sendAttachment(QTcpSocket* socket, QString filePath)
     }
     else
         QMessageBox::critical(this,"QTCPServer","Not connected");
+}
+
+void MainWindow::sendAutorizationStatus(QTcpSocket* socket, bool isAutorized)
+{
+    if(socket)
+    {
+        if(socket->isOpen())
+        {
+            QDataStream socketStream(socket);
+             socketStream.setVersion(QDataStream::Qt_5_15);
+            if(isAutorized)
+            {
+                socketStream << hd.autorazation.toUtf8() << st.success.toUtf8();
+            }
+            else
+            {
+                socketStream << hd.autorazation.toUtf8() << st.failure.toUtf8();
+            }
+        }
+        else
+            QMessageBox::critical(this,"QTCPServer","Socket doesn't seem to be opened");
+    }
+    else
+        QMessageBox::critical(this,"QTCPServer","Not connected");
+
 }
 
 void MainWindow::displayMessage(const QString& str)

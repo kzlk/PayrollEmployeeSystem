@@ -9,51 +9,59 @@ loginForm::loginForm(QWidget *parent) :
 
     socket = new QTcpSocket(this);
 
-    //connect(this, &loginForm::newMessage, this, &loginForm::displayMessage);
+   //connect(this, &loginForm::newMessage, this, &loginForm::displayMessage);
    connect(socket, &QTcpSocket::readyRead, this, &loginForm::readSocket);
    // connect(socket, &QTcpSocket::disconnected, this, &loginForm::discardSocket);
     //connect(socket, &QAbstractSocket::errorOccurred, this, &loginForm::displayError);
    mainWindow = new MainWindow();
    connect(this, &loginForm::sendSocket, mainWindow ,&MainWindow::receiveSocket);
-
-
 }
 
+//close socket and delete ui
 loginForm::~loginForm()
 {
-    if(socket->isOpen())
-        socket->close();
+    if(socket->isOpen()) socket->close();
     delete ui;
 }
 
+//read data from server
 void loginForm::readSocket()
 {
      QByteArray buffer;
+     buffer.clear();
      QDataStream socketStream(socket);
 
      socketStream.setVersion(QDataStream::Qt_5_15);
 
      socketStream.startTransaction();
+     //read header
      socketStream >> buffer;
 
+     if(hd.autorazation == buffer)
+     {
+        socketStream >> buffer;
+        if(buffer.toStdString() == st.success.toStdString())
+        {
+            emit sendSocket(socket); //send socket to main window
+            mainWindow->show();
+            this->close();
+        }
+        else
+        {
+            QMessageBox::critical(this,"QTCPClient","Password or Login is incorrect. Please try again");
+        }
+     }
+     else
+     {
+        QMessageBox::information(this, "QTCPCLIENT", "header != autorazation!");
+     }
 
      if(!socketStream.commitTransaction())
      {
          QString message = QString("%1 :: Waiting for more data to come..").arg(socket->socketDescriptor());
-         emit newMessage(message);
+         QMessageBox::information(this, "QTCPCLIENT", message);
+         //emit newMessage(message);
          return;
-     }
-
-     QString header = "autorization";
-
-     if(header == "autorization")
-     {
-        if(buffer.toStdString() == "success")
-        {
-            emit sendSocket(socket);
-            mainWindow->show();
-            this->close();
-        }
      }
 
 }
@@ -86,16 +94,16 @@ void loginForm::sendMessageLogin()
             password = ui->lineEdit_password->text();
             socketStream = new QDataStream(socket);
             socketStream->setVersion(QDataStream::Qt_5_15);
-            QString h = "autorization";
-           // header.prepend("autorization");
-           //header.resize(20);
-            *socketStream << h.toUtf8() << login.toUtf8() << password.toUtf8();
 
-        }else
+           //send to server
+            *socketStream << hd.autorazation.toUtf8() << login.toUtf8() << password.toUtf8();
+        }
+        else
         {
             QMessageBox::critical(this,"QTCPClient","Socket doesn't seem to be opened");
         }
-    }else
+    }
+    else
     {
          QMessageBox::critical(this,"QTCPClient","Not connected");
     }
@@ -107,3 +115,4 @@ void loginForm::on_pushButton_login_clicked()
     sendMessageLogin();
 }
 
+//

@@ -24,6 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
+    cerrorhandler.cpp \
     client.cpp \
     loginform.cpp \
         main.cpp \
@@ -35,6 +36,8 @@ SOURCES += \
     about.cpp
 
 HEADERS += \
+    CMessage.h \
+    cerrorhandler.h \
     client.h \
     loginform.h \
         mainwindow.h \
