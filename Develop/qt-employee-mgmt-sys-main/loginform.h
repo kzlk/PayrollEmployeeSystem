@@ -58,9 +58,10 @@ private:
     QByteArray header{};
     QByteArray byteArray{};
     //
-    MainWindow *mainWindow;
+    MainWindow* mainWindow = nullptr;
     msg::header hd{};
     msg::status st{};
+
 
 };
 

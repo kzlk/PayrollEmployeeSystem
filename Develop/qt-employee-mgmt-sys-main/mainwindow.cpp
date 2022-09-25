@@ -5,6 +5,7 @@
 #include "employeeinfo.h"
 #include <QStringList>
 #include <QDate>
+
 #include "techused.h"
 #include "about.h"
 
@@ -13,12 +14,15 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    //set style
+
     ui->empDOB->setCalendarPopup(true);
     ui->empDOJ->setCalendarPopup(true);
     ui->updateEmpDOB->setCalendarPopup(true);
 
-    ui->tableView->setAlternatingRowColors(true);
-    ui->tableView->setStyleSheet("alternate-background-color: #E4E4E4;"
+    ui->tableWidget->setAlternatingRowColors(true);
+
+    ui->tableWidget->setStyleSheet("alternate-background-color: #E4E4E4;"
                                  "background-color:white;"
                                  "selection-background-color:#1492E6;"
                                  "selection-color:white;");
@@ -34,29 +38,109 @@ MainWindow::MainWindow(QWidget *parent) :
                                        "#E4E4E4;background-color:white;"
                                        "selection-background-color:#1492E6;"
                                        "selection-color:white;");
+    //socket = new QTcpSocket(this);
+
+    //for reading from socket
+    //connect(socket, &QTcpSocket::readyRead, this, &MainWindow::readSocket);
+    //send header
+    connect(this, &MainWindow::sendHeader, this, &MainWindow::sendHeaderToServer);
+
+    ui->searchStackedWidget->setCurrentWidget(0);
+    //emit signal for send header to get employee info
+//    if(socket)
+//    {
+//         emit sendHeader(hd.employeeDetail);
+//    }
 
 
-    if(!dbUtils.connectToDB("payrolldb"))
-    {
-        QMessageBox::critical(this, "Error", "Failed to open the database, Check wheather your server is running or not.");
-    }
-
-    loadTotalData();
-
-
-
+    //loadTotalData();
 }
 
 MainWindow::~MainWindow()
 {
-
     delete ui;    
 }
 
-void MainWindow::loadTotalData()
+//read data from server
+void MainWindow::readSocket()
 {
-    int lastID = dbUtils.getTotalEmployee().toInt();
+     QByteArray buffer;
+     buffer.clear();
+     QDataStream socketStream(socket);
 
+     socketStream.setVersion(QDataStream::Qt_5_15);
+
+     socketStream.startTransaction();
+     //read header
+     socketStream >> buffer;
+
+    QString header(buffer);
+     if(header == hd.totalInfoEmployee)
+     {
+       QByteArray headerInfoEmp{};
+        QByteArray lastID{};
+        QByteArray dept{};
+       QByteArray design{};
+       socketStream  >> lastID >> dept >> design >> headerInfoEmp;
+       loadTotalData(lastID.toInt(), QString(dept), QString(design));
+
+
+
+       if(QString(headerInfoEmp)  == hd.employeeDetail)
+       {
+           ui->searchStackedWidget->setCurrentWidget(0);
+           dbUtils.setEmployeeDetails(ui->tableWidget, socketStream);
+       }
+       else
+       {
+           //TODO: Error handling
+           QMessageBox::information(this, "QTCPCLIENT", "header != " +  hd.employeeDetail + " !");
+       }
+
+//       QTableWidget *pWidget = new QTableWidget( myModel.rowCount(), myModel.columnCount() );
+//       for( int row = 0; row < myModel.rowCount(); row++ )
+//       {
+//           for( int column = 0;  column < myModel.columnCount() ; column++ )
+//           {
+//               QString sItem =myModel.record(row).value(column).toString();
+
+//               QVariant oVariant(sItem);
+
+//               // allocate the widget item
+//               QTableWidgetItem * poItem = new QTableWidgetItem();
+//               poItem->setData( Qt::DisplayRole, oVariant );
+
+//               pWidget->setItem( row, column, poItem );
+//           }
+//       }
+
+
+       //pWidget->show();
+
+
+
+
+     }
+     else
+     {
+         //TODO: ERROR HANDLING
+        QMessageBox::information(this, "QTCPCLIENT", "header != employeeDetail!");
+
+     }
+
+     if(!socketStream.commitTransaction())
+     {
+         QString message = QString("%1 :: Waiting for more data to come..").arg(socket->socketDescriptor());
+         QMessageBox::information(this, "QTCPCLIENT", message);
+         //emit newMessage(message);
+         return;
+     }
+
+}
+
+void MainWindow::loadTotalData(int lastID, QString dept,  QString designTtl)
+{
+    ui->searchStackedWidget->setCurrentIndex(0);
     QString lastIDString = QString::number(lastID);
 
     if(lastIDString.length() == 1)
@@ -70,10 +154,6 @@ void MainWindow::loadTotalData()
 
     ui->empLabel->setText(lastIDString);
 
-    dbUtils.setEmployeeDetails(ui->tableView);
-
-    QString dept = dbUtils.getTotalDept();
-
     if(dept.length() == 1)
     {
         dept = "00" + dept;
@@ -85,8 +165,6 @@ void MainWindow::loadTotalData()
 
     ui->deptLabel->setText(dept);
 
-    QString designTtl = dbUtils.getTotalDesign();
-
     if(designTtl.length() == 1)
     {
         designTtl = "00" + designTtl;
@@ -97,6 +175,7 @@ void MainWindow::loadTotalData()
     }
 
     ui->designLabel->setText(designTtl);
+
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
@@ -137,18 +216,15 @@ void MainWindow::on_pushButton_clicked()
 {
     ui->searchTextBox->setText("");
 }
+//
 
-void MainWindow::on_attendanceButton_clicked()
-{
-    MainWindow::close();
-    TechUsed* tech = new TechUsed(this);
-    tech->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-    tech->show();
-}
 
+//searchButton
 void MainWindow::on_searchButton_clicked()
 {
-    loadTotalData();
+
+
+   // loadTotalData();
     selectedPushButton(ui->searchButton);
     deselectedPushButton(ui->deleteEmpButton);
     deselectedPushButton(ui->techButton);
@@ -156,23 +232,13 @@ void MainWindow::on_searchButton_clicked()
     deselectedPushButton(ui->updateEmpButton);
     deselectedPushButton(ui->addEmpButton);
 
-    dbUtils.setEmployeeDetails(ui->tableView);
+   // dbUtils.setEmployeeDetails(ui->tableWidget);
     ui->searchStackedWidget->setCurrentIndex(0);
 }
 
-void MainWindow::on_paymentButton_clicked()
-{
-    MainWindow::close();
-    About* abt = new About(this);
-    abt->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-    abt->show();
-}
 
-void MainWindow::on_attendance1_2_clicked()
-{
 
-}
-
+//add Employee Button clicked
 void MainWindow::on_addEmpButton_clicked()
 {
     selectedPushButton(ui->addEmpButton);
@@ -182,8 +248,10 @@ void MainWindow::on_addEmpButton_clicked()
     deselectedPushButton(ui->updateEmpButton);
     deselectedPushButton(ui->searchButton);
 
-    ui->searchStackedWidget->setCurrentIndex(3);   
+    ui->searchStackedWidget->setCurrentIndex(3);
+
     ui->empDept->setModel(dbUtils.getDepartmentList());
+
     ui->empDesig->setModel(dbUtils.getDesignationList(ui->empDept));
 }
 
@@ -244,9 +312,6 @@ void MainWindow::on_pushButton_5_clicked()
             }
         }
     }
-
-
-
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -268,10 +333,10 @@ void MainWindow::on_pushButton_2_clicked()
 
 }
 
-void MainWindow::on_empDept_currentIndexChanged(const QString &arg1)
-{
-    ui->empDesig->setModel(dbUtils.getDesignationList(ui->empDept));
-}
+//void MainWindow::on_empDept_currentIndexChanged(const QString &arg1)
+//{
+//    ui->empDesig->setModel(dbUtils.getDesignationList(ui->empDept));
+//}
 
 void MainWindow::on_deleteEmpButton_clicked()
 {
@@ -282,26 +347,22 @@ void MainWindow::on_deleteEmpButton_clicked()
     deselectedPushButton(ui->searchButton);
     deselectedPushButton(ui->addEmpButton);
 
-    dbUtils.setEmployeeDetails(ui->deleteTableView);
+   // dbUtils.setEmployeeDetails(ui->deleteTableView);
     ui->searchStackedWidget->setCurrentIndex(5);
 }
 
-void MainWindow::on_tableView_clicked(const QModelIndex &index)
-{
 
 
-}
+//void MainWindow::on_tableView_doubleClicked(const QModelIndex &index)
+//{
+//    QString id = ui->tableView->model()->index(index.row(), 0).data().toString();
 
-void MainWindow::on_tableView_doubleClicked(const QModelIndex &index)
-{
-    QString id = ui->tableView->model()->index(index.row(), 0).data().toString();
-
-    dbUtils.closeDBConnection();
-    MainWindow::close();
-    EmployeeInfo* emp = new EmployeeInfo(this, id);
-    emp->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-    emp->show();
-}
+//    dbUtils.closeDBConnection();
+//    MainWindow::close();
+//    EmployeeInfo* emp = new EmployeeInfo(this, id);
+//    emp->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+//    emp->show();
+//}
 
 void MainWindow::on_pushButton_7_clicked()
 {
@@ -403,11 +464,11 @@ void MainWindow::on_deleteTableView_doubleClicked(const QModelIndex &index)
 
 }
 
-void MainWindow::on_searchTextBox_returnPressed()
-{
-    ui->tableView->setModel(NULL);
-    dbUtils.searchEmployeeDetails(ui->tableView, ui->searchTextBox->text().trimmed());
-}
+//void MainWindow::on_searchTextBox_returnPressed()
+//{
+//    ui->tableView->setModel(NULL);
+//    dbUtils.searchEmployeeDetails(ui->tableView, ui->searchTextBox->text().trimmed());
+//}
 
 void MainWindow::selectedPushButton(QPushButton *button)
 {
@@ -434,31 +495,81 @@ void MainWindow::on_pushButton_6_clicked()
 void MainWindow::on_techButton_clicked()
 {
 
-    TechUsed* tech = new TechUsed(this);
     MainWindow::close();
-    tech->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-    tech->show();
-}
-
-void MainWindow::on_tableView_activated(const QModelIndex &index)
-{
-
-}
-
-void MainWindow::on_aboutButton_clicked()
-{
     About* abt = new About(this);
-    MainWindow::close();
     abt->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
     abt->show();
 }
 
-void MainWindow::on_pushButton_3_clicked()
-{
-    dbUtils.setEmployeeDetails(ui->deleteTableView);
-}
+
+
+
+//void MainWindow::on_pushButton_3_clicked()
+//{
+//    dbUtils.setEmployeeDetails(ui->tableWidget);
+//}
 
 void MainWindow::receiveSocket(QTcpSocket *socket)
 {
-    this->socket = socket;
+    connect(socket, &QTcpSocket::readyRead, this, &MainWindow::readSocket);
+   this->socket = socket;
+    if(socket)
+    {
+        if(socket->isOpen())
+        {
+            emit sendHeader(hd.employeeDetail);
+        }
+        else
+
+                 QMessageBox::critical(this,"QTCPClient","Socket doesn't seem to be opened");
+    }
+
+else
+{
+    QMessageBox::critical(this,"QTCPClient","Not connected");
 }
+
+}
+
+void MainWindow::sendHeaderToServer(QString &header)
+{
+    if(socket)
+    {
+        if(socket->isOpen())
+        {
+            QDataStream socketStream(socket);
+            socketStream.setVersion(QDataStream::Qt_5_15);
+
+            //send header
+            socketStream << header.toUtf8();
+
+        }
+        else
+        {
+             QMessageBox::critical(this,"QTCPClient","Socket doesn't seem to be opened");
+        }
+    }
+    else
+    {
+        QMessageBox::critical(this,"QTCPClient","Not connected");
+    }
+}
+
+
+void MainWindow::on_aboutButton_clicked()
+{
+    MainWindow::close();
+    TechUsed* tech = new TechUsed(this);
+    tech->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+    tech->show();
+}
+
+
+
+
+
+void MainWindow::on_empDept_currentTextChanged(const QString &arg1)
+{
+     ui->empDesig->setModel(dbUtils.getDesignationList(ui->empDept));
+}
+

@@ -13,7 +13,7 @@ class DatabaseUtils
     public:
 
     QString serverName = "localhost\\sqlexpress";
-    QString dbName = "PayrollSystem";
+    QString dbName = "payrolldb";
     QSqlDatabase db{};
 
     bool connectToDB()
@@ -210,14 +210,16 @@ class DatabaseUtils
         return x;
     }
 
-    void setEmployeeDetails(QTableView* tableView)
+    QSqlQueryModel* getEmployeeDetails()
     {
         if(db.isOpen())
         {
             QSqlQueryModel *querModel = new QSqlQueryModel();
             querModel->setQuery("SELECT id, name, department, designation, phone, email FROM employee;");
-            tableView->setModel(querModel);
+            return querModel;
         }
+        //error
+        return 0;
     }
 
     void searchEmployeeDetails(QTableView* tableView, QString searchText)

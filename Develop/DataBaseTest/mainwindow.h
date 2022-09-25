@@ -8,6 +8,7 @@
 #include <QMessageBox>
 #include <QSqlTableModel>
 #include <QDebug>
+#include <QAbstractTableModel>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -25,5 +26,6 @@ private:
     Ui::MainWindow *ui;
      QSqlQuery *query;
      QSqlTableModel * model;
+
 };
 #endif // MAINWINDOW_H

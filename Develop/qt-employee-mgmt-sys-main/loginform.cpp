@@ -13,8 +13,8 @@ loginForm::loginForm(QWidget *parent) :
    connect(socket, &QTcpSocket::readyRead, this, &loginForm::readSocket);
    // connect(socket, &QTcpSocket::disconnected, this, &loginForm::discardSocket);
     //connect(socket, &QAbstractSocket::errorOccurred, this, &loginForm::displayError);
-   mainWindow = new MainWindow();
-   connect(this, &loginForm::sendSocket, mainWindow ,&MainWindow::receiveSocket);
+   //mainWindow = new MainWindow();
+
 }
 
 //close socket and delete ui
@@ -42,9 +42,17 @@ void loginForm::readSocket()
         socketStream >> buffer;
         if(buffer.toStdString() == st.success.toStdString())
         {
+            ///QMainWindow mainWindown;
+           // mainWindown.
+            disconnect(socket, &QTcpSocket::readyRead, this, &loginForm::readSocket);
+            mainWindow = new MainWindow();
+            connect(this, &loginForm::sendSocket, mainWindow ,&MainWindow::receiveSocket);
+
             emit sendSocket(socket); //send socket to main window
             mainWindow->show();
             this->close();
+
+
         }
         else
         {

@@ -40,13 +40,18 @@ private slots:
     void sendMessage(QTcpSocket* socket);
     void sendAttachment(QTcpSocket* socket, QString filePath);
 
-    void sendAutorizationStatus(QTcpSocket* socket, bool isAutorized);
+
 
     void on_pushButton_sendMessage_clicked();
     void on_pushButton_sendAttachment_clicked();
 
     void refreshComboBox();
 private:
+    void sendTotalInfoEmployee(QTcpSocket* socket, int&, QString&, QString&);
+    void sendInitialData(QTcpSocket* socket, QSqlQueryModel& model);
+    void sendAutorizationStatus(QTcpSocket* socket, bool isAutorized);
+
+
     Ui::MainWindow *ui;
     DatabaseUtils dbUtils;
     QTcpServer* m_server;

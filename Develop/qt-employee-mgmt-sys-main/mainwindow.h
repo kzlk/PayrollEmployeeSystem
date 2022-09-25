@@ -14,6 +14,9 @@
 #include <QAbstractSocket>
 #include <QHostAddress>
 #include <QTcpSocket>
+
+#include <QTableWidget>
+#include "CMessage.h"
 namespace Ui {
 class MainWindow;
 }
@@ -33,22 +36,21 @@ public:
     void mouseMoveEvent(QMouseEvent *event);
     QPoint mousePoint;
 
+signals:
+    void sendHeader(QString& header);
+
 private slots:
     void on_closeButton_clicked();
 
-    void loadTotalData();
+    void loadTotalData(int lastID, QString dept, QString designTtl);
 
     void on_minimizeButton_clicked();
 
     void on_pushButton_clicked();
 
-    void on_attendanceButton_clicked();
+
 
     void on_searchButton_clicked();
-
-    void on_paymentButton_clicked();
-
-    void on_attendance1_2_clicked();
 
     void on_addEmpButton_clicked();
 
@@ -58,13 +60,12 @@ private slots:
 
     void on_pushButton_2_clicked();
 
-    void on_empDept_currentIndexChanged(const QString &arg1);
+    //void on_empDept_currentIndexChanged(const QString &arg1);
 
     void on_deleteEmpButton_clicked();
 
-    void on_tableView_clicked(const QModelIndex &index);
 
-    void on_tableView_doubleClicked(const QModelIndex &index);
+  //  void on_tableView_doubleClicked(const QModelIndex &index);
 
     void on_pushButton_7_clicked();
 
@@ -74,7 +75,7 @@ private slots:
 
     void on_deleteTableView_doubleClicked(const QModelIndex &index);
 
-    void on_searchTextBox_returnPressed();
+    //void on_searchTextBox_returnPressed();
 
     void on_pushButton_6_clicked();
 
@@ -84,19 +85,26 @@ private slots:
 
     void on_techButton_clicked();
 
-    void on_tableView_activated(const QModelIndex &index);
+
+  //  void on_pushButton_3_clicked();
+
+    void readSocket();
 
     void on_aboutButton_clicked();
 
-    void on_pushButton_3_clicked();
+    void on_empDept_currentTextChanged(const QString &arg1);
 
 public slots:
     void receiveSocket(QTcpSocket* socket);
+    void sendHeaderToServer(QString& header);
 
 private:
     Ui::MainWindow *ui;
     bool isMouseDown = false;
-    QTcpSocket *socket;
+    QTcpSocket *socket{};
+
+    msg::header hd{};
+    msg::status st{};
 };
 
 #endif // MAINWINDOW_H

@@ -7,48 +7,49 @@
 #include <QLabel>
 #include <QTableView>
 #include <QSqlDatabase>
+#include <QTableWidget>
+#include <QTcpSocket>
 
 class DatabaseUtils
 {
     public:
-
     QSqlDatabase db = QSqlDatabase::database("firstConn");
 
-    bool connectToDB(QString dbName)
-    {
-        db = QSqlDatabase::addDatabase("QMYSQL");
-        db.setDatabaseName(dbName);
-        db.setHostName("localhost");
-        db.setUserName("root");
-        db.setPassword("");
+       bool connectToDB(QString dbName)
+       {
+           db = QSqlDatabase::addDatabase("QMYSQL");
+           db.setDatabaseName(dbName);
+           db.setHostName("localhost");
+           db.setUserName("root");
+           db.setPassword("");
 
-        if(db.open())
-        {
-            qDebug() << ("Connected to database");
-            return true;
-        }
-        else
-        {
-            qDebug() << ("Failed to open the database");
-            return false;
-        }
-    }
+           if(db.open())
+           {
+               qDebug() << ("Connected to database");
+               return true;
+           }
+           else
+           {
+               qDebug() << ("Failed to open the database");
+               return false;
+           }
+       }
+       void closeDBConnection()
+         {
 
-    void closeDBConnection()
-    {
+             if(db.isValid())
+             {
+                 qDebug() <<"Connection Valid";
+                 db.removeDatabase("firstConn");
+                 db.close();
+             }
+             else
+             {
+                 qDebug() <<"Connection Invalid";
+             }
 
-        if(db.isValid())
-        {
-            qDebug() <<"Connection Valid";
-            db.removeDatabase("firstConn");
-            db.close();
-        }
-        else
-        {
-            qDebug() <<"Connection Invalid";
-        }       
+         }
 
-    }
 
     QSqlQueryModel* getDepartmentList()
     {
@@ -142,7 +143,6 @@ class DatabaseUtils
         return QString::number(lastID);
     }
 
-
     QString getEmployeeID(QString dept, QString design)
     {
         return dept + "/" + design + "/" + getLastID();
@@ -187,23 +187,52 @@ class DatabaseUtils
         return x;
     }
 
-    void setEmployeeDetails(QTableView* tableView)
+    void setEmployeeDetails(QTableWidget* tableView, QDataStream& stream)
     {
-        if(db.isOpen())
-        {
-            QSqlQueryModel *querModel = new QSqlQueryModel();
-            querModel->setQuery("SELECT id, name, department, designation, phone, email FROM employee;");
-            tableView->setModel(querModel);
-        }
-    }
+        QByteArray row{};
+        QByteArray column{};
 
-    void searchEmployeeDetails(QTableView* tableView, QString searchText)
+        stream >> row >> column;
+
+       // tableView->setRowCount(row.toInt());
+       // tableView->setColumnCount(column.toInt());
+        tableView =new QTableWidget(row.toInt(), column.toInt());
+
+
+        for(int r = 0; r < row.toInt(); ++r)
+        {
+             for(int col = 0; col < column.toInt(); ++col)
+             {
+                 QByteArray sItem{};
+                 stream >> sItem;
+                 QTableWidgetItem * poItem = new QTableWidgetItem();
+                 poItem->setData( Qt::DisplayRole, QString(sItem));
+
+                  tableView->setItem( row.toInt(), column.toInt(), poItem );
+             }
+
+        }
+
+        if(!stream.commitTransaction())
+        {
+            return;
+        }
+
+
+        tableView->show();
+
+        }
+
+
+
+    void searchEmployeeDetails(QTableWidget* tableView, QString searchText)
     {
         if(db.isOpen())
         {
+
             QSqlQueryModel *querModel = new QSqlQueryModel();
             querModel->setQuery("SELECT id, name, department, designation, phone, email FROM employee WHERE name LIKE '" + searchText + "%' OR id LIKE '" + searchText +"%';");
-            tableView->setModel(querModel);
+           // tableView->setModel(querModel);
         }
     }
 

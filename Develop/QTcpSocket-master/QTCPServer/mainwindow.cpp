@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
+#include <QSqlRecord>
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -93,12 +93,35 @@ void MainWindow::readSocket()
         }
 
     }
+    else if(header == hd.employeeDetail)
+    {
+        int lastID = dbUtils.getTotalEmployee().toInt();
+
+        auto employeeDetail = dbUtils.getEmployeeDetails();
+
+        QString dept = dbUtils.getTotalDept();
+
+        QString designTtl = dbUtils.getTotalDesign();
+
+        //send total info of emloyee
+        sendTotalInfoEmployee(socket, lastID, dept, designTtl);
+        //send employee info
+        sendInitialData(socket, *employeeDetail);
+
+        if(!socketStream.commitTransaction())
+        {
+            QString message = QString("%1 :: Waiting for more data to come..").arg(socket->socketDescriptor());
+            emit newMessage(message);
+            return;
+        }
+
+    }
     else
     {
+        QString message = "Received header does not much any of existing header: " + header ;
+        emit newMessage(message);
         return;
     }
-
-
 
 //    QString fileType = header.split(",")[0].split(":")[1];
 
@@ -320,4 +343,51 @@ void MainWindow::refreshComboBox(){
     ui->comboBox_receiver->addItem("Broadcast");
     foreach(QTcpSocket* socket, connection_set)
         ui->comboBox_receiver->addItem(QString::number(socket->socketDescriptor()));
+}
+
+void MainWindow::sendTotalInfoEmployee(QTcpSocket *socket, int &  lastID, QString & dept , QString & designTtl)
+{
+    if(socket)
+    {
+        if(socket->isOpen())
+        {
+            QDataStream socketStream(socket);
+             socketStream.setVersion(QDataStream::Qt_5_15);
+
+             //send header , last ID, dept, desighTotal
+             socketStream << hd.totalInfoEmployee.toUtf8() << quint32(lastID) << dept.toUtf8() << designTtl.toUtf8();
+        }
+        else
+            QMessageBox::critical(this,"QTCPServer","Socket doesn't seem to be opened");
+    }
+    else
+        QMessageBox::critical(this,"QTCPServer","Not connected");
+}
+
+void MainWindow::sendInitialData(QTcpSocket *socket, QSqlQueryModel &model)
+{
+    if(socket)
+    {
+        if(socket->isOpen())
+        {
+            QDataStream socketStream(socket);
+             socketStream.setVersion(QDataStream::Qt_5_15);
+
+             //count row and column
+             socketStream << hd.employeeDetail.toUtf8() <<  quint32(model.rowCount()) << quint32(model.columnCount());
+
+             //send data employee
+             for(quint32 row = 0; row < model.rowCount(); ++row)
+             {
+                for(quint32 column = 0; column < model.rowCount(); ++column)
+                {
+                    socketStream << model.record(row).value(column);
+                }
+             }
+        }
+        else
+            QMessageBox::critical(this,"QTCPServer","Socket doesn't seem to be opened");
+    }
+    else
+        QMessageBox::critical(this,"QTCPServer","Not connected");
 }
