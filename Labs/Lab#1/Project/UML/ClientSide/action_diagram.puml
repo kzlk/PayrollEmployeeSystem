@@ -2,24 +2,38 @@
 left to right direction
 actor "Адміністратор" as admin
 actor "Сервер" as server 
+left to right direction
+rectangle "Управління працівниками" as sw #line.dashed{
+  usecase "Редагувати \nдані працівника"
+  usecase "Додавання працівника"  
+  usecase "Пошук працівника/ів"
+  usecase "Перегляд інформації"
+  usecase "Видалення працівника"
+
+}
+
 rectangle "Інтерфейс системи" {
   usecase "Авторизація в\nсистемі" as UC1
   usecase "Управління працівниками" as UC2
   usecase "Отримання звітності" as UC3
-
   usecase "Виплата на вимогу" as UC5
   usecase "Вихід із системи" as UC6
+  usecase "Внесення дати \nвиплати \nзаробітньої плати" as UC7
 }
+
+UC2 -up-> sw
+
 admin --> UC1
 admin --> UC2
 admin --> UC3
 admin --> UC5
 admin --> UC6
+admin --> UC7
 
 UC1 --> server
 UC2 --> server
 UC3 --> server
 UC5 --> server
 UC6 --> server
-
+UC7 --> server
 @enduml
