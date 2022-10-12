@@ -105,3 +105,15 @@ void loginForm::sendMessageLogin() {
 void loginForm::on_pushButton_login_clicked() { sendMessageLogin(); }
 
 //
+
+void loginForm::on_minimizeButton_clicked()
+{
+    this->setWindowState(Qt::WindowMinimized);
+}
+
+
+void loginForm::on_closeButton_clicked()
+{
+     this->close();
+}
+

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 8.0.1, 2022-10-06T14:49:45. -->
+<!-- Written by QtCreator 8.0.1, 2022-10-12T18:00:53. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -235,8 +235,9 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:D:/University/IPZ_LABS/ipz_1_kozliuk_2022/Develop/QTcpSocket-master/QTCPServer/QTCPServer.pro</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">D:/University/IPZ_LABS/ipz_1_kozliuk_2022/Develop/QTcpSocket-master/QTCPServer/QTCPServer.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">QTCPServer2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:D:/University/IPZ_LABS/ipz_1_kozliuk_2022/Project/QTCPServer/QTCPServer.pro</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">D:/University/IPZ_LABS/ipz_1_kozliuk_2022/Project/QTCPServer/QTCPServer.pro</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>

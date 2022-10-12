@@ -45,6 +45,10 @@ private slots:
 
 
 
+    void on_minimizeButton_clicked();
+
+    void on_closeButton_clicked();
+
 private:
     Ui::loginForm *ui;
     QTcpSocket* socket;

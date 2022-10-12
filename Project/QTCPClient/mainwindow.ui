@@ -103,7 +103,7 @@ QLineEdit
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap>:/Images/Corporate Management.png</pixmap>
+      <pixmap resource="resources.qrc">:/Images/Corporate Management.png</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
@@ -176,7 +176,7 @@ QLineEdit
       <string>  Search</string>
      </property>
      <property name="icon">
-      <iconset>
+      <iconset resource="resources.qrc">
        <normaloff>:/Images/icons8_Find_User_Male_50px.png</normaloff>:/Images/icons8_Find_User_Male_50px.png</iconset>
      </property>
      <property name="iconSize">
@@ -222,7 +222,7 @@ QLineEdit
       <string>  About App</string>
      </property>
      <property name="icon">
-      <iconset>
+      <iconset resource="resources.qrc">
        <normaloff>:/Images/icons8_Money_50px_1.png</normaloff>:/Images/icons8_Money_50px_1.png</iconset>
      </property>
      <property name="iconSize">
@@ -268,7 +268,7 @@ QLineEdit
       <string>  Add Employee</string>
      </property>
      <property name="icon">
-      <iconset>
+      <iconset resource="resources.qrc">
        <normaloff>:/Images/icons8_Add_User_Male_50px.png</normaloff>:/Images/icons8_Add_User_Male_50px.png</iconset>
      </property>
      <property name="iconSize">
@@ -314,7 +314,7 @@ QLineEdit
       <string>  Update Employee Record</string>
      </property>
      <property name="icon">
-      <iconset>
+      <iconset resource="resources.qrc">
        <normaloff>:/Images/icons8_Registration_50px.png</normaloff>:/Images/icons8_Registration_50px.png</iconset>
      </property>
      <property name="iconSize">
@@ -360,7 +360,7 @@ QLineEdit
       <string>  Delete Employee Record</string>
      </property>
      <property name="icon">
-      <iconset>
+      <iconset resource="resources.qrc">
        <normaloff>:/Images/icons8_Remove_User_Male_50px.png</normaloff>:/Images/icons8_Remove_User_Male_50px.png</iconset>
      </property>
      <property name="iconSize">
@@ -406,7 +406,7 @@ QLineEdit
       <string>  Technologies Used</string>
      </property>
      <property name="icon">
-      <iconset>
+      <iconset resource="resources.qrc">
        <normaloff>:/Images/icons8_Hand_50px.png</normaloff>:/Images/icons8_Hand_50px.png</iconset>
      </property>
      <property name="iconSize">
@@ -534,7 +534,7 @@ color:#EB0000;
 </string>
     </property>
     <property name="currentIndex">
-     <number>5</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="searchWidget">
      <property name="styleSheet">
@@ -556,7 +556,7 @@ color:#EB0000;
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>:/Images/attendancebg.png</pixmap>
+       <pixmap resource="resources.qrc">:/Images/attendancebg.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -575,7 +575,7 @@ color:#EB0000;
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>:/Images/absentbg.png</pixmap>
+       <pixmap resource="resources.qrc">:/Images/absentbg.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -937,7 +937,7 @@ padding-left:10px;
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>:/Images/empcardbg.png</pixmap>
+       <pixmap resource="resources.qrc">:/Images/empcardbg.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -1756,7 +1756,7 @@ padding-left:10px;
        <string/>
       </property>
       <property name="icon">
-       <iconset>
+       <iconset resource="resources.qrc">
         <normaloff>:/Images/id_card.png</normaloff>:/Images/id_card.png</iconset>
       </property>
       <property name="iconSize">
@@ -2636,6 +2636,8 @@ padding-left:10px;
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

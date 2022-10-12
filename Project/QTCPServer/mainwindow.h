@@ -32,20 +32,11 @@ signals:
 private slots:
     void newConnection();
     void appendToSocketList(QTcpSocket* socket);
-    void readSocket(); //готовность сокета к принятию даних
-    void discardSocket(); //отключения клиента от сокета
+    void readSocket(); //socket readiness to receive data
+    void discardSocket(); //disconnect client from socket
     void displayError(QAbstractSocket::SocketError socketError);
 
     void displayMessage(const QString& str);
-    void sendMessage(QTcpSocket* socket);
-    void sendAttachment(QTcpSocket* socket, QString filePath);
-
-
-
-    void on_pushButton_sendMessage_clicked();
-    void on_pushButton_sendAttachment_clicked();
-
-    void refreshComboBox();
 
 private:
     void sendTotalInfoEmployee(QTcpSocket* socket, int&, QString&, QString&);
