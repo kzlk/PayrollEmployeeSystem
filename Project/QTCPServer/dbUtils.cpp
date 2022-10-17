@@ -7,6 +7,7 @@
 #include <QSqlQueryModel>
 #include <QString>
 #include <QTableView>
+#include <QThread>
 #include <QtSql/QSqlDatabase>
 
 class DatabaseUtils
@@ -19,12 +20,30 @@ class DatabaseUtils
 
     bool connectToDB()
     {
+
         db = QSqlDatabase::addDatabase("QODBC");
+
         db.setConnectOptions();
         QString dsn = QString("DRIVER={SQL Server};Server=%1;Database=%2;")
                           .arg(serverName)
                           .arg(dbName);
         db.setDatabaseName(dsn);
+
+        //        try
+        //        {
+        //            if (!db.open())
+        //                throw "Failed to open the database";
+        //            else
+        //            {
+        //                qDebug() << ("Connected to database");
+        //                return true;
+        //            }
+        //        }
+        //        catch (QString &myExeption)
+        //        {
+        //            qDebug() << myExeption;
+        //            return false;
+        //        };
 
         if (db.open())
         {
@@ -81,6 +100,48 @@ class DatabaseUtils
         return querModel;
     }
 
+    QSqlQueryModel *getDataDetailPaymentTable(int &id)
+    {
+        if (!db.isOpen())
+        {
+            qDebug() << "No connection to db :( ";
+            return 0;
+        }
+
+        QSqlQueryModel *querModel = new QSqlQueryModel();
+        querModel->setQuery(
+            QString(
+                "SELECT employee.ID , CAST(employee.Father as varchar) + ', ' "
+                "+ CAST(employee.Name as varchar), "
+                "PaymentInfoDetail.total_hours, "
+                "PaymentInfoDetail.gross_pay, "
+                "PaymentInfoDetail.taxes, "
+                "PaymentInfoDetail.net_pay "
+                "FROM PaymentInfoDetail  "
+                "JOIN PaymentPeriod "
+                "ON PaymentInfoDetail.payment_period_id =   payment_period_id "
+                "JOIN employee "
+                "ON PaymentInfoDetail.employee_id = employee.ID "
+                "WHERE payment_period_id = %1 ")
+                .arg(id));
+
+        return querModel;
+    }
+
+    QSqlQueryModel *getPaymentPeriodData()
+    {
+        if (!db.isOpen())
+        {
+            qDebug() << "No connection to db :( ";
+            return 0;
+        }
+
+        QSqlQueryModel *querModel = new QSqlQueryModel();
+        querModel->setQuery("SELECT *FROM PaymentPeriod");
+
+        return querModel;
+    }
+
     bool setConfigurationToUnActive()
     {
         if (!db.isOpen())
@@ -125,6 +186,37 @@ class DatabaseUtils
 
     qint8 getPaymentPeriodID(QDateTime &start, QDateTime &end)
     {
+    }
+
+    bool doPay(QDateTime &start, QDateTime &end)
+    {
+        if (!db.isOpen())
+        {
+            qDebug() << "No connection to db :( ";
+            return false;
+        }
+        qDebug() << "Hello from Do Pay";
+        /*EXECUTE STORED PROCEDURE*/
+        QSqlQuery query;
+        if (!query.prepare("{CALL payrolldb.dbo.storeDataToPaymentPeriod "
+                           "(:start, :end)} "))
+        {
+            qDebug() << "Error in prepare  stored function";
+            return false;
+        }
+        else
+        {
+            query.bindValue(":start", start);
+            query.bindValue(":end", end);
+            if (!query.exec())
+            {
+                return false;
+                qDebug() << "Error in exec  stored function!";
+            }
+            qDebug() << "Successful done stored procedure!";
+            return true;
+        }
+        return false;
     }
 
     bool insertDataInfoPayment()

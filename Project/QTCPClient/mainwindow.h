@@ -106,6 +106,8 @@ class MainWindow : public QMainWindow
     bool isMouseDown = false;
     QTcpSocket *socket{};
 
+    QMap<int, QString> idEmp;
+
     msg::header hd{};
     msg::status st{};
 
@@ -114,6 +116,10 @@ class MainWindow : public QMainWindow
     void sendHeaderToServer(quint8 header, QVariantList list = {});
 
     void sendDempNameForDesign(QString deptname);
+
+    void appendDataToReportPagePeriod(QDataStream &socketStream);
+
+    void appendDataToDetailReportPage(QDataStream &socketStream);
 
     void setDataInSettingWindow(QVariant start = {}, QVariant end = {},
                                 QVariant next = {}, QVariant freq = {},
@@ -128,6 +134,9 @@ class MainWindow : public QMainWindow
 
   private slots:
     // void TimerSlot();
+    void on_reportButton_clicked();
+    void on_tableWidget_payment_period_doubleClicked(const QModelIndex &index);
+    void on_biutton_back_period_clicked();
 };
 
 #endif // MAINWINDOW_H

@@ -2,7 +2,6 @@
 #define CAUTOPILOT_H
 
 #include "cpayment.h"
-#include "dbUtils.cpp"
 #include <QMainWindow>
 #include <QObject>
 
@@ -17,7 +16,7 @@ class CAutoPilot : public QObject
     void stop();
 
   private:
-    CPayment payment{};
+    CPayment *payment{};
     QTimer *timer{};
     quint64 timeShotInMs{};
     DatabaseUtils dbUtils{};

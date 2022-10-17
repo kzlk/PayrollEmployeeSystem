@@ -66,6 +66,10 @@ class MainWindow : public QMainWindow
 
     void sendSettingInfo(QTcpSocket *socket);
 
+    void sendPaymentPeriodData(QTcpSocket *socket);
+
+    void sendPaymentInfoDetail(QTcpSocket *socket, int id);
+
     quint64 getUniqueNum();
 
     Ui::MainWindow *ui;
