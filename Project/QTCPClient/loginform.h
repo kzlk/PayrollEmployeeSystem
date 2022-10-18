@@ -15,6 +15,8 @@
 //
 #include "mainwindow.h"
 #include "CMessage.h"
+#
+
 namespace Ui {
 class loginForm;
 }
@@ -27,9 +29,10 @@ public:
     explicit loginForm(QWidget *parent = nullptr);
     ~loginForm();
 
+
 signals:
      void newMessage(QString);
-     void sendSocket(QTcpSocket*);
+     void sendSocket(QTcpSocket*, quint64& uniqueID);
 
 private slots:
     void on_pushButton_login_3_clicked();
@@ -38,12 +41,10 @@ private slots:
     void sendMessageLogin();
 
     void readSocket();
-    //void discardSocket();
+    void discardSocket();
     //void displayError(QAbstractSocket::SocketError socketError);
 
     //void displayMessage(const QString& str);
-
-
 
     void on_minimizeButton_clicked();
 
@@ -64,7 +65,18 @@ private:
     //
     MainWindow* mainWindow = nullptr;
     msg::header hd{};
+    quint64 myUniqueId{};
+
     msg::status st{};
+
+
+private:
+
+       void mousePressEvent(QMouseEvent *event);
+       void mouseReleaseEvent(QMouseEvent *event);
+       void mouseMoveEvent(QMouseEvent *event);
+       QPoint mousePoint;
+       bool isMouseDown = false;
 
 
 };

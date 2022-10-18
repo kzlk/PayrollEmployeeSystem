@@ -16,6 +16,7 @@
         <file>cal.png</file>
 		<file>baseline_account_circle_black_24dp.png</file>
         <file>id_card.png</file>
+		 <file>efecto-blur-diseno-web-seo-sem-social-media-ecommerce-2.jpg</file>
         <file>bottom.png</file>
         <file>bottom right.png</file>
         <file>top_bar.png</file>
@@ -28,5 +29,13 @@
         <file>html.png</file>
         <file>mysql.png</file>
         <file>qt.png</file>
+		<file>baseline_summarize_black_24dp.png</file>
+		<file>baseline_settings_white_24dp.png</file>
+		<file>baseline_summarize_white_48dp.png</file>
+		<file>baseline_paid_white_48dp.png</file>
+		
+		
+		
+		
     </qresource>
 </RCC>

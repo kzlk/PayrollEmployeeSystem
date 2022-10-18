@@ -6,19 +6,29 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
-    <height>565</height>
+    <width>493</width>
+    <height>574</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">
-
+   <string notr="true">#statusbar
+{
+	color: white;
+	border-radius: 15px;
+}
+#centralwidget
+{
+	border-radius: 15px;
+}
 #loginForm
 {
-	background: rgba(0,0,0,0.8);
+
+background: rgba(0,0,0,0.8);
+border-radius: 15px;
+	
 }
 
 #frame
@@ -59,11 +69,14 @@ background: transparent;
    <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
-      <x>-6</x>
-      <y>-7</y>
-      <width>551</width>
-      <height>631</height>
+      <x>-10</x>
+      <y>0</y>
+      <width>521</width>
+      <height>601</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
     </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
@@ -303,10 +316,17 @@ border-bottom: 1px solid  #717072;
       <cursorShape>PointingHandCursor</cursorShape>
      </property>
      <property name="styleSheet">
-      <string notr="true">#minimizeButton
+      <string notr="true">
+#minimizeButton
 {
 	border:none;
-	color:white;
+color:white;
+}
+
+#minimizeButton:hover
+{
+	border:none;
+color:#EB0000;
 }</string>
      </property>
      <property name="text">

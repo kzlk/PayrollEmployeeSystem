@@ -37,7 +37,8 @@ public:
     QPoint mousePoint;
 
 signals:
-    void sendHeader(QString& header);
+
+    void sendHeader(quint8 header, QVariantList list = {});
 
 private slots:
     void on_closeButton_clicked();
@@ -60,7 +61,7 @@ private slots:
 
     void on_pushButton_2_clicked();
 
-    //void on_empDept_currentIndexChanged(const QString &arg1);
+    void on_empDept_currentIndexChanged(const QString &arg1);
 
     void on_deleteEmpButton_clicked();
 
@@ -95,7 +96,7 @@ private slots:
     void on_empDept_currentTextChanged(const QString &arg1);
 
 public slots:
-    void receiveSocket(QTcpSocket* socket);
+    void receiveSocket(QTcpSocket* socket, quint64& myuniqueId);
 
    // void handlePackage(QByteArray& header, QTcpSocket* socket);
 
@@ -107,7 +108,11 @@ private:
     msg::header hd{};
     msg::status st{};
 
-    void sendHeaderToServer(QString& header);
+    quint64 myUniqueID{};
+
+    void sendHeaderToServer(quint8 header, QVariantList list = {});
+
+    void sendDempNameForDesign(QString deptname);
 
 
 };
