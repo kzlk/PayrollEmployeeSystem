@@ -13,6 +13,7 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    CMessage.h \
     mainwindow.h
 
 FORMS += \

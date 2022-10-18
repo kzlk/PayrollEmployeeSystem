@@ -1,7 +1,6 @@
-#ifndef MESSAGEHEADER_H
-#define MESSAGEHEADER_H
-#include <QString>
-
+#ifndef CMESSAGE_H
+#define CMESSAGE_H
+#include "qglobal.h"
 namespace msg {
 
 enum header : quint8 {
@@ -22,12 +21,5 @@ enum header : quint8 {
   getEmployeeNameIdSurname
 };
 
-struct status {
-  QString success = "success";
-  QString failure = "failed";
-  QString alreadyAutorized = "already";
-  QString unknownError = "error";
-};
 } // namespace msg
-
-#endif // MESSAGEHEADER_H
+#endif // CMESSAGE_H

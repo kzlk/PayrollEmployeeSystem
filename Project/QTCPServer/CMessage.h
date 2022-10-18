@@ -18,7 +18,8 @@ enum header : quint8 {
   disconnect,
   salary,
   id,
-  addEmployee
+  addEmployee,
+  getEmployeeNameIdSurname
 };
 
 //    struct header

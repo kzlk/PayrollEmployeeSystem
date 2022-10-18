@@ -47,6 +47,9 @@ private:
   void sendEmployeeID(QTcpSocket *socket, QString &empDept, QString &empDesig);
   void addEmployeeToDB(QTcpSocket *socket, QVariantList &employeeInfo);
 
+  // RFID Emulator
+  void sendNameIdSurname(QTcpSocket *socket, QSqlQueryModel &model);
+
   quint64 getUniqueNum();
 
   Ui::MainWindow *ui;

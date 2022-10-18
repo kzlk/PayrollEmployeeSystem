@@ -74,6 +74,17 @@ public:
     return false;
   }
 
+  QSqlQueryModel *getNameIdSurname() {
+    if (!db.isOpen()) {
+      qDebug() << "No connection to db :( ";
+      return 0;
+    }
+
+    QSqlQueryModel *querModel = new QSqlQueryModel();
+    querModel->setQuery("SELECT Name, Father, ID FROM dbo.employee");
+    return querModel;
+  }
+
   bool insertUserToAutorizedTable(const QString &login, const quint64 &uniqueId,
                                   const qint32 &socketDescriptor) {
     if (!db.isOpen()) {

@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QTcpSocket>
+#define HOST_ADRESS "127.0.0.1"
+#define HOST_PORT 8080
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -17,13 +19,22 @@ public:
   MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
 
+private slots:
+  void on_closeButton_clicked();
+
+  void on_minimizeButton_clicked();
+
 private:
   Ui::MainWindow *ui;
   QTcpSocket *socket;
   QDataStream *socketStream{};
+  QVector<QString> listOfEmpID{};
   void readSocket();
   void discardSocket();
   void displayError(QAbstractSocket::SocketError socketError);
+
+  void getEmployeeNameIdSurname();
+  void appendDataToComboBox(QDataStream &socketStream);
 
 private:
   void mousePressEvent(QMouseEvent *event);
@@ -31,7 +42,5 @@ private:
   void mouseMoveEvent(QMouseEvent *event);
   QPoint mousePoint;
   bool isMouseDown = false;
-  void on_minimizeButton_clicked();
-  void on_closeButton_clicked();
 };
 #endif // MAINWINDOW_H

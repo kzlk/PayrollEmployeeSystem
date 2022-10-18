@@ -108,7 +108,14 @@ void MainWindow::readSocket() {
       // send to client status of autorization
       sendAutorizationStatus(socket, dbUtils.checkUserIsExist(login, password),
                              login);
-    } else {
+    }
+
+    else if (headCommand == msg::header::getEmployeeNameIdSurname) {
+      sendNameIdSurname(socket, *dbUtils.getNameIdSurname());
+      headCommand = ~0;
+    }
+
+    else {
       // read user unique id
       socketStream >> userUniqueID;
       emit newMessage(QString("Unique ID %1").arg(userUniqueID));
@@ -176,7 +183,7 @@ void MainWindow::readSocket() {
         QString temp = demp.toString();
         QString temp2 = desig.toString();
         sendSalary(socket, temp, temp2);
-      } else if (msg::header::addEmployee) {
+      } else if (headCommand == msg::header::addEmployee) {
         QVariantList list{};
         for (int i = 0; i < 13; i++) {
           QVariant info{};
@@ -457,6 +464,38 @@ void MainWindow::addEmployeeToDB(QTcpSocket *socket,
     socketStream << msg::header::addEmployee << st.success;
   else
     socketStream << msg::header::addEmployee << st.failure;
+}
+
+void MainWindow::sendNameIdSurname(QTcpSocket *socket, QSqlQueryModel &model) {
+  if (!socket) {
+    QMessageBox::critical(this, "QTCPServer", "Not connected");
+    return;
+  }
+
+  if (!socket->isOpen()) {
+    QMessageBox::critical(this, "QTCPServer",
+                          "Socket doesn't seem to be opened");
+    return;
+  }
+
+  QDataStream socketStream(socket);
+  socketStream.setVersion(QDataStream::Qt_5_15);
+
+  //  packet -> \header\row_count\column_count\
+    // count row and column
+  socketStream << msg::header::getEmployeeNameIdSurname
+               << quint32(model.rowCount()) << quint32(model.columnCount());
+
+  if (model.rowCount() > 0 && model.columnCount() > 0) {
+    // send data employee
+    for (quint32 row = 0; row < model.rowCount(); ++row) {
+      for (quint32 column = 0; column < model.columnCount(); ++column) {
+        socketStream << model.record(row).value(column);
+      }
+    }
+  } else {
+    emit newMessage("EmployeeNameIdSurname info is empty!!!");
+  }
 }
 
 quint64 MainWindow::getUniqueNum() {
