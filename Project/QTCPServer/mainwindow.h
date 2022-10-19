@@ -49,6 +49,11 @@ private:
 
   // RFID Emulator
   void sendNameIdSurname(QTcpSocket *socket, QSqlQueryModel &model);
+  void sendAttamdanceInfo(QTcpSocket *socket, QString &Id);
+  void sendStatusInsertEntered(QTcpSocket *socket, QDateTime &enterDate,
+                               QString &empId);
+  void sendStatusUpdateExit(QTcpSocket *socket, QDateTime &exitDate,
+                            QString &empId);
 
   quint64 getUniqueNum();
 

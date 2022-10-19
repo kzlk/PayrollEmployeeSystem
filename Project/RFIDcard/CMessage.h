@@ -1,6 +1,7 @@
 #ifndef CMESSAGE_H
 #define CMESSAGE_H
 #include "qglobal.h"
+#include <QString>
 namespace msg {
 
 enum header : quint8 {
@@ -18,7 +19,22 @@ enum header : quint8 {
   salary,
   id,
   addEmployee,
-  getEmployeeNameIdSurname
+  getEmployeeNameIdSurname,
+  //
+  getAttandanceDate,
+  setEmployeeAttandanceEntered,
+  setEmployeeAttandanceExit,
+  setAttandanceSuccess,
+  setAttandanceFailure
+
+};
+
+struct status {
+  QString success = "success";
+  QString failure = "failed";
+  QString alreadyAutorized = "already";
+  QString unknownError = "error";
+  QString empty = "empty";
 };
 
 } // namespace msg

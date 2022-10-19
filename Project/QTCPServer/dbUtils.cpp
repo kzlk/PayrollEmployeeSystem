@@ -1,3 +1,4 @@
+#include "qdatetime.h"
 #include <QComboBox>
 #include <QDebug>
 #include <QLabel>
@@ -72,6 +73,88 @@ public:
     }
 
     return false;
+  }
+
+  QSqlQueryModel *checkIfEmloyeeNotExit(QString &empId) {
+    if (!db.isOpen()) {
+      qDebug() << "No connection to db :( ";
+      return 0;
+    }
+
+    QSqlQueryModel *querModel = new QSqlQueryModel();
+    querModel->setQuery(
+        QString("SELECT EnterDate FROM "
+                "dbo.Employee_Attandance "
+                "WHERE LeftDate IS NULL AND Employee_ID  = '%1'")
+            .arg(empId));
+    return querModel;
+  }
+
+  bool insertEnteredAttandance(QDateTime &enterDate, QString &empId) {
+    if (!db.isOpen()) {
+      qDebug() << "No connection to db :( ";
+      return 0;
+    }
+
+    QSqlQuery qry;
+
+    if (!qry.prepare(QString("INSERT INTO dbo.Employee_Attandance(Employee_ID, "
+                             "EnterDate) VALUES "
+                             " (:id, :dateTime)"))) {
+      return false;
+    } else {
+      qry.bindValue(":id", empId);
+      qry.bindValue(":dateTime", enterDate);
+      if (!qry.exec()) {
+        return false;
+      }
+
+      return true;
+    }
+
+    return false;
+  }
+
+  bool updateExitAttandance(QDateTime &enterDate, QString &empId) {
+    if (!db.isOpen()) {
+      qDebug() << "No connection to db :( ";
+      return 0;
+    }
+
+    QSqlQuery qry;
+
+    if (!qry.prepare(QString("UPDATE  dbo.Employee_Attandance "
+                             "SET LeftDate = :dateTime "
+                             "WHERE LeftDate IS NULL "
+                             "AND Employee_ID = :id ")
+                         .arg(enterDate.toString(), empId))) {
+      return false;
+    } else {
+      qry.bindValue(":id", empId);
+      qry.bindValue(":dateTime", enterDate);
+      if (!qry.exec()) {
+        return false;
+      }
+
+      return true;
+    }
+
+    return false;
+  }
+
+  QSqlQueryModel *getAttandanceInfo(QString &employeeId) {
+    if (!db.isOpen()) {
+      qDebug() << "No connection to db :( ";
+      return 0;
+    }
+
+    QSqlQueryModel *querModel = new QSqlQueryModel();
+    querModel->setQuery(QString("SELECT Cast(EnterDate as smalldatetime) "
+                                "FROM dbo.Employee_Attandance "
+                                "WHERE LeftDate IS NULL "
+                                "AND Employee_ID = '%1' ")
+                            .arg(employeeId));
+    return querModel;
   }
 
   QSqlQueryModel *getNameIdSurname() {

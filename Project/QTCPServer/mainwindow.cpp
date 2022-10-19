@@ -113,9 +113,25 @@ void MainWindow::readSocket() {
     else if (headCommand == msg::header::getEmployeeNameIdSurname) {
       sendNameIdSurname(socket, *dbUtils.getNameIdSurname());
       headCommand = ~0;
-    }
-
-    else {
+    } else if (headCommand == msg::header::getAttandanceDate) {
+      QString Id{};
+      socketStream >> Id;
+      sendAttamdanceInfo(socket, Id);
+    } else if (headCommand == msg::header::setEmployeeAttandanceExit) {
+      QString Id{};
+      QDateTime rec{};
+      socketStream >> Id >> rec;
+      emit newMessage("Received from Scanner ID Exit " + Id + " And time " +
+                      rec.toString());
+      this->sendStatusUpdateExit(socket, rec, Id);
+    } else if (headCommand == msg::header::setEmployeeAttandanceEntered) {
+      QString Id{};
+      QDateTime rec{};
+      socketStream >> Id >> rec;
+      emit newMessage("Received from Scanner ID Entered: " + Id + " And time " +
+                      rec.toString());
+      this->sendStatusInsertEntered(socket, rec, Id);
+    } else {
       // read user unique id
       socketStream >> userUniqueID;
       emit newMessage(QString("Unique ID %1").arg(userUniqueID));
@@ -221,23 +237,6 @@ void MainWindow::readSocket() {
 void MainWindow::discardSocket() {
   QTcpSocket *socket = reinterpret_cast<QTcpSocket *>(sender());
   qDebug() << "Socket in discsrd = " << socket;
-
-  // debug
-  // for (auto &i : qAsConst(connection_set)) {
-  //  qDebug() << "Socket in list" << i->socketDescriptor();
-  // }
-
-  // QSet<QTcpSocket *>::iterator it = connection_set.find(socket);
-
-  // qDebug() << "Socket " << *it;
-
-  // delete socket
-  //  if (it != connection_set.end())
-  //  {
-  //    displayMessage(QString(" INFO %1 :: A client has just left the room")
-  //                       .arg(socket->socketDescriptor()));
-  //    connection_set.remove(*it);
-  //  }
 
   QMap<QTcpSocket *, QString>::iterator myIt = setOfConnectionUser.find(socket);
   if (myIt != setOfConnectionUser.end()) {
@@ -495,6 +494,78 @@ void MainWindow::sendNameIdSurname(QTcpSocket *socket, QSqlQueryModel &model) {
     }
   } else {
     emit newMessage("EmployeeNameIdSurname info is empty!!!");
+  }
+}
+
+void MainWindow::sendAttamdanceInfo(QTcpSocket *socket, QString &Id) {
+  if (!socket) {
+    QMessageBox::critical(this, "QTCPServer", "Not connected");
+    return;
+  }
+
+  if (!socket->isOpen()) {
+    QMessageBox::critical(this, "QTCPServer",
+                          "Socket doesn't seem to be opened");
+    return;
+  }
+
+  QDataStream socketStream(socket);
+  socketStream.setVersion(QDataStream::Qt_5_15);
+
+  auto a = dbUtils.getAttandanceInfo(Id);
+  if (a->rowCount() == 0) {
+    socketStream << msg::header::getAttandanceDate << st.empty;
+  }
+
+  else {
+    socketStream << msg::header::getAttandanceDate
+                 << a->record(0).value(0).toDateTime().toString();
+  }
+}
+
+void MainWindow::sendStatusInsertEntered(QTcpSocket *socket,
+                                         QDateTime &enterDate, QString &empId) {
+  if (!socket) {
+    QMessageBox::critical(this, "QTCPServer", "Not connected");
+    return;
+  }
+
+  if (!socket->isOpen()) {
+    QMessageBox::critical(this, "QTCPServer",
+                          "Socket doesn't seem to be opened");
+    return;
+  }
+
+  QDataStream socketStream(socket);
+  socketStream.setVersion(QDataStream::Qt_5_15);
+
+  if (dbUtils.insertEnteredAttandance(enterDate, empId)) {
+    socketStream << msg::setAttandanceSuccess;
+  } else {
+    socketStream << msg::setAttandanceFailure;
+  }
+}
+
+void MainWindow::sendStatusUpdateExit(QTcpSocket *socket, QDateTime &exitDate,
+                                      QString &empId) {
+  if (!socket) {
+    QMessageBox::critical(this, "QTCPServer", "Not connected");
+    return;
+  }
+
+  if (!socket->isOpen()) {
+    QMessageBox::critical(this, "QTCPServer",
+                          "Socket doesn't seem to be opened");
+    return;
+  }
+
+  QDataStream socketStream(socket);
+  socketStream.setVersion(QDataStream::Qt_5_15);
+
+  if (dbUtils.updateExitAttandance(exitDate, empId)) {
+    socketStream << msg::setAttandanceSuccess;
+  } else {
+    socketStream << msg::setAttandanceFailure;
   }
 }
 

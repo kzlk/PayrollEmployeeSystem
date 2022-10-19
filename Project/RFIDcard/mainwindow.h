@@ -1,6 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "CMessage.h"
+#include "qdatetime.h"
+
 #include <QMainWindow>
 #include <QTcpSocket>
 #define HOST_ADRESS "127.0.0.1"
@@ -24,19 +27,29 @@ private slots:
 
   void on_minimizeButton_clicked();
 
+  void on_comboBox_currentTextChanged(const QString &arg1);
+
+  void on_pushButton_clicked();
+
+  void on_pushButton_2_clicked();
+
 private:
+  QDateTime temp{};
   Ui::MainWindow *ui;
   QTcpSocket *socket;
   QDataStream *socketStream{};
-  QVector<QString> listOfEmpID{};
   void readSocket();
   void discardSocket();
   void displayError(QAbstractSocket::SocketError socketError);
 
   void getEmployeeNameIdSurname();
   void appendDataToComboBox(QDataStream &socketStream);
+  void getAttandanceInfo(QDataStream &socketStream);
+  void sendAttandanceInfo(msg::header header);
 
 private:
+  // msg::header hd;
+  msg::status st;
   void mousePressEvent(QMouseEvent *event);
   void mouseReleaseEvent(QMouseEvent *event);
   void mouseMoveEvent(QMouseEvent *event);
