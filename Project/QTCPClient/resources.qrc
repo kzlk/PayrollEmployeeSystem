@@ -34,7 +34,8 @@
 		<file>baseline_summarize_white_48dp.png</file>
 		<file>baseline_paid_white_48dp.png</file>
 		<file>baseline_settings_white_48dp.png</file>
-		
+		<file>baseline_arrow_back_ios_new_white_48dp.png</file>
+		<file>baseline_picture_as_pdf_white_48dp.png</file>
 		
     </qresource>
 </RCC>

@@ -1,23 +1,24 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-#include <QtSql/QSqlDatabase>
-#include <QString>
-#include <QDebug>
-#include <QSqlError>
-#include <QMainWindow>
 #include "databaseutils.cpp"
-#include <QPushButton>
-#include <QWidget>
+#include <QDebug>
+#include <QMainWindow>
 #include <QMouseEvent>
 #include <QPoint>
-//network
+#include <QPushButton>
+#include <QSqlError>
+#include <QString>
+#include <QWidget>
+#include <QtSql/QSqlDatabase>
+// network
 #include <QAbstractSocket>
 #include <QHostAddress>
 #include <QTcpSocket>
 
-#include <QTableWidget>
 #include "CMessage.h"
-namespace Ui {
+#include <QTableWidget>
+namespace Ui
+{
 class MainWindow;
 }
 
@@ -25,22 +26,22 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-public:
+  public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     DatabaseUtils dbUtils;
 
- protected:
+  protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     QPoint mousePoint;
 
-signals:
+  signals:
 
     void sendHeader(quint8 header, QVariantList list = {});
 
-private slots:
+  private slots:
     void on_closeButton_clicked();
 
     void loadTotalData(int lastID, QString dept, QString designTtl);
@@ -48,8 +49,6 @@ private slots:
     void on_minimizeButton_clicked();
 
     void on_pushButton_clicked();
-
-
 
     void on_searchButton_clicked();
 
@@ -65,8 +64,7 @@ private slots:
 
     void on_deleteEmpButton_clicked();
 
-
-  //  void on_tableView_doubleClicked(const QModelIndex &index);
+    //  void on_tableView_doubleClicked(const QModelIndex &index);
 
     void on_pushButton_7_clicked();
 
@@ -76,7 +74,7 @@ private slots:
 
     void on_deleteTableView_doubleClicked(const QModelIndex &index);
 
-    //void on_searchTextBox_returnPressed();
+    // void on_searchTextBox_returnPressed();
 
     void on_pushButton_6_clicked();
 
@@ -86,8 +84,7 @@ private slots:
 
     void on_techButton_clicked();
 
-
-  //  void on_pushButton_3_clicked();
+    //  void on_pushButton_3_clicked();
 
     void readSocket();
 
@@ -95,12 +92,16 @@ private slots:
 
     void on_empDept_currentTextChanged(const QString &arg1);
 
-public slots:
-    void receiveSocket(QTcpSocket* socket, quint64& myuniqueId);
+    void on_button_applyAutoPilot_clicked();
 
-   // void handlePackage(QByteArray& header, QTcpSocket* socket);
+    void on_settingsButton_clicked();
 
-private:
+  public slots:
+    void receiveSocket(QTcpSocket *socket, quint64 &myuniqueId);
+
+    // void handlePackage(QByteArray& header, QTcpSocket* socket);
+
+  private:
     Ui::MainWindow *ui;
     bool isMouseDown = false;
     QTcpSocket *socket{};
@@ -114,7 +115,19 @@ private:
 
     void sendDempNameForDesign(QString deptname);
 
+    void setDataInSettingWindow(QVariant start = {}, QVariant end = {},
+                                QVariant next = {}, QVariant freq = {},
+                                bool autopilot = {});
 
+    /*AutoPayment*/
+    QDateTime calculateStartPayPeriod(QDateTime datetime, QString box);
+    QDateTime calculateNextPaymentPeriod(QDateTime datetime, QString box);
+    qint8 converAutoPilotToInteger(QString box);
+    qint8 converFrequencyToInteger(QString box);
+    QTimer *timer{};
+
+  private slots:
+    // void TimerSlot();
 };
 
 #endif // MAINWINDOW_H

@@ -15,8 +15,8 @@ EmployeeInfo::EmployeeInfo(QWidget *parent, QString id)
                           "wheather your server is running or not.");
   }
 
-  ui->label_7->setText("<html><head/><body><p align='center'>" + id +
-                       "</p></body></html>");
+  // ui->label_7->setText("<html><head/><body><p align='center'>" + id +
+  //  "</p></body></html>");
 
   QSqlQuery *info = new QSqlQuery();
   info = empDBUtils.getData(id);

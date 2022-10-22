@@ -500,10 +500,10 @@ color:#EB0000;
     <widget class="QLabel" name="label_2">
      <property name="geometry">
       <rect>
-       <x>89</x>
-       <y>-5</y>
+       <x>110</x>
+       <y>-10</y>
        <width>511</width>
-       <height>41</height>
+       <height>51</height>
       </rect>
      </property>
      <property name="font">
@@ -522,9 +522,9 @@ color:#EB0000;
     <property name="geometry">
      <rect>
       <x>260</x>
-      <y>40</y>
+      <y>30</y>
       <width>831</width>
-      <height>551</height>
+      <height>561</height>
      </rect>
     </property>
     <property name="font">
@@ -540,14 +540,14 @@ color:#EB0000;
     </property>
     <property name="styleSheet">
      <string notr="true">
-#addEmpWidget
+#page_report
 {
 	background:#2D2D2D;
 }
 </string>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>7</number>
     </property>
     <widget class="QWidget" name="searchWidget">
      <property name="styleSheet">
@@ -559,10 +559,10 @@ color:#EB0000;
      <widget class="QLabel" name="label_5">
       <property name="geometry">
        <rect>
-        <x>296</x>
-        <y>30</y>
+        <x>290</x>
+        <y>10</y>
         <width>241</width>
-        <height>141</height>
+        <height>111</height>
        </rect>
       </property>
       <property name="text">
@@ -578,10 +578,10 @@ color:#EB0000;
      <widget class="QLabel" name="label_6">
       <property name="geometry">
        <rect>
-        <x>556</x>
-        <y>30</y>
+        <x>550</x>
+        <y>10</y>
         <width>238</width>
-        <height>136</height>
+        <height>111</height>
        </rect>
       </property>
       <property name="text">
@@ -598,9 +598,9 @@ color:#EB0000;
       <property name="geometry">
        <rect>
         <x>40</x>
-        <y>50</y>
+        <y>20</y>
         <width>221</width>
-        <height>31</height>
+        <height>30</height>
        </rect>
       </property>
       <property name="font">
@@ -617,8 +617,8 @@ color:#EB0000;
      <widget class="QLabel" name="empLabel">
       <property name="geometry">
        <rect>
-        <x>60</x>
-        <y>80</y>
+        <x>50</x>
+        <y>50</y>
         <width>191</width>
         <height>61</height>
        </rect>
@@ -638,14 +638,14 @@ color:#EB0000;
 }</string>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;000&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:22pt; color:#ffffff;&quot;&gt;000&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QLabel" name="deptLabel">
       <property name="geometry">
        <rect>
-        <x>310</x>
-        <y>80</y>
+        <x>300</x>
+        <y>50</y>
         <width>191</width>
         <height>61</height>
        </rect>
@@ -661,16 +661,16 @@ color:#EB0000;
        <string notr="true">color:white;</string>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:28pt; color:#ffffff;&quot;&gt;000&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:22pt; color:#ffffff;&quot;&gt;000&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_10">
       <property name="geometry">
        <rect>
-        <x>300</x>
-        <y>50</y>
-        <width>221</width>
-        <height>31</height>
+        <x>290</x>
+        <y>10</y>
+        <width>230</width>
+        <height>50</height>
        </rect>
       </property>
       <property name="font">
@@ -687,8 +687,8 @@ color:#EB0000;
      <widget class="QLabel" name="designLabel">
       <property name="geometry">
        <rect>
-        <x>570</x>
-        <y>80</y>
+        <x>560</x>
+        <y>50</y>
         <width>191</width>
         <height>61</height>
        </rect>
@@ -704,16 +704,16 @@ color:#EB0000;
        <string notr="true">color:white;</string>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:28pt; color:#ffffff;&quot;&gt;000&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:22pt; color:#ffffff;&quot;&gt;000&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_12">
       <property name="geometry">
        <rect>
-        <x>570</x>
-        <y>50</y>
+        <x>560</x>
+        <y>10</y>
         <width>211</width>
-        <height>31</height>
+        <height>50</height>
        </rect>
       </property>
       <property name="font">
@@ -730,8 +730,8 @@ color:#EB0000;
      <widget class="QLineEdit" name="searchTextBox">
       <property name="geometry">
        <rect>
-        <x>36</x>
-        <y>190</y>
+        <x>40</x>
+        <y>130</y>
         <width>711</width>
         <height>32</height>
        </rect>
@@ -757,9 +757,9 @@ color:#EB0000;
      <widget class="QPushButton" name="pushButton">
       <property name="geometry">
        <rect>
-        <x>745</x>
-        <y>190</y>
-        <width>40</width>
+        <x>750</x>
+        <y>130</y>
+        <width>41</width>
         <height>32</height>
        </rect>
       </property>
@@ -789,8 +789,8 @@ background:white;
      <widget class="QLabel" name="label_8">
       <property name="geometry">
        <rect>
-        <x>36</x>
-        <y>225</y>
+        <x>40</x>
+        <y>160</y>
         <width>135</width>
         <height>34</height>
        </rect>
@@ -817,8 +817,8 @@ padding-left:10px;
      <widget class="QLabel" name="label_21">
       <property name="geometry">
        <rect>
-        <x>170</x>
-        <y>225</y>
+        <x>174</x>
+        <y>160</y>
         <width>120</width>
         <height>34</height>
        </rect>
@@ -845,8 +845,8 @@ padding-left:10px;
      <widget class="QLabel" name="label_22">
       <property name="geometry">
        <rect>
-        <x>290</x>
-        <y>225</y>
+        <x>294</x>
+        <y>160</y>
         <width>125</width>
         <height>34</height>
        </rect>
@@ -873,8 +873,8 @@ padding-left:10px;
      <widget class="QLabel" name="label_23">
       <property name="geometry">
        <rect>
-        <x>413</x>
-        <y>225</y>
+        <x>417</x>
+        <y>160</y>
         <width>120</width>
         <height>34</height>
        </rect>
@@ -900,8 +900,8 @@ padding-left:10px;
      <widget class="QLabel" name="label_24">
       <property name="geometry">
        <rect>
-        <x>533</x>
-        <y>225</y>
+        <x>537</x>
+        <y>160</y>
         <width>122</width>
         <height>34</height>
        </rect>
@@ -927,9 +927,9 @@ padding-left:10px;
      <widget class="QLabel" name="label_25">
       <property name="geometry">
        <rect>
-        <x>655</x>
-        <y>225</y>
-        <width>130</width>
+        <x>661</x>
+        <y>160</y>
+        <width>131</width>
         <height>34</height>
        </rect>
       </property>
@@ -954,10 +954,10 @@ padding-left:10px;
      <widget class="QLabel" name="label_4">
       <property name="geometry">
        <rect>
-        <x>36</x>
-        <y>30</y>
-        <width>238</width>
-        <height>136</height>
+        <x>40</x>
+        <y>10</y>
+        <width>231</width>
+        <height>110</height>
        </rect>
       </property>
       <property name="text">
@@ -973,10 +973,10 @@ padding-left:10px;
      <widget class="QTableWidget" name="tableWidget">
       <property name="geometry">
        <rect>
-        <x>36</x>
-        <y>259</y>
+        <x>41</x>
+        <y>190</y>
         <width>750</width>
-        <height>271</height>
+        <height>351</height>
        </rect>
       </property>
       <property name="font">
@@ -1004,13 +1004,281 @@ padding-left:10px;
      <zorder>label_25</zorder>
      <zorder>tableWidget</zorder>
     </widget>
-    <widget class="QWidget" name="attendanceWidget">
+    <widget class="QWidget" name="settingWidget">
      <property name="styleSheet">
       <string notr="true">#attendanceWidget
 {
 	background:#2D2D2D;
 }</string>
      </property>
+     <widget class="QLabel" name="id_11">
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>10</y>
+        <width>211</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+        <pointsize>10</pointsize>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt; font-weight:700; color:#ffffff;&quot;&gt;Payroll settings&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="id_22">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>70</y>
+        <width>160</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+        <pointsize>10</pointsize>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:700; color:#ffffff;&quot;&gt;Pay Schedule&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_payFrequency">
+      <property name="geometry">
+       <rect>
+        <x>120</x>
+        <y>130</y>
+        <width>160</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+        <pointsize>10</pointsize>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ffffff;&quot;&gt;Pay Frequency&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_autoPilot">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>180</y>
+        <width>91</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+        <pointsize>10</pointsize>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ffffff;&quot;&gt;AutoPilot&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox_autopilot">
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>190</y>
+        <width>51</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">*
+{
+	background:white;
+	color:black;
+	border:none;
+	padding-left:6px;
+}</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>Off</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>On</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLabel" name="label_newPayDate">
+      <property name="geometry">
+       <rect>
+        <x>122</x>
+        <y>230</y>
+        <width>291</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+        <pointsize>10</pointsize>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ffffff;&quot;&gt;First pay date on new schedule&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox_Frequency">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>140</y>
+        <width>121</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">*{
+	background:white;
+	color:black;
+	border:none;
+	padding-left:6px;
+}</string>
+      </property>
+      <property name="sizeAdjustPolicy">
+       <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
+      </property>
+      <item>
+       <property name="text">
+        <string>EveryTwoDays</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Montly</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>EveryWeek</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLabel" name="UpcommingDate">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>280</y>
+        <width>221</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+        <pointsize>10</pointsize>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ffffff;&quot;&gt;Upcoming payday&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_upcom_pay">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>280</y>
+        <width>231</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+        <pointsize>10</pointsize>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ffffff;&quot;&gt;No data&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="button_applyAutoPilot">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>360</y>
+        <width>150</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="focusPolicy">
+       <enum>Qt::TabFocus</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#button_applyAutoPilot
+{
+	background:#00855C;
+	border:none;
+	color:white;
+}
+
+#button_applyAutoPilot:hover
+{
+	background:#2D2D2D;
+	border:2px solid #00855C;
+	color:#00855C;
+}</string>
+      </property>
+      <property name="text">
+       <string>Apply</string>
+      </property>
+     </widget>
+     <widget class="QDateTimeEdit" name="dateTimeEdit">
+      <property name="geometry">
+       <rect>
+        <x>420</x>
+        <y>240</y>
+        <width>181</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="dateTime">
+       <datetime>
+        <hour>0</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <year>2022</year>
+        <month>10</month>
+        <day>19</day>
+       </datetime>
+      </property>
+      <property name="calendarPopup">
+       <bool>true</bool>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="paymentWidget"/>
     <widget class="QWidget" name="addEmpWidget">
@@ -2703,6 +2971,437 @@ padding-left:10px;
      </widget>
     </widget>
     <widget class="QWidget" name="page_3"/>
+    <widget class="QWidget" name="page_report">
+     <widget class="QLabel" name="label_9">
+      <property name="geometry">
+       <rect>
+        <x>33</x>
+        <y>29</y>
+        <width>181</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+        <pointsize>10</pointsize>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#label_9
+{
+	color:white;
+	background:#11110E;
+padding-left:10px;
+}</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pay Date&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="tableWidget_payment_period">
+      <property name="geometry">
+       <rect>
+        <x>33</x>
+        <y>60</y>
+        <width>771</width>
+        <height>471</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+       </font>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_36">
+      <property name="geometry">
+       <rect>
+        <x>680</x>
+        <y>29</y>
+        <width>122</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+        <pointsize>10</pointsize>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#label_36
+{
+	color:white;
+	background:#11110E;
+}</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_37">
+      <property name="geometry">
+       <rect>
+        <x>207</x>
+        <y>29</y>
+        <width>291</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+        <pointsize>10</pointsize>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#label_37
+{
+	color:white;
+	background:#11110E;
+	padding-left:5px;
+}</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pay Period&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_38">
+      <property name="geometry">
+       <rect>
+        <x>497</x>
+        <y>29</y>
+        <width>151</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+        <pointsize>10</pointsize>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#label_38
+{
+	color:white;
+	background:#11110E;
+	padding-left:3px;
+}</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Net&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_39">
+      <property name="geometry">
+       <rect>
+        <x>560</x>
+        <y>29</y>
+        <width>120</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+        <pointsize>10</pointsize>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#label_39
+{
+	color:white;
+	background:#11110E;
+}</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="page_info_payment">
+     <property name="styleSheet">
+      <string notr="true">#page_info_payment
+{
+	background:#2D2D2D;
+}
+</string>
+     </property>
+     <widget class="QLabel" name="label_40">
+      <property name="geometry">
+       <rect>
+        <x>640</x>
+        <y>20</y>
+        <width>161</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+        <pointsize>10</pointsize>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#label_40
+{
+	color:white;
+	background:#11110E;
+}</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;      Net Pay&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_41">
+      <property name="geometry">
+       <rect>
+        <x>464</x>
+        <y>20</y>
+        <width>191</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+        <pointsize>10</pointsize>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#label_41
+{
+	color:white;
+	background:#11110E;
+	padding-left:3px;
+}</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Gross Pay&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_42">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>20</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+        <pointsize>10</pointsize>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#label_42
+{
+	color:white;
+	background:#11110E;
+	padding-left:5px;
+}</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Total Hour&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="tableWidget_payment_detail">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>51</y>
+        <width>771</width>
+        <height>451</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+       </font>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_11">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>20</y>
+        <width>181</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+        <pointsize>10</pointsize>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#label_11
+{
+	color:white;
+	background:#11110E;
+padding-left:10px;
+}</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Employee&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_44">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>20</y>
+        <width>125</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+        <pointsize>10</pointsize>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#label_44
+{
+	color:white;
+	background:#11110E;
+	padding-left:3px;
+}</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Taxes&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="biutton_save_pdf">
+      <property name="geometry">
+       <rect>
+        <x>622</x>
+        <y>510</y>
+        <width>181</width>
+        <height>44</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#biutton_save_pdf
+{
+	text-align:left;
+	padding-left:26px;
+	border:none;	
+	color:white;	
+	background:#00855C;
+	border:15px;
+	color:white;
+}
+#biutton_save_pdf:hover
+{
+	text-align:left;
+	padding-left:26px;	
+	border:none;	
+	color:white;	
+	background:#333333;
+}</string>
+      </property>
+      <property name="text">
+       <string>Save as pdf</string>
+      </property>
+      <property name="icon">
+       <iconset resource="resources.qrc">
+        <normaloff>:/Images/baseline_picture_as_pdf_white_48dp.png</normaloff>:/Images/baseline_picture_as_pdf_white_48dp.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>32</width>
+        <height>32</height>
+       </size>
+      </property>
+      <property name="autoRepeatDelay">
+       <number>200</number>
+      </property>
+      <property name="autoRepeatInterval">
+       <number>100</number>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="biutton_back_period">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>510</y>
+        <width>171</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#biutton_back_period
+{
+	text-align:left;
+	padding-left:26px;
+	border:none;	
+	color:white;	
+	background:#EC3245;
+}
+#biutton_back_period:hover
+{
+	text-align:left;
+	padding-left:26px;	
+	border:none;	
+	color:white;	
+	background:#333333;
+}</string>
+      </property>
+      <property name="text">
+       <string>Back</string>
+      </property>
+      <property name="icon">
+       <iconset resource="resources.qrc">
+        <normaloff>:/Images/baseline_arrow_back_ios_new_white_48dp.png</normaloff>:/Images/baseline_arrow_back_ios_new_white_48dp.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>32</width>
+        <height>32</height>
+       </size>
+      </property>
+     </widget>
+     <zorder>label_41</zorder>
+     <zorder>label_42</zorder>
+     <zorder>tableWidget_payment_detail</zorder>
+     <zorder>label_11</zorder>
+     <zorder>label_44</zorder>
+     <zorder>label_40</zorder>
+     <zorder>biutton_save_pdf</zorder>
+     <zorder>biutton_back_period</zorder>
+    </widget>
    </widget>
   </widget>
  </widget>

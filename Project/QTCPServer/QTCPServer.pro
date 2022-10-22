@@ -12,12 +12,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++17
 
 SOURCES += \
+    cautopilot.cpp \
+    cpayment.cpp \
     dbUtils.cpp \
         main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     CMessage.h \
+    cautopilot.h \
+    cpayment.h \
     mainwindow.h
 
 FORMS += \
