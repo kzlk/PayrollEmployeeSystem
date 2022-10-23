@@ -303,6 +303,14 @@ void MainWindow::readSocket()
             setDataInSettingWindow();
         }
     }
+    else if (headCommand == msg::header::getReportPeriodInfo)
+    {
+        appendDataToReportPagePeriod(socketStream);
+    }
+    else if (headCommand == msg::header::getDetailInfoPaymentPeriod)
+    {
+        appendDataToDetailReportPage(socketStream);
+    }
 
     else
     {
@@ -410,10 +418,11 @@ void MainWindow::on_searchButton_clicked()
     // loadTotalData();
     selectedPushButton(ui->searchButton);
     deselectedPushButton(ui->deleteEmpButton);
-    deselectedPushButton(ui->techButton);
+    deselectedPushButton(ui->reportButton);
     deselectedPushButton(ui->aboutButton);
     deselectedPushButton(ui->updateEmpButton);
     deselectedPushButton(ui->addEmpButton);
+    deselectedPushButton(ui->settingsButton);
     // dbUtils.setEmployeeDetails(ui->tableWidget);
     ui->searchStackedWidget->setCurrentIndex(0);
 }
@@ -428,11 +437,11 @@ void MainWindow::on_addEmpButton_clicked()
     // select button
     selectedPushButton(ui->addEmpButton);
     deselectedPushButton(ui->deleteEmpButton);
-    deselectedPushButton(ui->techButton);
+    deselectedPushButton(ui->reportButton);
     deselectedPushButton(ui->aboutButton);
     deselectedPushButton(ui->updateEmpButton);
     deselectedPushButton(ui->searchButton);
-
+    deselectedPushButton(ui->settingsButton);
     // third stacked widget
 
     // ui->empDept->setModel(dbUtils.getDepartmentList());
@@ -444,11 +453,11 @@ void MainWindow::on_updateEmpButton_clicked()
 {
     selectedPushButton(ui->updateEmpButton);
     deselectedPushButton(ui->deleteEmpButton);
-    deselectedPushButton(ui->techButton);
+    deselectedPushButton(ui->reportButton);
     deselectedPushButton(ui->aboutButton);
     deselectedPushButton(ui->searchButton);
     deselectedPushButton(ui->addEmpButton);
-
+    deselectedPushButton(ui->settingsButton);
     dbUtils.setEmployeeUpdateDetails(ui->updateTableView);
     ui->searchStackedWidget->setCurrentIndex(4);
 }
@@ -502,10 +511,11 @@ void MainWindow::on_deleteEmpButton_clicked()
 {
     selectedPushButton(ui->deleteEmpButton);
     deselectedPushButton(ui->updateEmpButton);
-    deselectedPushButton(ui->techButton);
+    deselectedPushButton(ui->reportButton);
     deselectedPushButton(ui->aboutButton);
     deselectedPushButton(ui->searchButton);
     deselectedPushButton(ui->addEmpButton);
+    deselectedPushButton(ui->settingsButton);
 
     // dbUtils.setEmployeeDetails(ui->deleteTableView);
     ui->searchStackedWidget->setCurrentIndex(5);
@@ -641,7 +651,7 @@ void MainWindow::selectedPushButton(QPushButton *button)
 {
     button->setStyleSheet(
         "QPushButton{background:#333333;border: none;border-left:6px solid "
-        "#1E90FF;margin: 0px;padding: 0px;color:white;text-align: "
+        "#44FF17;margin: 0px;padding: 0px;color:white;text-align: "
         "left;padding-left:24px;}");
 }
 
@@ -668,11 +678,18 @@ void MainWindow::on_pushButton_6_clicked()
 
 void MainWindow::on_techButton_clicked()
 {
-
-    MainWindow::close();
-    About *abt = new About(this);
-    abt->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-    abt->show();
+    deselectedPushButton(ui->deleteEmpButton);
+    deselectedPushButton(ui->aboutButton);
+    deselectedPushButton(ui->updateEmpButton);
+    deselectedPushButton(ui->addEmpButton);
+    deselectedPushButton(ui->searchButton);
+    deselectedPushButton(ui->settingsButton);
+    deselectedPushButton(ui->reportButton);
+    // MainWindow::close();
+    // About *abt = new About(this);
+    // abt->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+    // abt->show();
+    ui->searchStackedWidget->setCurrentWidget(ui->page_report);
 }
 
 // void MainWindow::on_pushButton_3_clicked()
@@ -766,6 +783,144 @@ void MainWindow::sendDempNameForDesign(QString deptname)
     QDataStream socketStream(socket);
     socketStream.setVersion(QDataStream::Qt_5_15);
     socketStream << deptname;
+}
+
+void MainWindow::appendDataToReportPagePeriod(QDataStream &socketStream)
+{
+    quint32 row{};
+    quint32 column{};
+    /*Receive row and column*/
+    socketStream >> row >> column;
+    qDebug() << " appendDataToReportPagePeriod \nRow received = " << row
+             << " | Column received = " << column;
+    ui->tableWidget_payment_period->horizontalHeader()->setVisible(false);
+    ui->tableWidget_payment_period->verticalHeader()->setVisible(false);
+    ui->tableWidget_payment_period->setShowGrid(false);
+    ui->tableWidget_payment_period->setStyleSheet(
+        "QTableView {selection-background-color: #44FF17;}");
+    ui->tableWidget_payment_period->setEditTriggers(
+        QAbstractItemView::NoEditTriggers);
+    ui->tableWidget_payment_period->setSelectionBehavior(
+        QAbstractItemView::SelectRows);
+    ui->tableWidget_payment_period->setSelectionMode(
+        QAbstractItemView::SingleSelection);
+
+    //      ui->tableWidget->verticalHeader()->resizeSections(QHeaderView::Stretch);
+    //      ui->tableWidget->horizontalHeader()->resizeSections(QHeaderView::Stretch);
+    // ui->tableWidget->setGeometry(QApplication::primaryScreen()->geometry());
+    //  ui->tableWidget->horizontalHeader()->setSectionResizeMode(
+    //   QHeaderView::Stretch);
+    // ui->tableWidget->verticalHeader()->setSectionResizeMode(
+    // QHeaderView::ResizeToContents);
+    // QHeaderView::Stretch,
+    ui->tableWidget_payment_period->setRowCount(row);
+    ui->tableWidget_payment_period->setColumnCount(column);
+    ui->tableWidget_payment_period->setWordWrap(true);
+
+    // ui->tableWidget_payment_period->horizontalHeader()->setSectionResizeMode(
+    //  QHeaderView::Stretch);
+
+    // ui->tableWidget_payment_period->verticalHeader()->setSectionResizeMode(
+    //  QHeaderView::Stretch);
+    ui->tableWidget_payment_period->setColumnWidth(0, ui->label_36->width());
+    ui->tableWidget_payment_period->setColumnWidth(1, ui->label_37->width());
+    ui->tableWidget_payment_period->setColumnWidth(2, ui->label_45->width());
+    ui->tableWidget_payment_period->setColumnWidth(3, ui->label_38->width());
+    ui->tableWidget_payment_period->setColumnWidth(4, ui->label_46->width());
+    /*Receive table data*/
+    if (row > 0 && column > 0)
+    {
+        for (int r = 0; r < row; ++r)
+        {
+            for (int col = 0; col < column; ++col)
+            {
+                QVariant receivedItem{};
+                socketStream >> receivedItem;
+                qDebug() << receivedItem;
+                QTableWidgetItem *poItem = new QTableWidgetItem();
+                poItem->setData(Qt::DisplayRole, receivedItem);
+                ui->tableWidget_payment_period->setItem(r, col, poItem);
+            }
+        }
+    }
+    else
+    {
+        // TODO: Error handling
+        QMessageBox::information(
+            this, "QTCPCLIENT", QString("There are no payments record found!"));
+    }
+}
+
+void MainWindow::appendDataToDetailReportPage(QDataStream &socketStream)
+{
+    quint32 row{};
+    quint32 column{};
+    /*Receive row and column*/
+    socketStream >> row >> column;
+    qDebug() << " appendDataToReportPagePeriod \nRow received = " << row
+             << " | Column received = " << column;
+    ui->tableWidget_payment_detail->horizontalHeader()->setVisible(false);
+    ui->tableWidget_payment_detail->verticalHeader()->setVisible(false);
+    ui->tableWidget_payment_detail->setShowGrid(false);
+    ui->tableWidget_payment_detail->setStyleSheet(
+        "QTableView {selection-background-color: #44FF17;}");
+    ui->tableWidget_payment_detail->setEditTriggers(
+        QAbstractItemView::NoEditTriggers);
+    ui->tableWidget_payment_detail->setSelectionBehavior(
+        QAbstractItemView::SelectRows);
+    ui->tableWidget_payment_detail->setSelectionMode(
+        QAbstractItemView::MultiSelection);
+
+    //      ui->tableWidget->verticalHeader()->resizeSections(QHeaderView::Stretch);
+    //      ui->tableWidget->horizontalHeader()->resizeSections(QHeaderView::Stretch);
+    // ui->tableWidget->setGeometry(QApplication::primaryScreen()->geometry());
+    //  ui->tableWidget->horizontalHeader()->setSectionResizeMode(
+    //   QHeaderView::Stretch);
+    // ui->tableWidget->verticalHeader()->setSectionResizeMode(
+    // QHeaderView::ResizeToContents);
+    // QHeaderView::Stretch,
+    ui->tableWidget_payment_detail->setRowCount(row);
+    ui->tableWidget_payment_detail->setColumnCount(column);
+    ui->tableWidget_payment_detail->setWordWrap(true);
+
+    // ui->tableWidget_payment_period->horizontalHeader()->setSectionResizeMode(
+    //  QHeaderView::Stretch);
+
+    // ui->tableWidget_payment_period->verticalHeader()->setSectionResizeMode(
+    //  QHeaderView::Stretch);
+    ui->tableWidget_payment_detail->setColumnWidth(0, 90);
+    ui->tableWidget_payment_detail->setColumnWidth(1,
+                                                   ui->label_11->width() - 90);
+    ui->tableWidget_payment_detail->setColumnWidth(2, ui->label_42->width());
+    ui->tableWidget_payment_detail->setColumnWidth(3, ui->label_41->width());
+    ui->tableWidget_payment_detail->setColumnWidth(4, ui->label_44->width());
+    ui->tableWidget_payment_detail->setColumnWidth(5, ui->label_40->width());
+    this->idEmp.clear();
+    /*Receive table data*/
+    if (row > 0 && column > 0)
+    {
+        for (int r = 0; r < row; ++r)
+        {
+            // QVariant id{};
+            // socketStream >> id;
+            // this->idEmp.insert(r, id.toString());
+            for (int col = 0; col < column; ++col)
+            {
+                QVariant receivedItem{};
+                socketStream >> receivedItem;
+                qDebug() << receivedItem;
+                QTableWidgetItem *poItem = new QTableWidgetItem();
+                poItem->setData(Qt::DisplayRole, receivedItem);
+                ui->tableWidget_payment_detail->setItem(r, col, poItem);
+            }
+        }
+    }
+    else
+    {
+        // TODO: Error handling
+        QMessageBox::information(
+            this, "QTCPCLIENT", QString("There are no payments record found!"));
+    }
 }
 
 void MainWindow::setDataInSettingWindow(QVariant start, QVariant end,
@@ -935,7 +1090,7 @@ qint8 MainWindow::converFrequencyToInteger(QString box)
 void MainWindow::on_settingsButton_clicked()
 {
     deselectedPushButton(ui->deleteEmpButton);
-    deselectedPushButton(ui->techButton);
+    deselectedPushButton(ui->reportButton);
     deselectedPushButton(ui->aboutButton);
     deselectedPushButton(ui->updateEmpButton);
     deselectedPushButton(ui->addEmpButton);
@@ -945,4 +1100,38 @@ void MainWindow::on_settingsButton_clicked()
     ui->searchStackedWidget->setCurrentWidget(ui->settingWidget);
 
     emit sendHeader(msg::header::getSettingsData);
+}
+
+void MainWindow::on_reportButton_clicked()
+{
+    ui->searchStackedWidget->setCurrentWidget(ui->page_report);
+    deselectedPushButton(ui->deleteEmpButton);
+    selectedPushButton(ui->reportButton);
+    deselectedPushButton(ui->aboutButton);
+    deselectedPushButton(ui->updateEmpButton);
+    deselectedPushButton(ui->addEmpButton);
+    deselectedPushButton(ui->searchButton);
+    deselectedPushButton(ui->settingsButton);
+
+    emit sendHeader(msg::header::getReportPeriodInfo);
+}
+
+/*Get detail payment description*/
+void MainWindow::on_tableWidget_payment_period_doubleClicked(
+    const QModelIndex &index)
+{
+    auto id = ui->tableWidget_payment_period->model()
+                  ->index(index.row(), 0)
+                  .data()
+                  .toInt();
+
+    emit sendHeader(msg::header::getDetailInfoPaymentPeriod, {id});
+
+    ui->searchStackedWidget->setCurrentWidget(ui->page_info_payment);
+}
+
+void MainWindow::on_biutton_back_period_clicked()
+{
+    emit sendHeader(msg::header::getReportPeriodInfo);
+    ui->searchStackedWidget->setCurrentWidget(ui->page_report);
 }

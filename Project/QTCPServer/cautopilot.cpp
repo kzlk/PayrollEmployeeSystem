@@ -10,6 +10,7 @@ CAutoPilot::CAutoPilot()
 CAutoPilot::~CAutoPilot()
 {
     delete timer;
+    delete payment;
 }
 
 CAutoPilot::CAutoPilot(quint64 timeShotInMs, DatabaseUtils &db)
@@ -19,6 +20,8 @@ CAutoPilot::CAutoPilot(quint64 timeShotInMs, DatabaseUtils &db)
     this->timer = new QTimer(this);
 
     this->dbUtils = db;
+
+    payment = new CPayment(db);
 
     connect(timer, &QTimer::timeout, this, &CAutoPilot::timerSlot);
 }
@@ -53,9 +56,14 @@ bool CAutoPilot::isAutoPilotOnAndSetData()
 
         startPeriodPayment = dataFromSysTable->record(0).value(0).toDateTime();
 
+        payment->setStartPeriodPayment(startPeriodPayment);
+
         qDebug() << "Autopilot startDate: " << startPeriodPayment;
 
         endPeriodPayment = dataFromSysTable->record(0).value(2).toDateTime();
+
+        payment->setEndPeriodPayment(endPeriodPayment);
+
         qDebug() << "Autopilot endDate : " << endPeriodPayment;
 
         nextPaymentDate = dataFromSysTable->record(0).value(1).toDateTime();
@@ -106,7 +114,8 @@ void CAutoPilot::timerSlot()
             // do pay in new thread
             // add to paremetr databaseUtils
             // set start and end date
-            QThreadPool::globalInstance()->start(&payment);
+            payment->doPay();
+            // QThreadPool::globalInstance()->start(payment);
 
             // calculateNextPayment
             updatePaymentDate();

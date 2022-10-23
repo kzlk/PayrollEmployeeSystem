@@ -31,7 +31,9 @@ enum header : quint8
     // autopilot
     insertInDBSettingPayment,
     insertedInDBSettingStatus,
-    getSettingsData
+    getSettingsData,
+    getReportPeriodInfo,
+    getDetailInfoPaymentPeriod
 };
 
 struct status

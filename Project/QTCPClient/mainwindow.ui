@@ -276,7 +276,7 @@ QLineEdit
       </size>
      </property>
     </widget>
-    <widget class="QPushButton" name="techButton">
+    <widget class="QPushButton" name="reportButton">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -292,7 +292,7 @@ QLineEdit
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">#techButton
+      <string notr="true">#reportButton
 {
 	text-align:left;
 	padding-left:26px;
@@ -300,7 +300,7 @@ QLineEdit
 	color:white;	
 	background:#1F1F1F;
 }
-#techButton:hover
+#reportButton:hover
 {
 	text-align:left;
 	padding-left:26px;	
@@ -547,7 +547,7 @@ color:#EB0000;
 </string>
     </property>
     <property name="currentIndex">
-     <number>7</number>
+     <number>8</number>
     </property>
     <widget class="QWidget" name="searchWidget">
      <property name="styleSheet">
@@ -2972,41 +2972,13 @@ padding-left:10px;
     </widget>
     <widget class="QWidget" name="page_3"/>
     <widget class="QWidget" name="page_report">
-     <widget class="QLabel" name="label_9">
-      <property name="geometry">
-       <rect>
-        <x>33</x>
-        <y>29</y>
-        <width>181</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Comic Sans MS</family>
-        <pointsize>10</pointsize>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">#label_9
-{
-	color:white;
-	background:#11110E;
-padding-left:10px;
-}</string>
-      </property>
-      <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pay Date&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-     </widget>
      <widget class="QTableWidget" name="tableWidget_payment_period">
       <property name="geometry">
        <rect>
-        <x>33</x>
+        <x>80</x>
         <y>60</y>
-        <width>771</width>
-        <height>471</height>
+        <width>670</width>
+        <height>461</height>
        </rect>
       </property>
       <property name="font">
@@ -3018,9 +2990,9 @@ padding-left:10px;
      <widget class="QLabel" name="label_36">
       <property name="geometry">
        <rect>
-        <x>680</x>
-        <y>29</y>
-        <width>122</width>
+        <x>80</x>
+        <y>30</y>
+        <width>10</width>
         <height>31</height>
        </rect>
       </property>
@@ -3045,9 +3017,9 @@ padding-left:10px;
      <widget class="QLabel" name="label_37">
       <property name="geometry">
        <rect>
-        <x>207</x>
-        <y>29</y>
-        <width>291</width>
+        <x>90</x>
+        <y>30</y>
+        <width>183</width>
         <height>31</height>
        </rect>
       </property>
@@ -3067,14 +3039,14 @@ padding-left:10px;
 }</string>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pay Period&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pay start period&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_38">
       <property name="geometry">
        <rect>
-        <x>497</x>
-        <y>29</y>
+        <x>456</x>
+        <y>30</y>
         <width>151</width>
         <height>31</height>
        </rect>
@@ -3095,15 +3067,18 @@ padding-left:10px;
 }</string>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Net&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Total net pay&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
      </widget>
-     <widget class="QLabel" name="label_39">
+     <widget class="QLabel" name="label_45">
       <property name="geometry">
        <rect>
-        <x>560</x>
-        <y>29</y>
-        <width>120</width>
+        <x>273</x>
+        <y>30</y>
+        <width>183</width>
         <height>31</height>
        </rect>
       </property>
@@ -3115,14 +3090,43 @@ padding-left:10px;
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">#label_39
+       <string notr="true">#label_45
 {
 	color:white;
 	background:#11110E;
+	padding-left:5px;
 }</string>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pay end period&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_46">
+      <property name="geometry">
+       <rect>
+        <x>599</x>
+        <y>30</y>
+        <width>151</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+        <pointsize>10</pointsize>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#label_46
+{
+	color:white;
+	background:#11110E;
+	padding-left:5px;
+}</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Total employees&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
     </widget>
@@ -3137,9 +3141,9 @@ padding-left:10px;
      <widget class="QLabel" name="label_40">
       <property name="geometry">
        <rect>
-        <x>640</x>
+        <x>670</x>
         <y>20</y>
-        <width>161</width>
+        <width>131</width>
         <height>31</height>
        </rect>
       </property>
@@ -3161,40 +3165,12 @@ padding-left:10px;
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;      Net Pay&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_41">
-      <property name="geometry">
-       <rect>
-        <x>464</x>
-        <y>20</y>
-        <width>191</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Comic Sans MS</family>
-        <pointsize>10</pointsize>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">#label_41
-{
-	color:white;
-	background:#11110E;
-	padding-left:3px;
-}</string>
-      </property>
-      <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Gross Pay&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-     </widget>
      <widget class="QLabel" name="label_42">
       <property name="geometry">
        <rect>
-        <x>210</x>
+        <x>301</x>
         <y>20</y>
-        <width>131</width>
+        <width>110</width>
         <height>31</height>
        </rect>
       </property>
@@ -3214,7 +3190,7 @@ padding-left:10px;
 }</string>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Total Hour&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Hour&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QTableWidget" name="tableWidget_payment_detail">
@@ -3237,7 +3213,7 @@ padding-left:10px;
        <rect>
         <x>30</x>
         <y>20</y>
-        <width>181</width>
+        <width>280</width>
         <height>31</height>
        </rect>
       </property>
@@ -3263,9 +3239,9 @@ padding-left:10px;
      <widget class="QLabel" name="label_44">
       <property name="geometry">
        <rect>
-        <x>340</x>
+        <x>540</x>
         <y>20</y>
-        <width>125</width>
+        <width>131</width>
         <height>31</height>
        </rect>
       </property>
@@ -3393,7 +3369,33 @@ padding-left:10px;
        </size>
       </property>
      </widget>
-     <zorder>label_41</zorder>
+     <widget class="QLabel" name="label_41">
+      <property name="geometry">
+       <rect>
+        <x>410</x>
+        <y>20</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+        <pointsize>10</pointsize>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#label_41
+{
+	color:white;
+	background:#11110E;
+}</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Gross Pay&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
      <zorder>label_42</zorder>
      <zorder>tableWidget_payment_detail</zorder>
      <zorder>label_11</zorder>
@@ -3401,6 +3403,7 @@ padding-left:10px;
      <zorder>label_40</zorder>
      <zorder>biutton_save_pdf</zorder>
      <zorder>biutton_back_period</zorder>
+     <zorder>label_41</zorder>
     </widget>
    </widget>
   </widget>

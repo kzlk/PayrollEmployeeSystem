@@ -44,13 +44,18 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+
     for (QMap<QTcpSocket *, QString>::Iterator it = setOfConnectionUser.begin();
-         it != setOfConnectionUser.end(); ++it)
+         it != setOfConnectionUser.end();)
     {
+        disconnect(it.key(), &QTcpSocket::disconnected, this,
+                   &MainWindow::discardSocket);
+        dbUtils.dropUser(it.value());
         it.key()->close();
         it.key()->deleteLater();
-        dbUtils.dropUser(it.value());
+        setOfConnectionUser.erase(it++);
     }
+    setOfConnectionUser.clear();
 
     m_server->close();
     m_server->deleteLater();
@@ -274,6 +279,18 @@ void MainWindow::readSocket()
             {
                 sendSettingInfo(socket);
             }
+            else if (headCommand == msg::header::getReportPeriodInfo)
+            {
+                sendPaymentPeriodData(socket);
+            }
+            else if (headCommand == msg::header::getDetailInfoPaymentPeriod)
+            {
+                QVariant id{};
+                socketStream >> id;
+                emit newMessage(
+                    QString("The id payment received is %1").arg(id.toInt()));
+                sendPaymentInfoDetail(socket, id.toInt());
+            }
             else
             {
                 QString message =
@@ -313,9 +330,11 @@ void MainWindow::discardSocket()
     {
         displayMessage(QString(" INFO %1 :: A client has just left the room")
                            .arg(myIt.value()));
+        /*Drop user from db*/
         dbUtils.dropUser(myIt.value());
-
+        qDebug() << "After drop user in table" << *myIt;
         setOfConnectionUser.remove(myIt.key());
+        // setOfConnectionUser.erase(myIt);
     }
 
     socket->deleteLater();
@@ -790,6 +809,98 @@ void MainWindow::sendSettingInfo(QTcpSocket *socket)
                      << dataFromSysTable->record(0).value(1) // next
                      << dataFromSysTable->record(0).value(3) // freq
                      << dbUtils.checkIfAutoPilotIsOn();      // autopilot
+    }
+}
+
+void MainWindow::sendPaymentPeriodData(QTcpSocket *socket)
+{
+    if (!socket)
+    {
+        QMessageBox::critical(this, "QTCPServer", "Not connected");
+        return;
+    }
+
+    if (!socket->isOpen())
+    {
+        QMessageBox::critical(this, "QTCPServer",
+                              "Socket doesn't seem to be opened");
+        return;
+    }
+
+    QDataStream socketStream(socket);
+    socketStream.setVersion(QDataStream::Qt_5_15);
+
+    auto dataFromPeriodTable = dbUtils.getPaymentPeriodData();
+
+    //  packet -> |header|row_count|column_count|
+    // count row and column
+    socketStream << msg::header::getReportPeriodInfo
+                 << quint32(dataFromPeriodTable->rowCount())
+                 << quint32(dataFromPeriodTable->columnCount());
+
+    if (dataFromPeriodTable->rowCount() > 0 &&
+        dataFromPeriodTable->columnCount() > 0)
+    {
+        // send data employee (pay_id,start,end, total_net,total_cnt_emp )
+        for (quint32 row = 0; row < dataFromPeriodTable->rowCount(); ++row)
+        {
+            for (quint32 column = 0;
+                 column < dataFromPeriodTable->columnCount(); ++column)
+            {
+                socketStream << dataFromPeriodTable->record(row).value(column);
+            }
+        }
+    }
+
+    /*
+        socketStream << msg::header::getSettingsData
+                     << dataFromPeriodTable->record(0).value(0) // pay_id
+                     << dataFromPeriodTable->record(0).value(2) // start
+                     << dataFromPeriodTable->record(0).value(1) // end
+                     << dataFromPeriodTable->record(0).value(3) // total_net
+                     << dataFromPeriodTable->record(0).value(4);  //
+       total_cnt_emp
+     */
+}
+
+void MainWindow::sendPaymentInfoDetail(QTcpSocket *socket, int id)
+{
+    if (!socket)
+    {
+        QMessageBox::critical(this, "QTCPServer", "Not connected");
+        return;
+    }
+
+    if (!socket->isOpen())
+    {
+        QMessageBox::critical(this, "QTCPServer",
+                              "Socket doesn't seem to be opened");
+        return;
+    }
+
+    QDataStream socketStream(socket);
+    socketStream.setVersion(QDataStream::Qt_5_15);
+
+    auto dataFromPeriodTable = dbUtils.getDataDetailPaymentTable(id);
+
+    //  packet -> |header|row_count|column_count|
+    // count row and column
+    socketStream << msg::header::getDetailInfoPaymentPeriod
+                 << quint32(dataFromPeriodTable->rowCount())
+                 << quint32(dataFromPeriodTable->columnCount());
+
+    if (dataFromPeriodTable->rowCount() > 0 &&
+        dataFromPeriodTable->columnCount() > 0)
+    {
+        // send data employee (pay_id,start,end, total_net,total_cnt_emp )
+        for (quint32 row = 0; row < dataFromPeriodTable->rowCount(); ++row)
+        {
+            for (quint32 column = 0;
+                 column < dataFromPeriodTable->columnCount(); ++column)
+            {
+                socketStream << dataFromPeriodTable->record(row).value(column);
+            }
+        }
     }
 }
 
