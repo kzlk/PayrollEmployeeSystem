@@ -13,6 +13,7 @@ CONFIG += c++17
 
 SOURCES += \
     cautopilot.cpp \
+    cgeneratepdf.cpp \
     cpayment.cpp \
     dbUtils.cpp \
         main.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
 HEADERS += \
     CMessage.h \
     cautopilot.h \
+    cgeneratepdf.h \
     cpayment.h \
     mainwindow.h
 

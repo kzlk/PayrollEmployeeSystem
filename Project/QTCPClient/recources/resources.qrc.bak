@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/Images">
-        <file>Corporate Management.png</file>
         <file>icons8_Find_User_Male_50px.png</file>
         <file>icons8_Add_User_Male_50px.png</file>
         <file>icons8_Initiate_Money_Transfer_50px.png</file>
@@ -17,18 +16,10 @@
 		<file>baseline_account_circle_black_24dp.png</file>
         <file>id_card.png</file>
 		 <file>efecto-blur-diseno-web-seo-sem-social-media-ecommerce-2.jpg</file>
-        <file>bottom.png</file>
         <file>bottom right.png</file>
         <file>top_bar.png</file>
         <file>company_card.png</file>
         <file>personal_card.png</file>
-        <file>top_left.png</file>
-        <file>top_right.png</file>
-        <file>cpp.png</file>
-        <file>css.png</file>
-        <file>html.png</file>
-        <file>mysql.png</file>
-        <file>qt.png</file>
 		<file>baseline_summarize_black_24dp.png</file>
 		<file>baseline_settings_white_24dp.png</file>
 		<file>baseline_summarize_white_48dp.png</file>

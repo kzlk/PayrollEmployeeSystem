@@ -540,14 +540,14 @@ color:#EB0000;
     </property>
     <property name="styleSheet">
      <string notr="true">
-#page_report
+#settingWidget
 {
 	background:#2D2D2D;
 }
 </string>
     </property>
     <property name="currentIndex">
-     <number>8</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="searchWidget">
      <property name="styleSheet">
@@ -1193,13 +1193,13 @@ padding-left:10px;
        </font>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ffffff;&quot;&gt;Upcoming payday&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ffffff;&quot;&gt;Upcoming payday 1&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_upcom_pay">
       <property name="geometry">
        <rect>
-        <x>350</x>
+        <x>376</x>
         <y>280</y>
         <width>231</width>
         <height>41</height>
@@ -1220,15 +1220,15 @@ padding-left:10px;
       <property name="geometry">
        <rect>
         <x>340</x>
-        <y>360</y>
-        <width>150</width>
-        <height>32</height>
+        <y>386</y>
+        <width>191</width>
+        <height>30</height>
        </rect>
       </property>
       <property name="font">
        <font>
         <family>Comic Sans MS</family>
-        <pointsize>10</pointsize>
+        <pointsize>12</pointsize>
        </font>
       </property>
       <property name="cursor">
@@ -1253,7 +1253,7 @@ padding-left:10px;
 }</string>
       </property>
       <property name="text">
-       <string>Apply</string>
+       <string>Apply pay schedule</string>
       </property>
      </widget>
      <widget class="QDateTimeEdit" name="dateTimeEdit">
@@ -1277,6 +1277,130 @@ padding-left:10px;
       </property>
       <property name="calendarPopup">
        <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_upcom_pay_2">
+      <property name="geometry">
+       <rect>
+        <x>375</x>
+        <y>320</y>
+        <width>231</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+        <pointsize>10</pointsize>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ffffff;&quot;&gt;No data&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="UpcommingDate_2">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>320</y>
+        <width>221</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+        <pointsize>10</pointsize>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ffffff;&quot;&gt;Upcoming payday 2&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_select_folder">
+      <property name="geometry">
+       <rect>
+        <x>51</x>
+        <y>492</y>
+        <width>451</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_changeFolder">
+      <property name="geometry">
+       <rect>
+        <x>516</x>
+        <y>490</y>
+        <width>93</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#btn_changeFolder
+{
+	background:#00855C;
+	border:none;
+	color:white;
+}
+
+#btn_changeFolder:hover
+{
+	background:#2D2D2D;
+	border:2px solid #00855C;
+	color:#00855C;
+}</string>
+      </property>
+      <property name="text">
+       <string>Change</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>448</y>
+        <width>331</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>20</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="mouseTracking">
+       <bool>true</bool>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700; color:#ffffff;&quot;&gt;Folder for saving documents&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
       </property>
      </widget>
     </widget>
@@ -3206,6 +3330,9 @@ padding-left:10px;
        <font>
         <family>Comic Sans MS</family>
        </font>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::SingleSelection</enum>
       </property>
      </widget>
      <widget class="QLabel" name="label_11">

@@ -13,7 +13,7 @@
 #include <QStandardPaths>
 #include <QTcpServer>
 #include <QTcpSocket>
-
+#include "cgeneratepdf.h"
 #include "cautopilot.h"
 
 namespace Ui
@@ -69,6 +69,8 @@ class MainWindow : public QMainWindow
     void sendPaymentPeriodData(QTcpSocket *socket);
 
     void sendPaymentInfoDetail(QTcpSocket *socket, int id);
+
+    void sendDataForPdfReport(QTcpSocket *socket, QString empId);
 
     quint64 getUniqueNum();
 

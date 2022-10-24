@@ -128,6 +128,22 @@ class DatabaseUtils
         return querModel;
     }
 
+    QSqlQueryModel *getPaymentDataForPDFGenerate(QString &emp_id)
+    {
+        if (!db.isOpen())
+        {
+            qDebug() << "No connection to db :( ";
+            return 0;
+        }
+
+        QSqlQueryModel *querModel = new QSqlQueryModel();
+        querModel->setQuery(
+            QString("SELECT *FROM getDataForPdfReportPayment ('%1') ")
+                .arg(emp_id));
+
+        return querModel;
+    }
+
     QSqlQueryModel *getPaymentPeriodData()
     {
         if (!db.isOpen())

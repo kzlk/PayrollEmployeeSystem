@@ -1,4 +1,4 @@
-QT       += core gui sql network
+QT       += core gui sql network printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -8,33 +8,35 @@ TEMPLATE = app
 DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
-    cerrorhandler.cpp \
-    client.cpp \
-    loginform.cpp \
-        main.cpp \
-        mainwindow.cpp \
-    databaseutils.cpp \
-    employeeinfo.cpp \
-    employeedbutils.cpp \
-    techused.cpp \
-    about.cpp
+    src/cerrorhandler.cpp \
+    src/cfoldersetting.cpp \
+    src/client.cpp \
+    src/loginform.cpp \
+    src/main.cpp \
+    src/mainwindow.cpp \
+    src/databaseutils.cpp \
+    src/employeeinfo.cpp \
+    src/employeedbutils.cpp \
+    src/techused.cpp \
+    src/about.cpp
 
 HEADERS += \
-    CMessage.h \
-    cerrorhandler.h \
-    client.h \
-    loginform.h \
-        mainwindow.h \
-    employeeinfo.h \
-    techused.h \
-    about.h
+    src/CMessage.h \
+    src/cerrorhandler.h \
+    src/cfoldersetting.h \
+    src/client.h \
+    src/loginform.h \
+        src/mainwindow.h \
+    src/employeeinfo.h \
+    src/techused.h \
+    src/about.h
 
 FORMS += \
-    loginform.ui \
-        mainwindow.ui \
-    employeeinfo.ui \
-    techused.ui \
-    about.ui
+    ui/loginform.ui \
+    ui/mainwindow.ui \
+    ui/employeeinfo.ui \
+    ui/techused.ui \
+    ui/about.ui
 
 RESOURCES += \
-    resources.qrc
+    recources/resources.qrc

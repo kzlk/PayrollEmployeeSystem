@@ -112,11 +112,8 @@ void MainWindow::readSocket()
         // read header(comand) that will be executed
         quint8 headCommand{};
         quint64 userUniqueID{};
-        // socketStream >> buffer;
-        socketStream >> headCommand;
 
-        // cast qbytearray to string
-        // QString header(buffer);
+        socketStream >> headCommand;
 
         QString messageHd = QString("%1 ::<Received HEADER> -> %2")
                                 .arg(socket->socketDescriptor())
@@ -290,6 +287,12 @@ void MainWindow::readSocket()
                 emit newMessage(
                     QString("The id payment received is %1").arg(id.toInt()));
                 sendPaymentInfoDetail(socket, id.toInt());
+            }
+            else if (headCommand == msg::header::getPdfData)
+            {
+                QVariant id{};
+                socketStream >> id;
+                sendDataForPdfReport(socket, id.toString());
             }
             else
             {
@@ -901,6 +904,58 @@ void MainWindow::sendPaymentInfoDetail(QTcpSocket *socket, int id)
                 socketStream << dataFromPeriodTable->record(row).value(column);
             }
         }
+    }
+}
+
+void MainWindow::sendDataForPdfReport(QTcpSocket *socket, QString empId)
+{
+    if (!socket)
+    {
+        QMessageBox::critical(this, "QTCPServer", "Not connected");
+        return;
+    }
+
+    if (!socket->isOpen())
+    {
+        QMessageBox::critical(this, "QTCPServer",
+                              "Socket doesn't seem to be opened");
+        return;
+    }
+
+    QDataStream socketStream(socket);
+    socketStream.setVersion(QDataStream::Qt_5_15);
+
+    auto dataFromPeriodTable = dbUtils.getPaymentDataForPDFGenerate(empId);
+
+    QVariantList pdfData{};
+    if (dataFromPeriodTable->rowCount() > 0 &&
+        dataFromPeriodTable->columnCount() > 0)
+    {
+        for (quint32 row = 0; row < dataFromPeriodTable->rowCount(); ++row)
+        {
+            for (quint32 column = 0;
+                 column < dataFromPeriodTable->columnCount(); ++column)
+            {
+                pdfData.push_back(
+                    dataFromPeriodTable->record(row).value(column));
+            }
+        }
+
+        auto res = CGeneratePdf::generateReportInfo(pdfData);
+
+        if (!res.isEmpty())
+        {
+            socketStream << msg::header::getPdfData << st.success
+                         << res.toUtf8();
+            // qDebug() << res;
+            emit newMessage(res);
+        }
+
+        return;
+    }
+    else
+    {
+        socketStream << msg::header::getPdfData << st.failure;
     }
 }
 

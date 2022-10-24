@@ -16,6 +16,7 @@
 #include <QTcpSocket>
 
 #include "CMessage.h"
+#include "cfoldersetting.h"
 #include <QTableWidget>
 namespace Ui
 {
@@ -107,10 +108,10 @@ class MainWindow : public QMainWindow
     QTcpSocket *socket{};
 
     QMap<int, QString> idEmp;
-
+    CFolderSetting folderSetting{};
     msg::header hd{};
     msg::status st{};
-
+    QString folderPath{};
     quint64 myUniqueID{};
 
     void sendHeaderToServer(quint8 header, QVariantList list = {});
@@ -125,6 +126,10 @@ class MainWindow : public QMainWindow
                                 QVariant next = {}, QVariant freq = {},
                                 bool autopilot = {});
 
+    bool checkFolder(QString &path);
+
+    void savePdf(QString &html);
+
     /*AutoPayment*/
     QDateTime calculateStartPayPeriod(QDateTime datetime, QString box);
     QDateTime calculateNextPaymentPeriod(QDateTime datetime, QString box);
@@ -137,6 +142,8 @@ class MainWindow : public QMainWindow
     void on_reportButton_clicked();
     void on_tableWidget_payment_period_doubleClicked(const QModelIndex &index);
     void on_biutton_back_period_clicked();
+    void on_biutton_save_pdf_clicked();
+    void on_btn_changeFolder_clicked();
 };
 
 #endif // MAINWINDOW_H

@@ -1,23 +1,29 @@
 #include "mainwindow.h"
+#include "about.h"
 #include "employeeinfo.h"
+#include "qstandardpaths.h"
+#include "techused.h"
 #include "ui_mainwindow.h"
 #include <QApplication>
 #include <QDate>
+#include <QFileDialog>
 #include <QMessageBox>
+#include <QPrinter>
 #include <QSqlQuery>
 #include <QStringList>
+#include <QTextDocument>
 #include <qapplication.h>
-
-#include "about.h"
-#include "techused.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
-    // set style
+    // Initialize folder for saving documents
+    folderPath = folderSetting.getFolderPath();
+    ui->lineEdit_select_folder->setText(this->folderPath);
 
+    // set style
     ui->empDOB->setCalendarPopup(true);
     ui->empDOJ->setCalendarPopup(true);
     ui->updateEmpDOB->setCalendarPopup(true);
@@ -311,10 +317,25 @@ void MainWindow::readSocket()
     {
         appendDataToDetailReportPage(socketStream);
     }
-
+    else if (headCommand == msg::header::getPdfData)
+    {
+        QByteArray status{};
+        QString html{};
+        QByteArray html1{};
+        QByteArray html2{};
+        socketStream >> html >> status;
+        if (st.success == html)
+        {
+            auto rs = QString::fromUtf8(status);
+            savePdf(rs);
+        }
+        else
+        {
+            QMessageBox::information(this, "Info", "Could not generate pdf");
+        }
+    }
     else
     {
-        // TODO: ERROR HANDLING
         QMessageBox::information(this, "QTCPCLIENT",
                                  "header != employeeDetail!");
     }
@@ -325,7 +346,11 @@ void MainWindow::readSocket()
             QString("%1 :: Waiting for more data to come..after all condition")
                 .arg(socket->socketDescriptor());
         QMessageBox::information(this, "QTCPCLIENT", message);
+        QByteArray buff;
+        socketStream >> buff;
+
         qDebug() << ("Comming data: --> " + QString(buffer));
+        qDebug() << buff;
         return;
     }
 }
@@ -857,8 +882,10 @@ void MainWindow::appendDataToDetailReportPage(QDataStream &socketStream)
     quint32 column{};
     /*Receive row and column*/
     socketStream >> row >> column;
+
     qDebug() << " appendDataToReportPagePeriod \nRow received = " << row
              << " | Column received = " << column;
+
     ui->tableWidget_payment_detail->horizontalHeader()->setVisible(false);
     ui->tableWidget_payment_detail->verticalHeader()->setVisible(false);
     ui->tableWidget_payment_detail->setShowGrid(false);
@@ -869,25 +896,12 @@ void MainWindow::appendDataToDetailReportPage(QDataStream &socketStream)
     ui->tableWidget_payment_detail->setSelectionBehavior(
         QAbstractItemView::SelectRows);
     ui->tableWidget_payment_detail->setSelectionMode(
-        QAbstractItemView::MultiSelection);
+        QAbstractItemView::SingleSelection);
 
-    //      ui->tableWidget->verticalHeader()->resizeSections(QHeaderView::Stretch);
-    //      ui->tableWidget->horizontalHeader()->resizeSections(QHeaderView::Stretch);
-    // ui->tableWidget->setGeometry(QApplication::primaryScreen()->geometry());
-    //  ui->tableWidget->horizontalHeader()->setSectionResizeMode(
-    //   QHeaderView::Stretch);
-    // ui->tableWidget->verticalHeader()->setSectionResizeMode(
-    // QHeaderView::ResizeToContents);
-    // QHeaderView::Stretch,
     ui->tableWidget_payment_detail->setRowCount(row);
     ui->tableWidget_payment_detail->setColumnCount(column);
     ui->tableWidget_payment_detail->setWordWrap(true);
 
-    // ui->tableWidget_payment_period->horizontalHeader()->setSectionResizeMode(
-    //  QHeaderView::Stretch);
-
-    // ui->tableWidget_payment_period->verticalHeader()->setSectionResizeMode(
-    //  QHeaderView::Stretch);
     ui->tableWidget_payment_detail->setColumnWidth(0, 90);
     ui->tableWidget_payment_detail->setColumnWidth(1,
                                                    ui->label_11->width() - 90);
@@ -896,14 +910,12 @@ void MainWindow::appendDataToDetailReportPage(QDataStream &socketStream)
     ui->tableWidget_payment_detail->setColumnWidth(4, ui->label_44->width());
     ui->tableWidget_payment_detail->setColumnWidth(5, ui->label_40->width());
     this->idEmp.clear();
+
     /*Receive table data*/
     if (row > 0 && column > 0)
     {
         for (int r = 0; r < row; ++r)
         {
-            // QVariant id{};
-            // socketStream >> id;
-            // this->idEmp.insert(r, id.toString());
             for (int col = 0; col < column; ++col)
             {
                 QVariant receivedItem{};
@@ -917,7 +929,6 @@ void MainWindow::appendDataToDetailReportPage(QDataStream &socketStream)
     }
     else
     {
-        // TODO: Error handling
         QMessageBox::information(
             this, "QTCPCLIENT", QString("There are no payments record found!"));
     }
@@ -943,6 +954,46 @@ void MainWindow::setDataInSettingWindow(QVariant start, QVariant end,
         ui->comboBox_Frequency->setCurrentIndex(search.value());
         ui->comboBox_autopilot->setCurrentIndex(int(autopilot));
     }
+}
+
+bool MainWindow::checkFolder(QString &path)
+{
+    QFileInfo folder(path);
+    if (!folder.exists())
+    {
+        QMessageBox::warning(this, "Error! ", "Folder doesn't exists");
+        return false;
+    }
+
+    if (!folder.isDir())
+    {
+        QMessageBox::warning(this, "Error! ", "This is not a directory!");
+        return false;
+    }
+
+    return true;
+}
+
+void MainWindow::savePdf(QString &html)
+{
+    QTextDocument document;
+    document.setHtml(html);
+    QPrinter printer(QPrinter::PrinterResolution);
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setPageSize(QPageSize::A4);
+    // auto a = QFile::exists( folderPath +
+    // ui->tableWidget_payment_detail->selectedItems()[0]->text());
+    printer.setOutputFileName(
+        "D:/Developer_Project/C++/QT/untitled2/client.pdf");
+
+    printer.setPageMargins(QMarginsF(0, 0, 0, 0));
+    document.print(&printer);
+
+    QMessageBox::information(
+        this, "QTCPCLIENT",
+        QString("File saved! to " + folderPath +
+                ui->tableWidget_payment_detail->selectedItems()[0]->text() +
+                ".pdf"));
 }
 
 void MainWindow::on_aboutButton_clicked()
@@ -1134,4 +1185,28 @@ void MainWindow::on_biutton_back_period_clicked()
 {
     emit sendHeader(msg::header::getReportPeriodInfo);
     ui->searchStackedWidget->setCurrentWidget(ui->page_report);
+}
+
+void MainWindow::on_biutton_save_pdf_clicked()
+{
+    // get employee id
+    auto i = ui->tableWidget_payment_detail->selectedItems()[0];
+    QMessageBox::information(this, "QTCPClient",
+                             "Item clicked on " + i->text());
+
+    // send to server command getPdf and employee id
+    emit sendHeader(msg::header::getPdfData, {i->text()});
+}
+
+void MainWindow::on_btn_changeFolder_clicked()
+{
+    QString path = QFileDialog::getExistingDirectory(
+        this, "Folder choosing",
+        QStandardPaths::displayName(QStandardPaths::DocumentsLocation));
+    path += "/";
+    if (!checkFolder(path))
+        return;
+    ui->lineEdit_select_folder->setText(path);
+    folderPath = path;
+    folderSetting.writeFolderPath(path);
 }

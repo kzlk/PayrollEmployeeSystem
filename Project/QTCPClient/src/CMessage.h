@@ -33,7 +33,8 @@ enum header : quint8
     insertedInDBSettingStatus,
     getSettingsData,
     getReportPeriodInfo,
-    getDetailInfoPaymentPeriod
+    getDetailInfoPaymentPeriod,
+    getPdfData
 };
 
 struct status
