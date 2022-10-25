@@ -724,9 +724,10 @@ void MainWindow::appendDataToReportPagePeriod(QDataStream &socketStream)
     ui->tableWidget_payment_period->setWordWrap(true);
 
     ui->tableWidget_payment_period->setColumnWidth(0, ui->label_36->width());
-    ui->tableWidget_payment_period->setColumnWidth(1, ui->label_37->width());
-    ui->tableWidget_payment_period->setColumnWidth(2, ui->label_45->width());
-    ui->tableWidget_payment_period->setColumnWidth(3, ui->label_38->width());
+    ui->tableWidget_payment_period->setColumnWidth(1, ui->label_47->width());
+    ui->tableWidget_payment_period->setColumnWidth(2, ui->label_37->width());
+    ui->tableWidget_payment_period->setColumnWidth(3, ui->label_45->width());
+    ui->tableWidget_payment_period->setColumnWidth(4, ui->label_38->width());
     ui->tableWidget_payment_period->setColumnWidth(4, ui->label_46->width());
 
     /*Receive table data*/
@@ -898,17 +899,17 @@ void MainWindow::savePdf(QString &html)
     printer.setPageSize(QPageSize::A4);
     // auto a = QFile::exists( folderPath +
     // ui->tableWidget_payment_detail->selectedItems()[0]->text());
-    printer.setOutputFileName(
-        "D:/Developer_Project/C++/QT/untitled2/client.pdf");
+    auto fileName =
+        ui->tableWidget_payment_detail->selectedItems()[0]->text().replace("/",
+                                                                           "_");
+    printer.setOutputFileName(folderPath + fileName + ".pdf");
 
     printer.setPageMargins(QMarginsF(0, 0, 0, 0));
     document.print(&printer);
 
     QMessageBox::information(
         this, "QTCPCLIENT",
-        QString("File saved! to " + folderPath +
-                ui->tableWidget_payment_detail->selectedItems()[0]->text() +
-                ".pdf"));
+        QString("File saved! to " + folderPath + fileName + ".pdf"));
 }
 
 void MainWindow::on_empDept_currentTextChanged(const QString &arg1)
@@ -1234,6 +1235,11 @@ void MainWindow::on_biutton_back_period_clicked()
 
 void MainWindow::on_biutton_save_pdf_clicked()
 {
+    if (!this->checkFolder(folderPath))
+    {
+        QMessageBox::information(this, "QTCPClient", "Incorrect folder path");
+        return;
+    }
     // get employee id
     auto i = ui->tableWidget_payment_detail->selectedItems()[0];
     QMessageBox::information(this, "QTCPClient",

@@ -119,7 +119,8 @@ class DatabaseUtils
                 "PaymentInfoDetail.net_pay "
                 "FROM PaymentInfoDetail  "
                 "JOIN PaymentPeriod "
-                "ON PaymentInfoDetail.payment_period_id =   payment_period_id "
+                "ON PaymentInfoDetail.payment_period_id =   "
+                "PaymentPeriod.payment_id "
                 "JOIN employee "
                 "ON PaymentInfoDetail.employee_id = employee.ID "
                 "WHERE payment_period_id = %1 ")

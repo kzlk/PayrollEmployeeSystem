@@ -116,7 +116,7 @@ QLineEdit
 	text-align:left;
 	padding-left:20px;
 	border:none;
-	border-left:6px solid dodgerblue;
+	border-left:6px solid #44FF17;
 	color:white;	
 	background:#333333;
 }</string>
@@ -500,7 +500,7 @@ color:#EB0000;
     <widget class="QLabel" name="label_2">
      <property name="geometry">
       <rect>
-       <x>110</x>
+       <x>100</x>
        <y>-10</y>
        <width>511</width>
        <height>51</height>
@@ -547,7 +547,7 @@ color:#EB0000;
 </string>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="searchWidget">
      <property name="styleSheet">
@@ -1067,7 +1067,7 @@ padding-left:0px;
       <property name="geometry">
        <rect>
         <x>40</x>
-        <y>70</y>
+        <y>47</y>
         <width>160</width>
         <height>41</height>
        </rect>
@@ -1087,7 +1087,7 @@ padding-left:0px;
       <property name="geometry">
        <rect>
         <x>120</x>
-        <y>130</y>
+        <y>107</y>
         <width>160</width>
         <height>41</height>
        </rect>
@@ -1107,7 +1107,7 @@ padding-left:0px;
       <property name="geometry">
        <rect>
         <x>180</x>
-        <y>180</y>
+        <y>157</y>
         <width>91</width>
         <height>41</height>
        </rect>
@@ -1127,7 +1127,7 @@ padding-left:0px;
       <property name="geometry">
        <rect>
         <x>310</x>
-        <y>190</y>
+        <y>167</y>
         <width>51</width>
         <height>21</height>
        </rect>
@@ -1156,7 +1156,7 @@ padding-left:0px;
       <property name="geometry">
        <rect>
         <x>122</x>
-        <y>230</y>
+        <y>207</y>
         <width>291</width>
         <height>41</height>
        </rect>
@@ -1176,7 +1176,7 @@ padding-left:0px;
       <property name="geometry">
        <rect>
         <x>280</x>
-        <y>140</y>
+        <y>117</y>
         <width>121</width>
         <height>22</height>
        </rect>
@@ -1212,7 +1212,7 @@ padding-left:0px;
       <property name="geometry">
        <rect>
         <x>180</x>
-        <y>280</y>
+        <y>257</y>
         <width>221</width>
         <height>41</height>
        </rect>
@@ -1232,7 +1232,7 @@ padding-left:0px;
       <property name="geometry">
        <rect>
         <x>376</x>
-        <y>280</y>
+        <y>257</y>
         <width>231</width>
         <height>41</height>
        </rect>
@@ -1252,7 +1252,7 @@ padding-left:0px;
       <property name="geometry">
        <rect>
         <x>340</x>
-        <y>386</y>
+        <y>363</y>
         <width>191</width>
         <height>31</height>
        </rect>
@@ -1294,7 +1294,7 @@ border-radius:12px;
       <property name="geometry">
        <rect>
         <x>420</x>
-        <y>240</y>
+        <y>213</y>
         <width>181</width>
         <height>31</height>
        </rect>
@@ -1317,7 +1317,7 @@ border-radius:12px;
       <property name="geometry">
        <rect>
         <x>375</x>
-        <y>320</y>
+        <y>297</y>
         <width>231</width>
         <height>41</height>
        </rect>
@@ -1337,7 +1337,7 @@ border-radius:12px;
       <property name="geometry">
        <rect>
         <x>180</x>
-        <y>320</y>
+        <y>297</y>
         <width>221</width>
         <height>41</height>
        </rect>
@@ -1357,15 +1357,15 @@ border-radius:12px;
       <property name="geometry">
        <rect>
         <x>51</x>
-        <y>492</y>
+        <y>468</y>
         <width>451</width>
-        <height>30</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="font">
        <font>
         <family>Comic Sans MS</family>
-        <pointsize>14</pointsize>
+        <pointsize>12</pointsize>
        </font>
       </property>
      </widget>
@@ -1373,7 +1373,7 @@ border-radius:12px;
       <property name="geometry">
        <rect>
         <x>516</x>
-        <y>490</y>
+        <y>467</y>
         <width>91</width>
         <height>31</height>
        </rect>
@@ -1409,7 +1409,7 @@ border-radius:12px;
       <property name="geometry">
        <rect>
         <x>50</x>
-        <y>448</y>
+        <y>425</y>
         <width>331</width>
         <height>30</height>
        </rect>
@@ -1531,7 +1531,7 @@ border-radius:12px;
        </font>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic; text-decoration: underline; color:#55aaff;&quot;&gt;Personal Info&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700; font-style:italic; text-decoration: underline; color:#ffffff;&quot;&gt;Personal Info&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QLabel" name="id_2">
@@ -1654,11 +1654,6 @@ border-radius:12px;
       <item>
        <property name="text">
         <string>Female</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Other</string>
        </property>
       </item>
      </widget>
@@ -1927,11 +1922,6 @@ border-radius:12px;
         <string>Female</string>
        </property>
       </item>
-      <item>
-       <property name="text">
-        <string>Other</string>
-       </property>
-      </item>
      </widget>
      <widget class="QDateEdit" name="empDOJ">
       <property name="geometry">
@@ -2016,7 +2006,7 @@ border-radius:12px;
        </font>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic; text-decoration: underline; color:#55aaff;&quot;&gt;Company Info&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700; font-style:italic; text-decoration: underline; color:#ffffff;&quot;&gt;Company Info&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QComboBox" name="empDesig">
@@ -2052,11 +2042,6 @@ border-radius:12px;
       <item>
        <property name="text">
         <string>Female</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Other</string>
        </property>
       </item>
      </widget>
@@ -2509,7 +2494,7 @@ font-style:italic;</string>
          </font>
         </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Father's Name&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Surname&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
        <widget class="QLabel" name="id_15">
@@ -2537,7 +2522,7 @@ font-style:italic;</string>
          <rect>
           <x>10</x>
           <y>355</y>
-          <width>141</width>
+          <width>181</width>
           <height>21</height>
          </rect>
         </property>
@@ -2549,7 +2534,7 @@ font-style:italic;</string>
          </font>
         </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Address&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Payment card number&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
        <widget class="QLineEdit" name="updateEmpAddress">
@@ -2784,11 +2769,6 @@ font-style:italic;</string>
         <item>
          <property name="text">
           <string>Female</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Other</string>
          </property>
         </item>
        </widget>
@@ -3162,9 +3142,9 @@ padding-left:0px;
      <widget class="QTableWidget" name="tableWidget_payment_period">
       <property name="geometry">
        <rect>
-        <x>80</x>
+        <x>20</x>
         <y>60</y>
-        <width>670</width>
+        <width>791</width>
         <height>461</height>
        </rect>
       </property>
@@ -3177,9 +3157,9 @@ padding-left:0px;
      <widget class="QLabel" name="label_36">
       <property name="geometry">
        <rect>
-        <x>80</x>
+        <x>20</x>
         <y>30</y>
-        <width>10</width>
+        <width>13</width>
         <height>31</height>
        </rect>
       </property>
@@ -3204,9 +3184,9 @@ padding-left:0px;
      <widget class="QLabel" name="label_37">
       <property name="geometry">
        <rect>
-        <x>90</x>
+        <x>199</x>
         <y>30</y>
-        <width>183</width>
+        <width>171</width>
         <height>31</height>
        </rect>
       </property>
@@ -3232,9 +3212,9 @@ padding-left:0px;
      <widget class="QLabel" name="label_38">
       <property name="geometry">
        <rect>
-        <x>456</x>
+        <x>540</x>
         <y>30</y>
-        <width>151</width>
+        <width>120</width>
         <height>31</height>
        </rect>
       </property>
@@ -3263,9 +3243,9 @@ padding-left:0px;
      <widget class="QLabel" name="label_45">
       <property name="geometry">
        <rect>
-        <x>273</x>
+        <x>370</x>
         <y>30</y>
-        <width>183</width>
+        <width>171</width>
         <height>31</height>
        </rect>
       </property>
@@ -3291,7 +3271,7 @@ padding-left:0px;
      <widget class="QLabel" name="label_46">
       <property name="geometry">
        <rect>
-        <x>599</x>
+        <x>659</x>
         <y>30</y>
         <width>151</width>
         <height>31</height>
@@ -3314,6 +3294,34 @@ padding-left:0px;
       </property>
       <property name="text">
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Total employees&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_47">
+      <property name="geometry">
+       <rect>
+        <x>33</x>
+        <y>30</y>
+        <width>168</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+        <pointsize>10</pointsize>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#label_47
+{
+	color:white;
+	background:#11110E;
+	padding-left:5px;
+}</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pay date&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
     </widget>
