@@ -19,7 +19,7 @@ HEADERS += \
     src/cerrorhandler.h \
     src/cfoldersetting.h \
     src/loginform.h \
-        src/mainwindow.h
+src/mainwindow.h
 
 FORMS += \
     ui/loginform.ui \

@@ -49,7 +49,6 @@ Thumbs.db
 *.wmv
 
 *debug*
-
 *release*
-msvc_make.bat
-*pro.user
+*.msvc_make.bat*
+*.pro.user

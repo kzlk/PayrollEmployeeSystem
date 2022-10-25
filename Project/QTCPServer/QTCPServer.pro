@@ -12,24 +12,25 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++17
 
 SOURCES += \
-    cautopilot.cpp \
-    cgeneratepdf.cpp \
-    cpayment.cpp \
-    dbUtils.cpp \
-        main.cpp \
-    mainwindow.cpp
+    src/cautopilot.cpp \
+    src/cgeneratepdf.cpp \
+    src/cpayment.cpp \
+    src/dbUtils.cpp \
+    src/main.cpp \
+    src/mainwindow.cpp
 
 HEADERS += \
-    CMessage.h \
-    cautopilot.h \
-    cgeneratepdf.h \
-    cpayment.h \
-    mainwindow.h
+    src/CMessage.h \
+    src/cautopilot.h \
+    src/cgeneratepdf.h \
+    src/cpayment.h \
+    src/mainwindow.h
 
 FORMS += \
-    mainwindow.ui
+    ui/mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+else: unix:!android: target.path = /opt/$${TARGET}/bin

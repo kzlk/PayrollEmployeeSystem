@@ -1,6 +1,5 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-#include "databaseutils.cpp"
 #include <QDebug>
 #include <QMainWindow>
 #include <QMouseEvent>
@@ -30,7 +29,6 @@ class MainWindow : public QMainWindow
   public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    DatabaseUtils dbUtils;
 
   protected:
     void mousePressEvent(QMouseEvent *event);
@@ -93,10 +91,10 @@ class MainWindow : public QMainWindow
 
     void appanedDataToMainTable(QDataStream &socketStream);
 
+    void appendDataToDeleteTable(QDataStream &socketStream);
+
   public slots:
     void receiveSocket(QTcpSocket *socket, quint64 &myuniqueId);
-
-    // void handlePackage(QByteArray& header, QTcpSocket* socket);
 
   private:
     Ui::MainWindow *ui;
@@ -118,6 +116,8 @@ class MainWindow : public QMainWindow
 
     void appendDataToDetailReportPage(QDataStream &socketStream);
 
+    void appendDataToEmploeeLabel(QVariantList list);
+
     void setDataInSettingWindow(QVariant start = {}, QVariant end = {},
                                 QVariant next = {}, QVariant freq = {},
                                 bool autopilot = {});
@@ -134,13 +134,16 @@ class MainWindow : public QMainWindow
     QTimer *timer{};
 
   private slots:
-    // void TimerSlot();
+
     void on_reportButton_clicked();
     void on_tableWidget_payment_period_doubleClicked(const QModelIndex &index);
     void on_biutton_back_period_clicked();
     void on_biutton_save_pdf_clicked();
     void on_btn_changeFolder_clicked();
     void on_tableWidget_doubleClicked(const QModelIndex &index);
+    void on_button_back_info_emp_clicked();
+    void on_tableWidget_delete_doubleClicked(const QModelIndex &index);
+    void on_button_refresh_clicked();
 };
 
 #endif // MAINWINDOW_H

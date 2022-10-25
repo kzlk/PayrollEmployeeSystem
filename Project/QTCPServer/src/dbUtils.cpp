@@ -794,12 +794,19 @@ class DatabaseUtils
         return qry;
     }
 
-    void deleteEmployeeRecord(QString id)
+    QSqlQueryModel *getData(QString id)
+    {
+        QSqlQueryModel *querModel = new QSqlQueryModel();
+        querModel->setQuery("SELECT * FROM employee WHERE id='" + id + "';");
+        return querModel;
+    }
+
+    bool deleteEmployeeRecord(QString id)
     {
         QSqlQuery *qry = new QSqlQuery(db);
 
         qry->prepare("DELETE  FROM employee WHERE id='" + id + "';");
 
-        qry->exec();
+        return qry->exec();
     }
 };

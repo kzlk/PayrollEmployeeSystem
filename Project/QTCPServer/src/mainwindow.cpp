@@ -198,7 +198,8 @@ void MainWindow::readSocket()
                 auto employeeDetail = dbUtils.getEmployeeDetails();
 
                 // send employee info
-                sendInitialData(socket, *employeeDetail);
+                sendInitialData(msg::header::employeeDetail, socket,
+                                *employeeDetail);
             }
 
             /*department info*/
@@ -299,6 +300,24 @@ void MainWindow::readSocket()
                 QVariant searchedText{};
                 socketStream >> searchedText;
                 sendSearchedEmployee(socket, searchedText.toString());
+            }
+            else if (headCommand == msg::header::getEmployeeInfo)
+            {
+                QVariant id{};
+                socketStream >> id;
+                sendDataEmpDetail(socket, id.toString());
+            }
+            else if (headCommand == msg::header::deleteEmployee)
+            {
+                auto employeeDetail = dbUtils.getEmployeeDetails();
+                sendInitialData(msg::header::deleteEmployee, socket,
+                                *employeeDetail);
+            }
+            else if (headCommand == msg::header::deleteInfoEmp)
+            {
+                QVariant id{};
+                socketStream >> id;
+                deleteEmployee(socket, id.toString());
             }
             else
             {
@@ -1007,6 +1026,80 @@ void MainWindow::sendSearchedEmployee(QTcpSocket *socket, QString searchedText)
     }
 }
 
+void MainWindow::sendDataEmpDetail(QTcpSocket *socket, QString empId)
+{
+    if (!socket)
+    {
+        QMessageBox::critical(this, "QTCPServer", "Not connected");
+        return;
+    }
+
+    if (!socket->isOpen())
+    {
+        QMessageBox::critical(this, "QTCPServer",
+                              "Socket doesn't seem to be opened");
+        return;
+    }
+
+    QDataStream socketStream(socket);
+    socketStream.setVersion(QDataStream::Qt_5_15);
+    auto model = dbUtils.getData(empId);
+
+    QVariantList empData{};
+
+    if (model->rowCount() > 0 && model->columnCount() > 0)
+    {
+        // send data employee
+        for (quint32 row = 0; row < model->rowCount(); ++row)
+        {
+            for (quint32 column = 0; column < model->columnCount(); ++column)
+            {
+                if (column != 0 && column != 1)
+                    empData.push_back(model->record(row).value(column));
+            }
+        }
+
+        socketStream << msg::header::getEmployeeInfo << st.success << empData;
+
+        return;
+    }
+    else
+    {
+        socketStream << msg::header::getEmployeeInfo << st.failure;
+        QString msg =
+            "employee info with searched id " + empId + " is empty!!!";
+        emit newMessage(msg);
+    }
+}
+
+void MainWindow::deleteEmployee(QTcpSocket *socket, QString empId)
+{
+    if (!socket)
+    {
+        QMessageBox::critical(this, "QTCPServer", "Not connected");
+        return;
+    }
+
+    if (!socket->isOpen())
+    {
+        QMessageBox::critical(this, "QTCPServer",
+                              "Socket doesn't seem to be opened");
+        return;
+    }
+
+    QDataStream socketStream(socket);
+    socketStream.setVersion(QDataStream::Qt_5_15);
+
+    if (dbUtils.deleteEmployeeRecord(empId))
+    {
+        socketStream << msg::header::deleteInfoEmp << st.success;
+    }
+    else
+    {
+        socketStream << msg::header::deleteInfoEmp << st.failure;
+    }
+}
+
 quint64 MainWindow::getUniqueNum()
 {
     QRandomGenerator generator;
@@ -1045,7 +1138,8 @@ void MainWindow::sendTotalInfoEmployee(QTcpSocket *socket, int &lastID,
         QMessageBox::critical(this, "QTCPServer", "Not connected");
 }
 
-void MainWindow::sendInitialData(QTcpSocket *socket, QSqlQueryModel &model)
+void MainWindow::sendInitialData(msg::header header, QTcpSocket *socket,
+                                 QSqlQueryModel &model)
 {
     if (socket)
     {
@@ -1056,8 +1150,7 @@ void MainWindow::sendInitialData(QTcpSocket *socket, QSqlQueryModel &model)
 
             //  packet -> \header\row_count\column_count\
       // count row and column
-            socketStream << msg::header::employeeDetail
-                         << quint32(model.rowCount())
+            socketStream << header << quint32(model.rowCount())
                          << quint32(model.columnCount());
 
             if (model.rowCount() > 0 && model.columnCount() > 0)

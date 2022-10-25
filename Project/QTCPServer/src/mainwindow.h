@@ -41,7 +41,8 @@ class MainWindow : public QMainWindow
 
   private:
     void sendTotalInfoEmployee(QTcpSocket *socket, int &, QString &, QString &);
-    void sendInitialData(QTcpSocket *socket, QSqlQueryModel &model);
+    void sendInitialData(msg::header header, QTcpSocket *socket,
+                         QSqlQueryModel &model);
     void sendAutorizationStatus(QTcpSocket *socket, bool isAutorized,
                                 QString &login);
     void sendEmpDept(QTcpSocket *socket);
@@ -73,6 +74,10 @@ class MainWindow : public QMainWindow
     void sendDataForPdfReport(QTcpSocket *socket, QString empId);
 
     void sendSearchedEmployee(QTcpSocket *socket, QString searchedText);
+
+    void sendDataEmpDetail(QTcpSocket *socket, QString empId);
+
+    void deleteEmployee(QTcpSocket *socket, QString empId);
 
     quint64 getUniqueNum();
 
