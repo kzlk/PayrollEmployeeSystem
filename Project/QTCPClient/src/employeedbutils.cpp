@@ -41,26 +41,4 @@ class EmployeeDatabaseUtils
         }
     }
 
-    QSqlQuery* getData(QString id)
-    {
-        QSqlQuery *qry = new QSqlQuery(empDB);     
-
-        qry->prepare("SELECT * FROM employee WHERE id='" + id + "';");
-
-        if(qry->exec())
-        {
-            qry->next();
-            return qry;
-
-           // label->setText(qry->value(1).toString());
-            qDebug() << "Got the employee information from the database";
-        }
-        else
-        {
-            return NULL;
-            qDebug() << "Failed";
-        }
-
-
-    }
 };

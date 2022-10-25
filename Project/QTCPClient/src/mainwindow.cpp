@@ -101,68 +101,10 @@ void MainWindow::readSocket()
 
         if (headerInfoEmp == msg::employeeDetail)
         {
-            ui->searchStackedWidget->setCurrentWidget(0);
-            quint32 row{};
-            quint32 column{};
-            /*Receive row and column*/
-            socketStream >> row >> column;
-            qDebug() << "\nRow received = " << row
-                     << " | Column received = " << column;
-            ui->tableWidget->horizontalHeader()->setVisible(false);
-            // ui->tableWidget->verticalHeader()->setVisible(false);
-            ui->tableWidget->setShowGrid(false);
-            ui->tableWidget->setStyleSheet(
-                "QTableView {selection-background-color: red;}");
-            ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
-            ui->tableWidget->setSelectionBehavior(
-                QAbstractItemView::SelectRows);
-            ui->tableWidget->setSelectionMode(
-                QAbstractItemView::SingleSelection);
-
-            //      ui->tableWidget->verticalHeader()->resizeSections(QHeaderView::Stretch);
-            //      ui->tableWidget->horizontalHeader()->resizeSections(QHeaderView::Stretch);
-            // ui->tableWidget->setGeometry(QApplication::primaryScreen()->geometry());
-            //  ui->tableWidget->horizontalHeader()->setSectionResizeMode(
-            //   QHeaderView::Stretch);
-            // ui->tableWidget->verticalHeader()->setSectionResizeMode(
-            // QHeaderView::ResizeToContents);
-            // QHeaderView::Stretch,
-            ui->tableWidget->setRowCount(row);
-            ui->tableWidget->setColumnCount(column);
-            ui->tableWidget->setWordWrap(true);
-            ui->tableWidget->setColumnWidth(0, ui->label_8->width());
-            ui->tableWidget->setColumnWidth(1, ui->label_21->width());
-            ui->tableWidget->setColumnWidth(2, ui->label_22->width());
-            ui->tableWidget->setColumnWidth(3, ui->label_23->width());
-            ui->tableWidget->setColumnWidth(4, ui->label_24->width());
-            ui->tableWidget->setColumnWidth(5, ui->label_25->width());
-
-            ui->tableWidget->horizontalHeader()->setSectionResizeMode(
-                QHeaderView::Stretch);
-            ui->tableWidget->verticalHeader()->setSectionResizeMode(
-                QHeaderView::Stretch);
-
-            /*Receive table data*/
-            if (row > 0 && column > 0)
-            {
-                for (int r = 0; r < row; ++r)
-                {
-                    for (int col = 0; col < column; ++col)
-                    {
-
-                        QVariant receivedItem{};
-                        socketStream >> receivedItem;
-                        qDebug() << receivedItem;
-                        QTableWidgetItem *poItem = new QTableWidgetItem();
-                        poItem->setData(Qt::DisplayRole, receivedItem);
-                        ui->tableWidget->setItem(r, col, poItem);
-                    }
-                }
-            }
+            appanedDataToMainTable(socketStream);
         }
         else
         {
-            // TODO: Error handling
             QMessageBox::information(
                 this, "QTCPCLIENT",
                 QString("header != %1 !").arg(msg::employeeDetail));
@@ -240,7 +182,7 @@ void MainWindow::readSocket()
         socketStream >> salary;
         if (ui->empType->currentIndex() == 0)
         {
-            salary -= 100;
+            salary -= 5;
             ui->empSalary->setText(QString::number(salary));
         }
         else
@@ -333,6 +275,10 @@ void MainWindow::readSocket()
         {
             QMessageBox::information(this, "Info", "Could not generate pdf");
         }
+    }
+    else if (headCommand == msg::header::getSearchedEmployee)
+    {
+        appanedDataToMainTable(socketStream);
     }
     else
     {
@@ -433,6 +379,8 @@ void MainWindow::on_minimizeButton_clicked()
 void MainWindow::on_pushButton_clicked()
 {
     ui->searchTextBox->setText("");
+    emit sendHeader(msg::header::getSearchedEmployee,
+                    {ui->searchTextBox->text().trimmed()});
 }
 
 /*search button*/
@@ -440,7 +388,6 @@ void MainWindow::on_searchButton_clicked()
 {
     // send header to get employee info
     emit sendHeader(msg::employeeDetail);
-    // loadTotalData();
     selectedPushButton(ui->searchButton);
     deselectedPushButton(ui->deleteEmpButton);
     deselectedPushButton(ui->reportButton);
@@ -448,7 +395,6 @@ void MainWindow::on_searchButton_clicked()
     deselectedPushButton(ui->updateEmpButton);
     deselectedPushButton(ui->addEmpButton);
     deselectedPushButton(ui->settingsButton);
-    // dbUtils.setEmployeeDetails(ui->tableWidget);
     ui->searchStackedWidget->setCurrentIndex(0);
 }
 
@@ -467,11 +413,6 @@ void MainWindow::on_addEmpButton_clicked()
     deselectedPushButton(ui->updateEmpButton);
     deselectedPushButton(ui->searchButton);
     deselectedPushButton(ui->settingsButton);
-    // third stacked widget
-
-    // ui->empDept->setModel(dbUtils.getDepartmentList());
-
-    // ui->empDesig->setModel(dbUtils.getDesignationList(ui->empDept));
 }
 
 void MainWindow::on_updateEmpButton_clicked()
@@ -526,12 +467,6 @@ void MainWindow::on_pushButton_2_clicked()
                     {ui->empDept->currentText(), ui->empDesig->currentText()});
 }
 
-void MainWindow::on_empDept_currentIndexChanged(const QString &arg1)
-{
-    // ui->empDesig->setModel(dbUtils.getDesignationList(ui->empDept));
-    // emit sendHeader(msg::header::infoDesig, {ui->empDept->currentText()});
-}
-
 void MainWindow::on_deleteEmpButton_clicked()
 {
     selectedPushButton(ui->deleteEmpButton);
@@ -542,21 +477,8 @@ void MainWindow::on_deleteEmpButton_clicked()
     deselectedPushButton(ui->addEmpButton);
     deselectedPushButton(ui->settingsButton);
 
-    // dbUtils.setEmployeeDetails(ui->deleteTableView);
     ui->searchStackedWidget->setCurrentIndex(5);
 }
-
-// void MainWindow::on_tableView_doubleClicked(const QModelIndex &index)
-//{
-//     QString id = ui->tableView->model()->index(index.row(),
-//     0).data().toString();
-
-//    dbUtils.closeDBConnection();
-//    MainWindow::close();
-//    EmployeeInfo* emp = new EmployeeInfo(this, id);
-//    emp->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-//    emp->show();
-//}
 
 void MainWindow::on_pushButton_7_clicked()
 {
@@ -665,12 +587,14 @@ void MainWindow::on_deleteTableView_doubleClicked(const QModelIndex &index)
     }
 }
 
-// void MainWindow::on_searchTextBox_returnPressed()
-//{
-//     ui->tableView->setModel(NULL);
-//     dbUtils.searchEmployeeDetails(ui->tableView,
-//     ui->searchTextBox->text().trimmed());
-// }
+void MainWindow::on_searchTextBox_returnPressed()
+{
+    ui->tableWidget->clear();
+
+    emit sendHeader(msg::header::getSearchedEmployee,
+                    {ui->searchTextBox->text().trimmed()});
+    // dbUtils.searchEmployeeDetails(ui->tableView, );
+}
 
 void MainWindow::selectedPushButton(QPushButton *button)
 {
@@ -725,9 +649,6 @@ void MainWindow::on_techButton_clicked()
 void MainWindow::receiveSocket(QTcpSocket *socket, quint64 &myuniqueId)
 {
     qDebug() << "<! CLIENT: FUNCTION RECEIVE SOCKET !>";
-    // socket->close();
-    // this->socket = new QTcpSocket();
-    // this->socket->connectToHost("127.0.0.1", 8080);
 
     this->socket = socket;
 
@@ -773,7 +694,6 @@ void MainWindow::sendHeaderToServer(quint8 header, QVariantList list)
                 for (auto &i : list)
                 {
                     qDebug() << "QVariant -> " << i.toByteArray() << "\n";
-                    // socketStream << i.toByteArray();
                     socketStream << i;
                 }
             }
@@ -830,28 +750,16 @@ void MainWindow::appendDataToReportPagePeriod(QDataStream &socketStream)
     ui->tableWidget_payment_period->setSelectionMode(
         QAbstractItemView::SingleSelection);
 
-    //      ui->tableWidget->verticalHeader()->resizeSections(QHeaderView::Stretch);
-    //      ui->tableWidget->horizontalHeader()->resizeSections(QHeaderView::Stretch);
-    // ui->tableWidget->setGeometry(QApplication::primaryScreen()->geometry());
-    //  ui->tableWidget->horizontalHeader()->setSectionResizeMode(
-    //   QHeaderView::Stretch);
-    // ui->tableWidget->verticalHeader()->setSectionResizeMode(
-    // QHeaderView::ResizeToContents);
-    // QHeaderView::Stretch,
     ui->tableWidget_payment_period->setRowCount(row);
     ui->tableWidget_payment_period->setColumnCount(column);
     ui->tableWidget_payment_period->setWordWrap(true);
 
-    // ui->tableWidget_payment_period->horizontalHeader()->setSectionResizeMode(
-    //  QHeaderView::Stretch);
-
-    // ui->tableWidget_payment_period->verticalHeader()->setSectionResizeMode(
-    //  QHeaderView::Stretch);
     ui->tableWidget_payment_period->setColumnWidth(0, ui->label_36->width());
     ui->tableWidget_payment_period->setColumnWidth(1, ui->label_37->width());
     ui->tableWidget_payment_period->setColumnWidth(2, ui->label_45->width());
     ui->tableWidget_payment_period->setColumnWidth(3, ui->label_38->width());
     ui->tableWidget_payment_period->setColumnWidth(4, ui->label_46->width());
+
     /*Receive table data*/
     if (row > 0 && column > 0)
     {
@@ -994,14 +902,6 @@ void MainWindow::savePdf(QString &html)
         QString("File saved! to " + folderPath +
                 ui->tableWidget_payment_detail->selectedItems()[0]->text() +
                 ".pdf"));
-}
-
-void MainWindow::on_aboutButton_clicked()
-{
-    MainWindow::close();
-    TechUsed *tech = new TechUsed(this);
-    tech->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-    tech->show();
 }
 
 void MainWindow::on_empDept_currentTextChanged(const QString &arg1)
@@ -1153,6 +1053,52 @@ void MainWindow::on_settingsButton_clicked()
     emit sendHeader(msg::header::getSettingsData);
 }
 
+void MainWindow::appanedDataToMainTable(QDataStream &socketStream)
+{
+    ui->searchStackedWidget->setCurrentWidget(0);
+    quint32 row{};
+    quint32 column{};
+    /*Receive row and column*/
+    socketStream >> row >> column;
+    qDebug() << "\nRow received = " << row << " | Column received = " << column;
+    ui->tableWidget->horizontalHeader()->setVisible(false);
+    // ui->tableWidget->verticalHeader()->setVisible(false);
+    ui->tableWidget->setShowGrid(false);
+    ui->tableWidget->setStyleSheet(
+        "QTableView {selection-background-color: #44FF17;}");
+    ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
+
+    ui->tableWidget->setRowCount(row);
+    ui->tableWidget->setColumnCount(column);
+    ui->tableWidget->setWordWrap(true);
+    ui->tableWidget->setColumnWidth(0, ui->label_8->width());
+    ui->tableWidget->setColumnWidth(1, ui->label_21->width());
+    ui->tableWidget->setColumnWidth(2, ui->label_22->width());
+    ui->tableWidget->setColumnWidth(3, ui->label_23->width());
+    ui->tableWidget->setColumnWidth(4, ui->label_24->width());
+    ui->tableWidget->setColumnWidth(5, ui->label_25->width());
+
+    /*Receive table data*/
+    if (row > 0 && column > 0)
+    {
+        for (int r = 0; r < row; ++r)
+        {
+            for (int col = 0; col < column; ++col)
+            {
+
+                QVariant receivedItem{};
+                socketStream >> receivedItem;
+                qDebug() << receivedItem;
+                QTableWidgetItem *poItem = new QTableWidgetItem();
+                poItem->setData(Qt::DisplayRole, receivedItem);
+                ui->tableWidget->setItem(r, col, poItem);
+            }
+        }
+    }
+}
+
 void MainWindow::on_reportButton_clicked()
 {
     ui->searchStackedWidget->setCurrentWidget(ui->page_report);
@@ -1209,4 +1155,12 @@ void MainWindow::on_btn_changeFolder_clicked()
     ui->lineEdit_select_folder->setText(path);
     folderPath = path;
     folderSetting.writeFolderPath(path);
+}
+
+void MainWindow::on_tableWidget_doubleClicked(const QModelIndex &index)
+{
+    QString id =
+        ui->tableWidget->model()->index(index.row(), 0).data().toString();
+
+    ui->searchStackedWidget->setCurrentWidget(ui->page_info_emp);
 }

@@ -28,11 +28,17 @@
      <height>260</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">*{
+border-radius:100px;
+}
+</string>
+   </property>
    <property name="text">
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="resources.qrc">:/Images/personal_card.png</pixmap>
+    <pixmap>:/Images/personal_card.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -47,11 +53,14 @@
      <height>260</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
    <property name="text">
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="resources.qrc">:/Images/company_card.png</pixmap>
+    <pixmap>:/Images/company_card.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -615,7 +624,8 @@
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">color:white;</string>
+    <string notr="true">color:white;
+border-radius:16px;</string>
    </property>
    <property name="text">
     <string/>
@@ -851,7 +861,8 @@
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">color:white;</string>
+    <string notr="true">color:white;
+border-radius:100px;</string>
    </property>
    <property name="text">
     <string/>
@@ -859,6 +870,7 @@
   </widget>
  </widget>
  <resources>
+  <include location="../recources/resources.qrc"/>
   <include location="resources.qrc"/>
  </resources>
  <connections/>

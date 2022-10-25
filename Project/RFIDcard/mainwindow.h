@@ -7,7 +7,7 @@
 #include <QMainWindow>
 #include <QTcpSocket>
 #define HOST_ADRESS "127.0.0.1"
-#define HOST_PORT 8080
+#define HOST_PORT 5400
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

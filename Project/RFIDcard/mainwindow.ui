@@ -90,10 +90,10 @@ color: white;
     <widget class="QComboBox" name="comboBox">
      <property name="geometry">
       <rect>
-       <x>190</x>
+       <x>153</x>
        <y>100</y>
-       <width>94</width>
-       <height>27</height>
+       <width>115</width>
+       <height>34</height>
       </rect>
      </property>
      <property name="minimumSize">

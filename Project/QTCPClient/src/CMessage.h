@@ -34,7 +34,8 @@ enum header : quint8
     getSettingsData,
     getReportPeriodInfo,
     getDetailInfoPaymentPeriod,
-    getPdfData
+    getPdfData,
+    getSearchedEmployee
 };
 
 struct status

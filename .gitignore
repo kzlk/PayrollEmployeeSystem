@@ -51,3 +51,5 @@ Thumbs.db
 *debug*
 
 *release*
+msvc_make.bat
+*pro.user

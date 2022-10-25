@@ -61,11 +61,7 @@ class MainWindow : public QMainWindow
 
     void on_pushButton_2_clicked();
 
-    void on_empDept_currentIndexChanged(const QString &arg1);
-
     void on_deleteEmpButton_clicked();
-
-    //  void on_tableView_doubleClicked(const QModelIndex &index);
 
     void on_pushButton_7_clicked();
 
@@ -75,7 +71,7 @@ class MainWindow : public QMainWindow
 
     void on_deleteTableView_doubleClicked(const QModelIndex &index);
 
-    // void on_searchTextBox_returnPressed();
+    void on_searchTextBox_returnPressed();
 
     void on_pushButton_6_clicked();
 
@@ -89,13 +85,13 @@ class MainWindow : public QMainWindow
 
     void readSocket();
 
-    void on_aboutButton_clicked();
-
     void on_empDept_currentTextChanged(const QString &arg1);
 
     void on_button_applyAutoPilot_clicked();
 
     void on_settingsButton_clicked();
+
+    void appanedDataToMainTable(QDataStream &socketStream);
 
   public slots:
     void receiveSocket(QTcpSocket *socket, quint64 &myuniqueId);
@@ -144,6 +140,7 @@ class MainWindow : public QMainWindow
     void on_biutton_back_period_clicked();
     void on_biutton_save_pdf_clicked();
     void on_btn_changeFolder_clicked();
+    void on_tableWidget_doubleClicked(const QModelIndex &index);
 };
 
 #endif // MAINWINDOW_H

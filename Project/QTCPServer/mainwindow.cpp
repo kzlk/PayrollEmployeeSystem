@@ -294,6 +294,12 @@ void MainWindow::readSocket()
                 socketStream >> id;
                 sendDataForPdfReport(socket, id.toString());
             }
+            else if (headCommand == msg::header::getSearchedEmployee)
+            {
+                QVariant searchedText{};
+                socketStream >> searchedText;
+                sendSearchedEmployee(socket, searchedText.toString());
+            }
             else
             {
                 QString message =
@@ -956,6 +962,48 @@ void MainWindow::sendDataForPdfReport(QTcpSocket *socket, QString empId)
     else
     {
         socketStream << msg::header::getPdfData << st.failure;
+    }
+}
+
+void MainWindow::sendSearchedEmployee(QTcpSocket *socket, QString searchedText)
+{
+    if (!socket)
+    {
+        QMessageBox::critical(this, "QTCPServer", "Not connected");
+        return;
+    }
+
+    if (!socket->isOpen())
+    {
+        QMessageBox::critical(this, "QTCPServer",
+                              "Socket doesn't seem to be opened");
+        return;
+    }
+
+    QDataStream socketStream(socket);
+    socketStream.setVersion(QDataStream::Qt_5_15);
+
+    auto model = dbUtils.searchEmployeeDetails(searchedText);
+
+    socketStream << msg::header::getSearchedEmployee
+                 << quint32(model->rowCount()) << quint32(model->columnCount());
+
+    if (model->rowCount() > 0 && model->columnCount() > 0)
+    {
+        // send data employee
+        for (quint32 row = 0; row < model->rowCount(); ++row)
+        {
+            for (quint32 column = 0; column < model->columnCount(); ++column)
+            {
+                socketStream << model->record(row).value(column);
+            }
+        }
+    }
+    else
+    {
+        QString msg =
+            "employee info with searched text " + searchedText + " is empty!!!";
+        emit newMessage(msg);
     }
 }
 

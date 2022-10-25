@@ -758,7 +758,7 @@ class DatabaseUtils
         return 0;
     }
 
-    void searchEmployeeDetails(QTableView *tableView, QString searchText)
+    QSqlQueryModel *searchEmployeeDetails(QString searchText)
     {
         if (db.isOpen())
         {
@@ -767,8 +767,10 @@ class DatabaseUtils
                 "SELECT id, name, department, designation, phone, "
                 "email FROM employee WHERE name LIKE '" +
                 searchText + "%' OR id LIKE '" + searchText + "%';");
-            tableView->setModel(querModel);
+            return querModel;
         }
+
+        return 0;
     }
 
     void setEmployeeUpdateDetails(QTableView *tableView)

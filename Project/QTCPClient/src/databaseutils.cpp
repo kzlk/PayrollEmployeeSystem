@@ -1,64 +1,62 @@
-#include <QtSql/QSqlDatabase>
-#include <QString>
+#include <QComboBox>
 #include <QDebug>
+#include <QLabel>
+#include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlQueryModel>
-#include <QComboBox>
-#include <QLabel>
+#include <QString>
 #include <QTableView>
-#include <QSqlDatabase>
 #include <QTableWidget>
 #include <QTcpSocket>
+#include <QtSql/QSqlDatabase>
 
 class DatabaseUtils
 {
-    public:
+  public:
     QSqlDatabase db = QSqlDatabase::database("firstConn");
 
-       bool connectToDB(QString dbName)
-       {
-           db = QSqlDatabase::addDatabase("QMYSQL");
-           db.setDatabaseName(dbName);
-           db.setHostName("localhost");
-           db.setUserName("root");
-           db.setPassword("");
+    bool connectToDB(QString dbName)
+    {
+        db = QSqlDatabase::addDatabase("QMYSQL");
+        db.setDatabaseName(dbName);
+        db.setHostName("localhost");
+        db.setUserName("root");
+        db.setPassword("");
 
-           if(db.open())
-           {
-               qDebug() << ("Connected to database");
-               return true;
-           }
-           else
-           {
-               qDebug() << ("Failed to open the database");
-               return false;
-           }
-       }
-       void closeDBConnection()
-         {
+        if (db.open())
+        {
+            qDebug() << ("Connected to database");
+            return true;
+        }
+        else
+        {
+            qDebug() << ("Failed to open the database");
+            return false;
+        }
+    }
+    void closeDBConnection()
+    {
 
-             if(db.isValid())
-             {
-                 qDebug() <<"Connection Valid";
-                 db.removeDatabase("firstConn");
-                 db.close();
-             }
-             else
-             {
-                 qDebug() <<"Connection Invalid";
-             }
+        if (db.isValid())
+        {
+            qDebug() << "Connection Valid";
+            db.removeDatabase("firstConn");
+            db.close();
+        }
+        else
+        {
+            qDebug() << "Connection Invalid";
+        }
+    }
 
-         }
-
-
-    QSqlQueryModel* getDepartmentList()
+    QSqlQueryModel *getDepartmentList()
     {
         QSqlQueryModel *model = new QSqlQueryModel();
         QSqlQuery *qry = new QSqlQuery(db);
 
         qry->prepare("SELECT DISTINCT(department) FROM company");
 
-        if(qry->exec())
+        if (qry->exec())
         {
             model->setQuery(*qry);
             qDebug() << "Sucesss";
@@ -71,17 +69,18 @@ class DatabaseUtils
         return model;
     }
 
-    QSqlQueryModel* getDesignationList(QComboBox* dept)
+    QSqlQueryModel *getDesignationList(QComboBox *dept)
     {
         QSqlQueryModel *model = new QSqlQueryModel();
         QSqlQuery *qry = new QSqlQuery(db);
 
-        qry->prepare("SELECT designation FROM company WHERE department='" + dept->currentText() + "';");
+        qry->prepare("SELECT designation FROM company WHERE department='" +
+                     dept->currentText() + "';");
 
-        if(qry->exec())
+        if (qry->exec())
         {
             model->setQuery(*qry);
-            qDebug() << "Sucesss";           
+            qDebug() << "Sucesss";
         }
         else
         {
@@ -148,11 +147,12 @@ class DatabaseUtils
         return dept + "/" + design + "/" + getLastID();
     }
 
-    QString getDesignationShortName(QComboBox* design)
+    QString getDesignationShortName(QComboBox *design)
     {
         QSqlQuery *qry = new QSqlQuery(db);
 
-        qry->prepare("SELECT design_short FROM company WHERE designation='" + design->currentText() + "';");
+        qry->prepare("SELECT design_short FROM company WHERE designation='" +
+                     design->currentText() + "';");
         qry->exec();
         qry->next();
 
@@ -161,11 +161,12 @@ class DatabaseUtils
         return x;
     }
 
-    QString getDepartmentShortName(QComboBox* dept)
+    QString getDepartmentShortName(QComboBox *dept)
     {
         QSqlQuery *qry = new QSqlQuery(db);
 
-        qry->prepare("SELECT dept_short FROM company WHERE department='" + dept->currentText() + "';");
+        qry->prepare("SELECT dept_short FROM company WHERE department='" +
+                     dept->currentText() + "';");
         qry->exec();
         qry->next();
 
@@ -174,11 +175,13 @@ class DatabaseUtils
         return x;
     }
 
-    int getSalary(QComboBox* dept, QComboBox* design)
+    int getSalary(QComboBox *dept, QComboBox *design)
     {
         QSqlQuery *qry = new QSqlQuery(db);
 
-        qry->prepare("SELECT salary FROM company WHERE department='" + dept->currentText() + "' AND designation='" +design->currentText() + "';");
+        qry->prepare("SELECT salary FROM company WHERE department='" +
+                     dept->currentText() + "' AND designation='" +
+                     design->currentText() + "';");
         qry->exec();
         qry->next();
 
@@ -187,63 +190,58 @@ class DatabaseUtils
         return x;
     }
 
-    void setEmployeeDetails(QTableWidget* tableView, QDataStream& stream)
+    void setEmployeeDetails(QTableWidget *tableView, QDataStream &stream)
     {
         QByteArray row{};
         QByteArray column{};
 
         stream >> row >> column;
 
-        if(row.toInt() > 0 && column.toInt() > 0)
+        if (row.toInt() > 0 && column.toInt() > 0)
         {
 
-        tableView->setRowCount(row.toInt());
-        tableView->setColumnCount(column.toInt());
-       // tableView =new QTableWidget(row.toInt(), column.toInt());
+            tableView->setRowCount(row.toInt());
+            tableView->setColumnCount(column.toInt());
+            // tableView =new QTableWidget(row.toInt(), column.toInt());
 
+            for (int r = 0; r < row.toInt(); ++r)
+            {
+                for (int col = 0; col < column.toInt(); ++col)
+                {
+                    QByteArray sItem{};
+                    stream >> sItem;
+                    QTableWidgetItem *poItem = new QTableWidgetItem();
+                    poItem->setData(Qt::DisplayRole, QString(sItem));
 
-        for(int r = 0; r < row.toInt(); ++r)
-        {
-             for(int col = 0; col < column.toInt(); ++col)
-             {
-                 QByteArray sItem{};
-                 stream >> sItem;
-                 QTableWidgetItem * poItem = new QTableWidgetItem();
-                 poItem->setData( Qt::DisplayRole, QString(sItem));
-
-                  tableView->setItem( row.toInt(), column.toInt(), poItem );
-             }
-
-        }
-        tableView->show();
+                    tableView->setItem(row.toInt(), column.toInt(), poItem);
+                }
+            }
+            tableView->show();
         }
 
-        if(!stream.commitTransaction())
+        if (!stream.commitTransaction())
         {
             return;
         }
+    }
 
-
-
-
-        }
-
-
-
-    void searchEmployeeDetails(QTableWidget* tableView, QString searchText)
+    void searchEmployeeDetails(QTableWidget *tableView, QString searchText)
     {
-        if(db.isOpen())
+        if (db.isOpen())
         {
 
             QSqlQueryModel *querModel = new QSqlQueryModel();
-            querModel->setQuery("SELECT id, name, department, designation, phone, email FROM employee WHERE name LIKE '" + searchText + "%' OR id LIKE '" + searchText +"%';");
-           // tableView->setModel(querModel);
+            querModel->setQuery("SELECT id, name, department, designation, "
+                                "phone, email FROM employee WHERE name LIKE '" +
+                                searchText + "%' OR id LIKE '" + searchText +
+                                "%';");
+            // tableView->setModel(querModel);
         }
     }
 
-    void setEmployeeUpdateDetails(QTableView* tableView)
+    void setEmployeeUpdateDetails(QTableView *tableView)
     {
-        if(db.isOpen())
+        if (db.isOpen())
         {
             QSqlQueryModel *querModel = new QSqlQueryModel();
             querModel->setQuery("SELECT id, name, phone FROM employee;");
@@ -251,13 +249,13 @@ class DatabaseUtils
         }
     }
 
-    QSqlQuery* showEmployeeDetailsToLineEdit(QString id)
+    QSqlQuery *showEmployeeDetailsToLineEdit(QString id)
     {
         QSqlQuery *qry = new QSqlQuery(db);
 
         qry->prepare("SELECT * FROM employee WHERE id='" + id + "';");
         qry->exec();
-        qry->next();  
+        qry->next();
 
         return qry;
     }
@@ -270,6 +268,4 @@ class DatabaseUtils
 
         qry->exec();
     }
-
-
 };

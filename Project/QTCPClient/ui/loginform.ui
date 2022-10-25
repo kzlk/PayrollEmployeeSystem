@@ -26,14 +26,14 @@
 #loginForm
 {
 
-background: rgba(0,0,0,0.8);
+background:#2D2D2D;
 border-radius: 15px;
 	
 }
 
 #frame
 {
-	background: rgba(0,0,0,0.8);
+	background:#2D2D2D;
 	border-radius: 15px;
 }
 

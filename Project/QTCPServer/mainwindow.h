@@ -3,6 +3,8 @@
 
 #include "CMessage.h"
 //#include "dbUtils.cpp"
+#include "cautopilot.h"
+#include "cgeneratepdf.h"
 #include <QDebug>
 #include <QFile>
 #include <QFileDialog>
@@ -13,8 +15,6 @@
 #include <QStandardPaths>
 #include <QTcpServer>
 #include <QTcpSocket>
-#include "cgeneratepdf.h"
-#include "cautopilot.h"
 
 namespace Ui
 {
@@ -71,6 +71,8 @@ class MainWindow : public QMainWindow
     void sendPaymentInfoDetail(QTcpSocket *socket, int id);
 
     void sendDataForPdfReport(QTcpSocket *socket, QString empId);
+
+    void sendSearchedEmployee(QTcpSocket *socket, QString searchedText);
 
     quint64 getUniqueNum();
 
