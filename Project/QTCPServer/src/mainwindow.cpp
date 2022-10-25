@@ -319,6 +319,21 @@ void MainWindow::readSocket()
                 socketStream >> id;
                 deleteEmployee(socket, id.toString());
             }
+            else if (headCommand == msg::updateEployee)
+            {
+                sendListForUpdatePage(socket);
+            }
+            else if (headCommand == msg::getOneEmpForUpdate)
+            {
+
+                QVariant id{};
+                socketStream >> id;
+                sendSelectedEmpForUpdatePage(socket, id.toString());
+            }
+            else if (headCommand == msg::setUpdateOneEmployee)
+            {
+                setNewDataForEmployee(socket, socketStream);
+            }
             else
             {
                 QString message =
@@ -1097,6 +1112,132 @@ void MainWindow::deleteEmployee(QTcpSocket *socket, QString empId)
     else
     {
         socketStream << msg::header::deleteInfoEmp << st.failure;
+    }
+}
+
+void MainWindow::sendListForUpdatePage(QTcpSocket *socket)
+{
+    if (!socket)
+    {
+        QMessageBox::critical(this, "QTCPServer", "Not connected");
+        return;
+    }
+
+    if (!socket->isOpen())
+    {
+        QMessageBox::critical(this, "QTCPServer",
+                              "Socket doesn't seem to be opened");
+        return;
+    }
+
+    QDataStream socketStream(socket);
+    socketStream.setVersion(QDataStream::Qt_5_15);
+
+    auto model = dbUtils.setEmployeeUpdateDetails();
+
+    //  packet -> \header\row_count\column_count\
+    //  count row and column
+
+    socketStream << msg::header::updateEployee << quint32(model->rowCount())
+                 << quint32(model->columnCount());
+
+    if (model->rowCount() > 0 && model->columnCount() > 0)
+    {
+        // send data employee
+        for (quint32 row = 0; row < model->rowCount(); ++row)
+        {
+            for (quint32 column = 0; column < model->columnCount(); ++column)
+            {
+                socketStream << model->record(row).value(column);
+            }
+        }
+    }
+    else
+    {
+        QString msg = "employee info is empty!!!";
+        emit newMessage(msg);
+    }
+}
+
+void MainWindow::sendSelectedEmpForUpdatePage(QTcpSocket *socket, QString empId)
+{
+    if (!socket)
+    {
+        QMessageBox::critical(this, "QTCPServer", "Not connected");
+        return;
+    }
+
+    if (!socket->isOpen())
+    {
+        QMessageBox::critical(this, "QTCPServer",
+                              "Socket doesn't seem to be opened");
+        return;
+    }
+
+    QDataStream socketStream(socket);
+    socketStream.setVersion(QDataStream::Qt_5_15);
+    auto model = dbUtils.showEmployeeDetailsToLineEdit(empId);
+
+    QVariantList empData{};
+
+    if (model->rowCount() > 0 && model->columnCount() > 0)
+    {
+        // send data employee
+        for (quint32 row = 0; row < model->rowCount(); ++row)
+        {
+            for (quint32 column = 0; column < model->columnCount(); ++column)
+            {
+                empData.push_back(model->record(row).value(column));
+            }
+        }
+
+        socketStream << msg::header::getOneEmpForUpdate << st.success
+                     << empData;
+
+        return;
+    }
+    else
+    {
+        socketStream << msg::header::getOneEmpForUpdate << st.failure;
+        QString msg =
+            "employee info with searched id " + empId + " is empty!!!";
+        emit newMessage(msg);
+    }
+}
+
+void MainWindow::setNewDataForEmployee(QTcpSocket *socket,
+                                       QDataStream &socketStream)
+{
+    if (!socket)
+    {
+        QMessageBox::critical(this, "QTCPServer", "Not connected");
+        return;
+    }
+
+    if (!socket->isOpen())
+    {
+        QMessageBox::critical(this, "QTCPServer",
+                              "Socket doesn't seem to be opened");
+        return;
+    }
+    QDataStream socketStream2(socket);
+    socketStream.setVersion(QDataStream::Qt_5_15);
+    QVariantList list{};
+    list.resize(8);
+
+    for (int i = 0; i < 8; i++)
+    {
+        socketStream >> list[i];
+        emit newMessage("The received update: " + list[i].toString());
+    }
+
+    if (dbUtils.setUpdate(list))
+    {
+        socketStream2 << msg::setUpdateOneEmployee << st.success;
+    }
+    else
+    {
+        socketStream2 << msg::setUpdateOneEmployee << st.failure;
     }
 }
 

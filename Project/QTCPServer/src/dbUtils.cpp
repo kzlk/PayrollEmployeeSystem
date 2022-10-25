@@ -773,25 +773,38 @@ class DatabaseUtils
         return 0;
     }
 
-    void setEmployeeUpdateDetails(QTableView *tableView)
+    QSqlQueryModel *setEmployeeUpdateDetails()
     {
         if (db.isOpen())
         {
             QSqlQueryModel *querModel = new QSqlQueryModel();
             querModel->setQuery("SELECT id, name, phone FROM employee;");
-            tableView->setModel(querModel);
+            return querModel;
         }
+        return 0;
     }
 
-    QSqlQuery *showEmployeeDetailsToLineEdit(QString id)
+    QSqlQueryModel *showEmployeeDetailsToLineEdit(QString id)
     {
-        QSqlQuery *qry = new QSqlQuery(db);
+        if (db.isOpen())
+        {
 
-        qry->prepare("SELECT * FROM employee WHERE id='" + id + "';");
-        qry->exec();
-        qry->next();
-
-        return qry;
+            QSqlQueryModel *querModel = new QSqlQueryModel();
+            querModel->setQuery("SELECT employee.Name, "
+                                "employee.Father, "
+                                "employee.Gender, "
+                                "employee.DOB, "
+                                "employee.Phone, "
+                                "employee.Email, "
+                                "employee.Address "
+                                "FROM dbo.employee "
+                                "INNER JOIN dbo.CompanySettings ON "
+                                "employee.company_id = CompanySettings.ID "
+                                "WHERE employee.ID = '" +
+                                id + "';");
+            return querModel;
+        }
+        return 0;
     }
 
     QSqlQueryModel *getData(QString id)
@@ -808,5 +821,32 @@ class DatabaseUtils
         qry->prepare("DELETE  FROM employee WHERE id='" + id + "';");
 
         return qry->exec();
+    }
+
+    bool setUpdate(QVariantList list)
+    {
+        QSqlQuery sqlQuery;
+        if (db.isOpen())
+        {
+            sqlQuery.prepare("UPDATE employee SET "
+                             "name='" +
+                             list.at(0).toString() + "'," + "father='" +
+                             list.at(1).toString() + "'," + "email='" +
+                             list.at(2).toString() + "'," + "phone='" +
+                             list.at(3).toString() + "'," + "address='" +
+                             list.at(4).toString() + "'," + "gender='" +
+                             list.at(5).toString() + "'," + "dob='" +
+                             list.at(6).toString() +
+                             "' "
+                             " WHERE id = '" +
+                             list.at(7).toString() + "';");
+
+            if (sqlQuery.exec())
+            {
+                return true;
+            }
+        };
+
+        return false;
     }
 };

@@ -79,6 +79,12 @@ class MainWindow : public QMainWindow
 
     void deleteEmployee(QTcpSocket *socket, QString empId);
 
+    void sendListForUpdatePage(QTcpSocket *socket);
+
+    void sendSelectedEmpForUpdatePage(QTcpSocket *socket, QString empId);
+
+    void setNewDataForEmployee(QTcpSocket *socket, QDataStream &socketStream);
+
     quint64 getUniqueNum();
 
     Ui::MainWindow *ui;

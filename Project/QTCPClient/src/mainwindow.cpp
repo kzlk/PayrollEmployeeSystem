@@ -30,12 +30,6 @@ MainWindow::MainWindow(QWidget *parent)
                                    "selection-background-color:#1492E6;"
                                    "selection-color:white;");
 
-    ui->updateTableView->setAlternatingRowColors(true);
-    ui->updateTableView->setStyleSheet("alternate-background-color: "
-                                       "#E4E4E4;background-color:white;"
-                                       "selection-background-color:#1492E6;"
-                                       "selection-color:white;");
-
     QObject::connect(this, &MainWindow::sendHeader,
                      &MainWindow::sendHeaderToServer);
 
@@ -126,11 +120,7 @@ void MainWindow::readSocket()
             ui->empDept->addItems(receiveDep);
             //
             qDebug() << "From read socket " << ui->empDept->currentText();
-            // emit sendHeader(msg::header::infoDesig,
-            // {ui->empDept->currentText()});
-            // sendDempNameForDesign(ui->empDept->currentText());
         }
-        // ui->empDesig->setModel(dbUtils.getDesignationList(ui->empDept));
     }
     else if (headCommand == msg::infoDesig)
     {
@@ -149,13 +139,10 @@ void MainWindow::readSocket()
                 receiveDesig.emplaceBack(QString(buffer));
                 qDebug() << " Row In " + header << receiveDesig.at(i) << '\n';
             }
-            // send header desig ()
             ui->empDesig->clear();
             ui->empDesig->addItems(receiveDesig);
             //
         }
-
-        // ui->empDesig->setModel(dbUtils.getDesignationList(ui->empDept));
     }
     else if (headCommand == msg::id)
     {
@@ -305,6 +292,40 @@ void MainWindow::readSocket()
             QMessageBox::critical(this, "Info", "Could not delete employee");
         }
     }
+    else if (headCommand == msg::header::updateEployee)
+    {
+        appendDataToUpdatePage(socketStream);
+    }
+    else if (headCommand == msg::header::getOneEmpForUpdate)
+    {
+        QString status{};
+        QVariantList empList{};
+        socketStream >> status >> empList;
+        if (st.success == status)
+        {
+            appendDataToLineEditUpdate(empList);
+        }
+        else
+        {
+            QMessageBox::information(this, "Info",
+                                     "Could not load employee info");
+        }
+    }
+    else if (headCommand == msg::setUpdateOneEmployee)
+    {
+        QString status{};
+
+        socketStream >> status;
+        if (st.success == status)
+        {
+            QMessageBox::information(this, "Info", "Data successfully updated");
+        }
+        else
+        {
+            QMessageBox::information(this, "Info",
+                                     "Could not load employee info");
+        }
+    }
     else
     {
         QMessageBox::information(this, "QTCPCLIENT",
@@ -450,7 +471,8 @@ void MainWindow::on_updateEmpButton_clicked()
     deselectedPushButton(ui->searchButton);
     deselectedPushButton(ui->addEmpButton);
     deselectedPushButton(ui->settingsButton);
-    // dbUtils.setEmployeeUpdateDetails(ui->updateTableView);
+
+    emit sendHeader(msg::header::updateEployee);
     ui->searchStackedWidget->setCurrentIndex(4);
 }
 
@@ -521,75 +543,16 @@ void MainWindow::on_pushButton_7_clicked()
     }
     else
     {
-        //        QSqlQuery *sqlQuery = new QSqlQuery(dbUtils.db);
-        //        if (dbUtils.db.isOpen())
-        //        {
-        //            sqlQuery->prepare(
-        //                "UPDATE employee SET "
-        //                "name='" +
-        //                ui->updateEmpName->text().trimmed() + "'," +
-        //                "father='" + ui->updateEmpFName->text().trimmed() +
-        //                "'," + "email='" +
-        //                ui->updateEmpEmail->text().trimmed() + "'," +
-        //                "phone='" + ui->updateEmpPhone->text().trimmed() +
-        //                "'," + "address='" +
-        //                ui->updateEmpAddress->text().trimmed() + "'," +
-        //                "gender='" + ui->updateEmpGender->currentText() + "',"
-        //                + "dob='" + ui->updateEmpDOB->text().trimmed() + "'
-        //                WHERE id='" + ui->updateEmpID->text() + "';");
-
-        //            if (sqlQuery->exec())
-        //            {
-        //                QMessageBox::information(this, "Success",
-        //                                         "Data updated successfully");
-        //            }
-        //            else
-        //            {
-        //                qDebug() << "Error : " << sqlQuery->lastError().text()
-        //                         << sqlQuery->isValid();
-        //            }
-        //        }
+        emit sendHeader(msg::header::setUpdateOneEmployee,
+                        {ui->updateEmpName->text().trimmed(),
+                         ui->updateEmpFName->text().trimmed(),
+                         ui->updateEmpEmail->text().trimmed(),
+                         ui->updateEmpPhone->text().trimmed(),
+                         ui->updateEmpAddress->text().trimmed(),
+                         ui->updateEmpGender->currentText(),
+                         ui->updateEmpDOB->text().trimmed(),
+                         ui->updateEmpID->text()});
     }
-}
-
-void MainWindow::on_updateTableView_doubleClicked(const QModelIndex &index)
-{
-    //    QString id =
-    //        ui->updateTableView->model()->index(index.row(),
-    //        0).data().toString();
-    //    ui->updateEmpID->setText(id);
-
-    //    QSqlQuery *qry = dbUtils.showEmployeeDetailsToLineEdit(id);
-
-    //    QString dateOfBirth = qry->value("dob").toString();
-    //    QStringList dobSplit = dateOfBirth.split("-");
-    //    QString yearStr = dobSplit[2];
-    //    QString monthStr = dobSplit[1];
-    //    QString dayStr = dobSplit[0];
-    //    QDate date;
-    //    date.setDate(yearStr.toInt(), monthStr.toInt(), dayStr.toInt());
-
-    //    QString gender = qry->value("gender").toString();
-
-    //    if (gender == "Male")
-    //    {
-    //        ui->updateEmpGender->setCurrentIndex(0);
-    //    }
-    //    else if (gender == "Female")
-    //    {
-    //        ui->updateEmpGender->setCurrentIndex(1);
-    //    }
-    //    else
-    //    {
-    //        ui->updateEmpGender->setCurrentIndex(2);
-    //    }
-
-    //    ui->updateEmpName->setText(qry->value("name").toString());
-    //    ui->updateEmpFName->setText(qry->value("father").toString());
-    //    ui->updateEmpEmail->setText(qry->value("email").toString());
-    //    ui->updateEmpDOB->setDate(date);
-    //    ui->updateEmpAddress->setText(qry->value("address").toString());
-    //    ui->updateEmpPhone->setText(qry->value("phone").toString());
 }
 
 void MainWindow::on_pushButton_8_clicked()
@@ -600,23 +563,6 @@ void MainWindow::on_pushButton_8_clicked()
     ui->updateEmpAddress->setText("");
     ui->updateEmpPhone->setText("");
     ui->updateEmpGender->setCurrentIndex(0);
-}
-
-void MainWindow::on_deleteTableView_doubleClicked(const QModelIndex &index)
-{
-    // QString id =
-    // ui->deleteTableView->model()->index(index.row(), 0).data().toString();
-
-    QMessageBox::StandardButton reply;
-
-    // reply = QMessageBox::question(
-    //   this, "Confirm", "Are you sure you want to delete '" + id + "'
-    //   record");
-
-    if (reply == QMessageBox::Yes)
-    {
-        // dbUtils.deleteEmployeeRecord(id);
-    }
 }
 
 /*Search emploee*/
@@ -668,11 +614,6 @@ void MainWindow::on_techButton_clicked()
     deselectedPushButton(ui->reportButton);
     ui->searchStackedWidget->setCurrentWidget(ui->page_report);
 }
-
-// void MainWindow::on_pushButton_3_clicked()
-//{
-//     dbUtils.setEmployeeDetails(ui->tableWidget);
-// }
 
 void MainWindow::receiveSocket(QTcpSocket *socket, quint64 &myuniqueId)
 {
@@ -908,6 +849,26 @@ void MainWindow::setDataInSettingWindow(QVariant start, QVariant end,
         ui->comboBox_Frequency->setCurrentIndex(search.value());
         ui->comboBox_autopilot->setCurrentIndex(int(autopilot));
     }
+}
+
+void MainWindow::appendDataToLineEditUpdate(QVariantList list)
+{
+    ui->updateEmpName->setText(list.at(0).toString());
+    ui->updateEmpFName->setText(list.at(1).toString());
+
+    if (list.at(2).toString() == "Male")
+    {
+        ui->updateEmpGender->setCurrentIndex(0);
+    }
+    else if (list.at(2).toString() == "Female")
+    {
+        ui->updateEmpGender->setCurrentIndex(1);
+    }
+
+    ui->updateEmpDOB->setDate(list.at(3).toDate());
+    ui->updateEmpPhone->setText(list.at(4).toString());
+    ui->updateEmpEmail->setText(list.at(5).toString());
+    ui->updateEmpAddress->setText(list.at(6).toString());
 }
 
 bool MainWindow::checkFolder(QString &path)
@@ -1193,6 +1154,50 @@ void MainWindow::appendDataToDeleteTable(QDataStream &socketStream)
     }
 }
 
+void MainWindow::appendDataToUpdatePage(QDataStream &socketStream)
+{
+
+    quint32 row{};
+    quint32 column{};
+    /*Receive row and column*/
+    socketStream >> row >> column;
+    qDebug() << "\nRow received = " << row << " | Column received = " << column;
+    ui->tableWidget_update->horizontalHeader()->setVisible(false);
+    // ui->tableWidget->verticalHeader()->setVisible(false);
+    ui->tableWidget_update->setShowGrid(false);
+    ui->tableWidget_update->setStyleSheet(
+        "QTableView {selection-background-color: #44FF17;}");
+    ui->tableWidget_update->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->tableWidget_update->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->tableWidget_update->setSelectionMode(
+        QAbstractItemView::SingleSelection);
+
+    ui->tableWidget_update->setRowCount(row);
+    ui->tableWidget_update->setColumnCount(column);
+    ui->tableWidget_update->setWordWrap(true);
+    ui->tableWidget_update->setColumnWidth(0, ui->label_26->width());
+    ui->tableWidget_update->setColumnWidth(1, ui->label_27->width());
+    ui->tableWidget_update->setColumnWidth(2, ui->label_28->width());
+
+    /*Receive table data*/
+    if (row > 0 && column > 0)
+    {
+        for (int r = 0; r < row; ++r)
+        {
+            for (int col = 0; col < column; ++col)
+            {
+
+                QVariant receivedItem{};
+                socketStream >> receivedItem;
+                qDebug() << receivedItem;
+                QTableWidgetItem *poItem = new QTableWidgetItem();
+                poItem->setData(Qt::DisplayRole, receivedItem);
+                ui->tableWidget_update->setItem(r, col, poItem);
+            }
+        }
+    }
+}
+
 void MainWindow::on_reportButton_clicked()
 {
     ui->searchStackedWidget->setCurrentWidget(ui->page_report);
@@ -1287,4 +1292,15 @@ void MainWindow::on_tableWidget_delete_doubleClicked(const QModelIndex &index)
 void MainWindow::on_button_refresh_clicked()
 {
     emit sendHeader(msg::header::deleteEmployee);
+}
+
+void MainWindow::on_tableWidget_update_clicked(const QModelIndex &index)
+{
+    QString id = ui->tableWidget_update->model()
+                     ->index(index.row(), 0)
+                     .data()
+                     .toString();
+    ui->updateEmpID->setText(id);
+
+    emit sendHeader(msg::getOneEmpForUpdate, {id});
 }

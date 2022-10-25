@@ -547,7 +547,7 @@ color:#EB0000;
 </string>
     </property>
     <property name="currentIndex">
-     <number>5</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="searchWidget">
      <property name="styleSheet">
@@ -2365,85 +2365,12 @@ border-radius:14px;
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700; font-style:italic; text-decoration: underline; color:#ffffff;&quot;&gt;Edit Info&lt;/span&gt;&lt;span style=&quot; font-weight:700; font-style:italic; color:#ffffff;&quot;&gt; : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
-     <widget class="QTableView" name="updateTableView">
-      <property name="geometry">
-       <rect>
-        <x>30</x>
-        <y>65</y>
-        <width>361</width>
-        <height>465</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="focusPolicy">
-       <enum>Qt::NoFocus</enum>
-      </property>
-      <property name="autoFillBackground">
-       <bool>false</bool>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
-      </property>
-      <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="sizeAdjustPolicy">
-       <enum>QAbstractScrollArea::AdjustIgnored</enum>
-      </property>
-      <property name="editTriggers">
-       <set>QAbstractItemView::NoEditTriggers</set>
-      </property>
-      <property name="tabKeyNavigation">
-       <bool>false</bool>
-      </property>
-      <property name="showDropIndicator" stdset="0">
-       <bool>false</bool>
-      </property>
-      <property name="dragDropOverwriteMode">
-       <bool>false</bool>
-      </property>
-      <property name="alternatingRowColors">
-       <bool>true</bool>
-      </property>
-      <property name="selectionMode">
-       <enum>QAbstractItemView::SingleSelection</enum>
-      </property>
-      <property name="selectionBehavior">
-       <enum>QAbstractItemView::SelectRows</enum>
-      </property>
-      <property name="textElideMode">
-       <enum>Qt::ElideNone</enum>
-      </property>
-      <property name="showGrid">
-       <bool>false</bool>
-      </property>
-      <property name="gridStyle">
-       <enum>Qt::NoPen</enum>
-      </property>
-      <property name="cornerButtonEnabled">
-       <bool>false</bool>
-      </property>
-      <attribute name="horizontalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-      <attribute name="horizontalHeaderMinimumSectionSize">
-       <number>30</number>
-      </attribute>
-      <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>120</number>
-      </attribute>
-     </widget>
      <widget class="QLabel" name="label_26">
       <property name="geometry">
        <rect>
         <x>30</x>
         <y>30</y>
-        <width>131</width>
+        <width>121</width>
         <height>34</height>
        </rect>
       </property>
@@ -2469,9 +2396,9 @@ padding-left:10px;
      <widget class="QLabel" name="label_27">
       <property name="geometry">
        <rect>
-        <x>160</x>
+        <x>150</x>
         <y>30</y>
-        <width>120</width>
+        <width>91</width>
         <height>34</height>
        </rect>
       </property>
@@ -2497,9 +2424,9 @@ padding-left:10px;
      <widget class="QLabel" name="label_28">
       <property name="geometry">
        <rect>
-        <x>280</x>
+        <x>240</x>
         <y>30</y>
-        <width>111</width>
+        <width>151</width>
         <height>34</height>
        </rect>
       </property>
@@ -2525,9 +2452,9 @@ padding-left:10px;
      <widget class="QLabel" name="updateEmpID">
       <property name="geometry">
        <rect>
-        <x>485</x>
+        <x>525</x>
         <y>23</y>
-        <width>191</width>
+        <width>111</width>
         <height>31</height>
        </rect>
       </property>
@@ -2871,9 +2798,9 @@ font-style:italic;</string>
      <widget class="QPushButton" name="button_upd_personal">
       <property name="geometry">
        <rect>
-        <x>538</x>
-        <y>21</y>
-        <width>91</width>
+        <x>645</x>
+        <y>20</y>
+        <width>81</width>
         <height>32</height>
        </rect>
       </property>
@@ -2913,9 +2840,9 @@ border-radius:14px;
      <widget class="QPushButton" name="button_upd_company">
       <property name="geometry">
        <rect>
-        <x>660</x>
-        <y>21</y>
-        <width>91</width>
+        <x>730</x>
+        <y>20</y>
+        <width>81</width>
         <height>32</height>
        </rect>
       </property>
@@ -2950,6 +2877,21 @@ border-radius:14px;
       </property>
       <property name="text">
        <string>Company</string>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="tableWidget_update">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>70</y>
+        <width>361</width>
+        <height>481</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Comic Sans MS</family>
+       </font>
       </property>
      </widget>
     </widget>

@@ -39,7 +39,9 @@ enum header : quint8
     getEmployeeInfo,
     deleteEmployee,
     updateEployee,
-    deleteInfoEmp
+    deleteInfoEmp,
+    getOneEmpForUpdate,
+    setUpdateOneEmployee
 };
 
 struct status
