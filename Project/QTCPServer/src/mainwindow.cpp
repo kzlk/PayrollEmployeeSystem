@@ -3,13 +3,16 @@
 #include <QRandomGenerator>
 #include <QSqlRecord>
 
+#include "../Constant/Connection.h"
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     m_server = new QTcpServer();
     // LocalHostIPv6 for network
-    if (m_server->listen(QHostAddress::LocalHost, 8080)) // start server
+    if (m_server->listen(QHostAddress::LocalHost,
+                         Connection::SERVER_PORT)) // start server
     {
         connect(this, &MainWindow::newMessage, this,
                 &MainWindow::displayMessage);

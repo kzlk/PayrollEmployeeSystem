@@ -20,6 +20,7 @@ SOURCES += \
     src/mainwindow.cpp
 
 HEADERS += \
+    ../Constant/Connection.h \
     src/CMessage.h \
     src/cautopilot.h \
     src/cgeneratepdf.h \
