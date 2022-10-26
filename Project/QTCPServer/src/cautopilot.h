@@ -25,6 +25,7 @@ class CAutoPilot : public QObject
     QDateTime nextPaymentDate{};
     QDateTime startPeriodPayment{};
     QDateTime endPeriodPayment{};
+    QDateTime payDate{};
 
     quint8 paymentFrequency{};
 

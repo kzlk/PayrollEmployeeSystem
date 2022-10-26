@@ -9,6 +9,7 @@
 #include <QSqlQuery>
 #include <QStringList>
 #include <QTextDocument>
+#include <QThread>
 #include <qapplication.h>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -20,15 +21,12 @@ MainWindow::MainWindow(QWidget *parent)
     folderPath = folderSetting.getFolderPath();
     ui->lineEdit_select_folder->setText(this->folderPath);
 
+    ui->aboutButton->hide();
     // set style
     ui->empDOB->setCalendarPopup(true);
     ui->empDOJ->setCalendarPopup(true);
     ui->updateEmpDOB->setCalendarPopup(true);
     ui->tableWidget->setAlternatingRowColors(true);
-    ui->tableWidget->setStyleSheet("alternate-background-color: #E4E4E4;"
-                                   "background-color:white;"
-                                   "selection-background-color:#1492E6;"
-                                   "selection-color:white;");
 
     QObject::connect(this, &MainWindow::sendHeader,
                      &MainWindow::sendHeaderToServer);
@@ -239,15 +237,17 @@ void MainWindow::readSocket()
     }
     else if (headCommand == msg::header::getPdfData)
     {
-        QByteArray status{};
-        QString html{};
-        QByteArray html1{};
-        QByteArray html2{};
-        socketStream >> html >> status;
-        if (st.success == html)
+
+        QString status{};
+        QByteArray html{};
+        QString pdfName{};
+
+        socketStream >> status >> html >> pdfName;
+
+        if (st.success == status)
         {
-            auto rs = QString::fromUtf8(status);
-            savePdf(rs);
+            auto rs = QString::fromUtf8(html);
+            savePdf(rs, pdfName);
         }
         else
         {
@@ -340,7 +340,6 @@ void MainWindow::readSocket()
         QMessageBox::information(this, "QTCPCLIENT", message);
         QByteArray buff;
         socketStream >> buff;
-
         qDebug() << ("Comming data: --> " + QString(buffer));
         qDebug() << buff;
         return;
@@ -838,15 +837,17 @@ void MainWindow::setDataInSettingWindow(QVariant start, QVariant end,
         !freq.isValid())
     {
         ui->dateTimeEdit->clear();
-        ui->label_upcom_pay->setText("Unknown");
+        ui->label_upcom_pay->setText("No data");
         ui->comboBox_autopilot->setCurrentIndex(0);
+        ui->label_upcom_pay_2->setText("No data");
     }
     else
     {
         QMap<quint8, quint8> comboBox{{2, 0}, {30, 1}, {7, 2}};
         auto search = comboBox.find(freq.toInt());
-        ui->dateTimeEdit->setDateTime(end.toDateTime());
-        ui->label_upcom_pay->setText(next.toDateTime().toString());
+        ui->dateTimeEdit->setDateTime(start.toDateTime());
+        ui->label_upcom_pay->setText(end.toDateTime().toString());
+        ui->label_upcom_pay_2->setText(next.toDateTime().toString());
         ui->comboBox_Frequency->setCurrentIndex(search.value());
         ui->comboBox_autopilot->setCurrentIndex(int(autopilot));
     }
@@ -890,26 +891,20 @@ bool MainWindow::checkFolder(QString &path)
     return true;
 }
 
-void MainWindow::savePdf(QString &html)
+void MainWindow::savePdf(QString &html, QString &pdfName)
 {
     QTextDocument document;
     document.setHtml(html);
     QPrinter printer(QPrinter::PrinterResolution);
     printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setPageSize(QPageSize::A4);
-    // auto a = QFile::exists( folderPath +
-    // ui->tableWidget_payment_detail->selectedItems()[0]->text());
-    auto fileName =
-        ui->tableWidget_payment_detail->selectedItems()[0]->text().replace("/",
-                                                                           "_");
-    printer.setOutputFileName(folderPath + fileName + ".pdf");
-
+    printer.setOutputFileName(folderPath + pdfName + ".pdf");
     printer.setPageMargins(QMarginsF(0, 0, 0, 0));
     document.print(&printer);
 
     QMessageBox::information(
         this, "QTCPCLIENT",
-        QString("File saved! to " + folderPath + fileName + ".pdf"));
+        QString("File saved! to " + folderPath + pdfName + ".pdf"));
 }
 
 void MainWindow::on_empDept_currentTextChanged(const QString &arg1)
@@ -944,8 +939,11 @@ void MainWindow::on_button_applyAutoPilot_clicked()
     QDateTime nextPaymentPeriod = calculateNextPaymentPeriod(
         ui->dateTimeEdit->dateTime(), ui->comboBox_Frequency->currentText());
 
+    qDebug() << ui->dateTimeEdit->dateTime() << nextPaymentPeriod;
+
     /*Set next period to label*/
-    ui->label_upcom_pay->setText(nextPaymentPeriod.toString());
+    ui->label_upcom_pay->setText(ui->dateTimeEdit->dateTime().toString());
+    ui->label_upcom_pay_2->setText(nextPaymentPeriod.toString());
 
     QDataStream socketStream(socket);
     socketStream.setVersion(QDataStream::Qt_5_15);
@@ -1242,11 +1240,17 @@ void MainWindow::on_biutton_save_pdf_clicked()
     }
     // get employee id
     auto i = ui->tableWidget_payment_detail->selectedItems()[0];
-    QMessageBox::information(this, "QTCPClient",
-                             "Item clicked on " + i->text());
+    // QMessageBox::information(this, "QTCPClient",
+    //                "Item clicked on " + i-//>text());
 
     // send to server command getPdf and employee id
-    emit sendHeader(msg::header::getPdfData, {i->text()});
+
+    auto pay_id = ui->tableWidget_payment_period->model()
+                      ->index(ui->tableWidget_payment_period->currentRow(), 0)
+                      .data()
+                      .toInt();
+
+    emit sendHeader(msg::header::getPdfData, {i->text(), pay_id});
 }
 
 void MainWindow::on_btn_changeFolder_clicked()

@@ -41,9 +41,10 @@ void CAutoPilot::stop()
 
 void CAutoPilot::updatePaymentDate()
 {
-    startPeriodPayment = endPeriodPayment;
-    endPeriodPayment = endPeriodPayment.addDays(paymentFrequency);
-    nextPaymentDate = endPeriodPayment.addDays(paymentFrequency);
+    startPeriodPayment = payDate;
+    endPeriodPayment = payDate.addDays(paymentFrequency - 1);
+    payDate = endPeriodPayment.addDays(1);
+    nextPaymentDate = payDate.addDays(paymentFrequency);
 }
 
 bool CAutoPilot::isAutoPilotOnAndSetData()
@@ -70,6 +71,8 @@ bool CAutoPilot::isAutoPilotOnAndSetData()
 
         paymentFrequency = dataFromSysTable->record(0).value(3).toInt();
 
+        payDate = dataFromSysTable->record(0).value(5).toDateTime();
+
         if (dbUtils.setConfigurationToUnActive())
         {
             qDebug() << "Configuration in SystemTable changed to UnActive ";
@@ -93,7 +96,7 @@ bool CAutoPilot::isAutoPilotOnAndSetData()
 bool CAutoPilot::checkDate()
 {
     qDebug() << "Current Time = " << QDateTime::currentDateTime();
-    if (QDateTime::currentDateTime() >= endPeriodPayment)
+    if (QDateTime::currentDateTime() >= payDate)
         return true;
     return false;
 }
@@ -114,6 +117,8 @@ void CAutoPilot::timerSlot()
             // do pay in new thread
             // add to paremetr databaseUtils
             // set start and end date
+            payment->setStartPeriodPayment(startPeriodPayment);
+            payment->setEndPeriodPayment(endPeriodPayment);
             payment->doPay();
             // QThreadPool::globalInstance()->start(payment);
 
@@ -121,7 +126,7 @@ void CAutoPilot::timerSlot()
             updatePaymentDate();
             // update systemTableSetting
             dbUtils.updateSystemSetting(startPeriodPayment, endPeriodPayment,
-                                        nextPaymentDate);
+                                        nextPaymentDate, payDate);
         }
         else
         {

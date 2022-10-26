@@ -327,9 +327,9 @@ QLineEdit
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>270</y>
+       <y>320</y>
        <width>260</width>
-       <height>44</height>
+       <height>31</height>
       </rect>
      </property>
      <property name="font">
@@ -374,7 +374,7 @@ QLineEdit
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>320</y>
+       <y>267</y>
        <width>260</width>
        <height>44</height>
       </rect>
@@ -547,7 +547,7 @@ color:#EB0000;
 </string>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>7</number>
     </property>
     <widget class="QWidget" name="searchWidget">
      <property name="styleSheet">
@@ -1244,6 +1244,13 @@ padding-left:0px;
         <bold>false</bold>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">*
+{
+color:white;
+font_size:10px;
+}</string>
+      </property>
       <property name="text">
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ffffff;&quot;&gt;No data&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
@@ -1328,6 +1335,12 @@ border-radius:12px;
         <pointsize>10</pointsize>
         <bold>false</bold>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">*{
+color:white;
+font_size:10px;
+}</string>
       </property>
       <property name="text">
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ffffff;&quot;&gt;No data&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>

@@ -71,7 +71,7 @@ class MainWindow : public QMainWindow
 
     void sendPaymentInfoDetail(QTcpSocket *socket, int id);
 
-    void sendDataForPdfReport(QTcpSocket *socket, QString empId);
+    void sendDataForPdfReport(QTcpSocket *socket, QString empId, int payId);
 
     void sendSearchedEmployee(QTcpSocket *socket, QString searchedText);
 

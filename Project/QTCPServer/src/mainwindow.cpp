@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     m_server = new QTcpServer();
     // LocalHostIPv6 for network
-    if (m_server->listen(QHostAddress::LocalHost, 5400)) // start server
+    if (m_server->listen(QHostAddress::LocalHost, 8080)) // start server
     {
         connect(this, &MainWindow::newMessage, this,
                 &MainWindow::displayMessage);
@@ -50,13 +50,13 @@ MainWindow::~MainWindow()
     {
         disconnect(it.key(), &QTcpSocket::disconnected, this,
                    &MainWindow::discardSocket);
-        dbUtils.dropUser(it.value());
+        // dbUtils.dropUser(it.value());
         it.key()->close();
         it.key()->deleteLater();
         setOfConnectionUser.erase(it++);
     }
     setOfConnectionUser.clear();
-
+    dbUtils.dropTableAuthUser();
     m_server->close();
     m_server->deleteLater();
     dbUtils.closeDBConnection();
@@ -292,8 +292,9 @@ void MainWindow::readSocket()
             else if (headCommand == msg::header::getPdfData)
             {
                 QVariant id{};
-                socketStream >> id;
-                sendDataForPdfReport(socket, id.toString());
+                QVariant payId{};
+                socketStream >> id >> payId;
+                sendDataForPdfReport(socket, id.toString(), payId.toInt());
             }
             else if (headCommand == msg::header::getSearchedEmployee)
             {
@@ -805,7 +806,7 @@ void MainWindow::sendStatusInsertedInSetting(QTcpSocket *socket,
     if (dbUtils.insertIntoSettingTable(startPeriod, endPeriod, nextPayment,
                                        autopilot, frequency))
     {
-
+        emit newMessage("The received end period is " + endPeriod.toString());
         socketStream << msg::header::insertedInDBSettingStatus << st.success;
         /*Start autopilot if it was disable and now user activate it*/
         if (!isOldAutoPilot && autopilot == 1)
@@ -847,8 +848,8 @@ void MainWindow::sendSettingInfo(QTcpSocket *socket)
     else
     {
         socketStream << msg::header::getSettingsData << st.success
-                     << dataFromSysTable->record(0).value(0) // start
-                     << dataFromSysTable->record(0).value(2) // end
+                     << dataFromSysTable->record(0).value(6) // //fisrstPay
+                     << dataFromSysTable->record(0).value(5) // //payDate
                      << dataFromSysTable->record(0).value(1) // next
                      << dataFromSysTable->record(0).value(3) // freq
                      << dbUtils.checkIfAutoPilotIsOn();      // autopilot
@@ -894,16 +895,6 @@ void MainWindow::sendPaymentPeriodData(QTcpSocket *socket)
             }
         }
     }
-
-    /*
-        socketStream << msg::header::getSettingsData
-                     << dataFromPeriodTable->record(0).value(0) // pay_id
-                     << dataFromPeriodTable->record(0).value(2) // start
-                     << dataFromPeriodTable->record(0).value(1) // end
-                     << dataFromPeriodTable->record(0).value(3) // total_net
-                     << dataFromPeriodTable->record(0).value(4);  //
-       total_cnt_emp
-     */
 }
 
 void MainWindow::sendPaymentInfoDetail(QTcpSocket *socket, int id)
@@ -935,7 +926,7 @@ void MainWindow::sendPaymentInfoDetail(QTcpSocket *socket, int id)
     if (dataFromPeriodTable->rowCount() > 0 &&
         dataFromPeriodTable->columnCount() > 0)
     {
-        // send data employee (pay_id,start,end, total_net,total_cnt_emp )
+        // send data employee (pay_id,start,end, total_net, total_cnt_emp )
         for (quint32 row = 0; row < dataFromPeriodTable->rowCount(); ++row)
         {
             for (quint32 column = 0;
@@ -947,7 +938,8 @@ void MainWindow::sendPaymentInfoDetail(QTcpSocket *socket, int id)
     }
 }
 
-void MainWindow::sendDataForPdfReport(QTcpSocket *socket, QString empId)
+void MainWindow::sendDataForPdfReport(QTcpSocket *socket, QString empId,
+                                      int payId)
 {
     if (!socket)
     {
@@ -965,7 +957,12 @@ void MainWindow::sendDataForPdfReport(QTcpSocket *socket, QString empId)
     QDataStream socketStream(socket);
     socketStream.setVersion(QDataStream::Qt_5_15);
 
-    auto dataFromPeriodTable = dbUtils.getPaymentDataForPDFGenerate(empId);
+    emit newMessage(QString("Receide data for  pdf is : Emp ID %1 | PayID %2")
+                        .arg(empId)
+                        .arg(payId));
+
+    auto dataFromPeriodTable =
+        dbUtils.getPaymentDataForPDFGenerate(empId, payId);
 
     QVariantList pdfData{};
     if (dataFromPeriodTable->rowCount() > 0 &&
@@ -981,17 +978,21 @@ void MainWindow::sendDataForPdfReport(QTcpSocket *socket, QString empId)
             }
         }
 
+        auto pdfName = pdfData.at(8).toString().replace("/", "_") + "_" +
+                       pdfData.at(3).toString();
+
         auto res = CGeneratePdf::generateReportInfo(pdfData);
 
         if (!res.isEmpty())
         {
             socketStream << msg::header::getPdfData << st.success
-                         << res.toUtf8();
+                         << res.toUtf8() << pdfName;
             // qDebug() << res;
-            emit newMessage(res);
+            // emit newMessage(res);
+            return;
         }
-
-        return;
+        emit newMessage("Pdf data is empty");
+        socketStream << msg::header::getPdfData << st.failure;
     }
     else
     {

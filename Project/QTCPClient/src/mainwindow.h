@@ -122,7 +122,7 @@ class MainWindow : public QMainWindow
 
     bool checkFolder(QString &path);
 
-    void savePdf(QString &html);
+    void savePdf(QString &html, QString &pdfName);
 
     /*AutoPayment*/
     QDateTime calculateStartPayPeriod(QDateTime datetime, QString box);

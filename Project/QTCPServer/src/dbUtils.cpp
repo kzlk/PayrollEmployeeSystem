@@ -29,32 +29,27 @@ class DatabaseUtils
                           .arg(dbName);
         db.setDatabaseName(dsn);
 
-        //        try
-        //        {
-        //            if (!db.open())
-        //                throw "Failed to open the database";
-        //            else
-        //            {
-        //                qDebug() << ("Connected to database");
-        //                return true;
-        //            }
-        //        }
-        //        catch (QString &myExeption)
-        //        {
-        //            qDebug() << myExeption;
-        //            return false;
-        //        };
-
-        if (db.open())
+        try
         {
-            qDebug() << ("Connected to database");
-            return true;
+            if (!db.open())
+                throw "Failed to open the database";
+            else
+            {
+                qDebug() << ("Connected to database");
+                return true;
+            }
         }
-        else
+        catch (QString &myExeption)
         {
-            qDebug() << ("Failed to open the database");
+            qDebug() << myExeption;
             return false;
-        }
+        };
+    }
+
+    void dropTableAuthUser()
+    {
+        QSqlQuery qry;
+        qry.exec("DELETE FROM  dbo.AutorizationUser");
     }
 
     /*AutoPilot*/
@@ -94,7 +89,9 @@ class DatabaseUtils
                             "[NextPayment], "
                             "[LastPayment] ,"
                             "[Frequency], "
-                            "[Configuration] "
+                            "[Configuration], "
+                            "[payDate],"
+                            "[firstPayDateOnNewSchedule] "
                             " FROM [dbo].[SystemSettings]");
 
         return querModel;
@@ -129,7 +126,7 @@ class DatabaseUtils
         return querModel;
     }
 
-    QSqlQueryModel *getPaymentDataForPDFGenerate(QString &emp_id)
+    QSqlQueryModel *getPaymentDataForPDFGenerate(QString &emp_id, int &pay_id)
     {
         if (!db.isOpen())
         {
@@ -139,8 +136,9 @@ class DatabaseUtils
 
         QSqlQueryModel *querModel = new QSqlQueryModel();
         querModel->setQuery(
-            QString("SELECT *FROM getDataForPdfReportPayment ('%1') ")
-                .arg(emp_id));
+            QString("SELECT *FROM getDataForPdfReportPayment ('%1', %2) ")
+                .arg(emp_id)
+                .arg(pay_id));
 
         return querModel;
     }
@@ -242,7 +240,8 @@ class DatabaseUtils
     }
 
     bool updateSystemSetting(QDateTime startPeriodPayment,
-                             QDateTime endPeriodPayment, QDateTime nextPayment)
+                             QDateTime endPeriodPayment, QDateTime nextPayment,
+                             QDateTime payDate)
     {
         if (!db.isOpen())
         {
@@ -255,7 +254,8 @@ class DatabaseUtils
         if (!qry.prepare(QString("UPDATE dbo.SystemSettings "
                                  " SET LastPayment = :lastPeriod , "
                                  " StartPeriodPayment = :startPeriod , "
-                                 " NextPayment = :nextPeriod ")))
+                                 " NextPayment = :nextPeriod , "
+                                 " payDate = :payDate ")))
         {
             return false;
         }
@@ -264,6 +264,8 @@ class DatabaseUtils
             qry.bindValue(":lastPeriod", endPeriodPayment);
             qry.bindValue(":startPeriod", startPeriodPayment);
             qry.bindValue(":nextPeriod", nextPayment);
+            qry.bindValue(":payDate", payDate);
+
             if (!qry.exec())
             {
                 return false;
@@ -424,11 +426,13 @@ class DatabaseUtils
         QSqlQuery qry1;
         if (qry1.exec("TRUNCATE TABLE SystemSettings"))
         {
-            if (!qry.prepare(QString(
-                    "INSERT INTO SystemSettings "
-                    "(StartPeriodPayment, NextPayment, LastPayment, "
-                    "AutoPilot,Frequency, Configuration) "
-                    "VALUES (:start, :next, :end, :autop, :freq, :config)")))
+            if (!qry.prepare(
+                    QString("INSERT INTO SystemSettings "
+                            "(StartPeriodPayment, NextPayment, LastPayment, "
+                            "AutoPilot,Frequency, Configuration, "
+                            "firstPayDateOnNewSchedule, payDate) "
+                            "VALUES (:start, :next, :end, :autop, :freq, "
+                            ":config, :newShedule, :payDate)")))
             {
                 return false;
             }
@@ -438,8 +442,10 @@ class DatabaseUtils
                 qry.bindValue(":next", nextPayment);
                 qry.bindValue(":autop", autopilot);
                 qry.bindValue(":freq", frequency);
-                qry.bindValue(":end", endPeriod);
+                qry.bindValue(":end", endPeriod.addDays(-1));
                 qry.bindValue(":config", 1);
+                qry.bindValue(":newShedule", endPeriod);
+                qry.bindValue(":payDate", endPeriod);
 
                 if (!qry.exec())
                 {
