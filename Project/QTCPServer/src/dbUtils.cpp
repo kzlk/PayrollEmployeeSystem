@@ -585,6 +585,27 @@ class DatabaseUtils
         return false;
     };
 
+    bool checkUser(QString &login, QString &password)
+    {
+        if (!db.isOpen())
+        {
+            qDebug() << "No connection to db :( ";
+            return false;
+        }
+
+        QSqlQuery qry;
+
+        qry.exec(QString("DECLARE @resp bit "
+                         "EXEC dbo.uspLogin N'%1', N'%2', @resp OUTPUT "
+                         "SELECT	 @resp as N'@responseMessage'")
+                     .arg(login)
+                     .arg(password));
+
+        qry.next();
+
+        return qry.value(0).toBool();
+    }
+
     bool checkUserIsExist(QString &login, QString &password)
     {
         if (!db.isOpen())

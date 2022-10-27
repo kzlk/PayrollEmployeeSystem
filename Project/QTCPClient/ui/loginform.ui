@@ -76,7 +76,7 @@ background: transparent;
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="page_3"/>
     <widget class="QWidget" name="page">
@@ -289,6 +289,41 @@ color:#EB0000;
       </property>
       <property name="text">
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:36pt; color:#ffffff;&quot;&gt;Non connected&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="closeButton_2">
+      <property name="geometry">
+       <rect>
+        <x>470</x>
+        <y>0</y>
+        <width>40</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>16</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#closeButton_2
+{
+	border:none;
+color:white;
+}
+
+#closeButton_2:hover
+{
+	border:none;
+color:#EB0000;
+}</string>
+      </property>
+      <property name="text">
+       <string>×</string>
       </property>
      </widget>
     </widget>

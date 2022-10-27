@@ -46,6 +46,8 @@ class loginForm : public QMainWindow
 
     void on_closeButton_clicked();
 
+    void on_closeButton_2_clicked();
+
   private:
     Ui::loginForm *ui;
     QTcpSocket *socket;

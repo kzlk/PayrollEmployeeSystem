@@ -132,10 +132,11 @@ void MainWindow::readSocket()
 
             // read password
             socketStream >> buffer;
+
             QString password(buffer);
             // send to client status of autorization
-            sendAutorizationStatus(
-                socket, dbUtils.checkUserIsExist(login, password), login);
+            sendAutorizationStatus(socket, dbUtils.checkUser(login, password),
+                                   login);
         }
 
         else if (headCommand == msg::header::getEmployeeNameIdSurname)
@@ -449,6 +450,9 @@ void MainWindow::sendAutorizationStatus(QTcpSocket *socket, bool isAutorized,
                         {
                             setOfConnectionUser[mySet.key()] = login;
                         }
+
+                        emit newMessage("User with login: " + login +
+                                        " sucessfully enter to system");
                     }
                     else
                     {

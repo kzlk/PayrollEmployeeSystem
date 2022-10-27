@@ -196,3 +196,8 @@ void loginForm::mouseMoveEvent(QMouseEvent *event)
         move(x() + delta.x(), y() + delta.y());
     mousePoint = event->globalPos();
 }
+
+void loginForm::on_closeButton_2_clicked()
+{
+    this->close();
+}

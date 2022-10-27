@@ -547,7 +547,7 @@ color:#EB0000;
 </string>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>9</number>
     </property>
     <widget class="QWidget" name="searchWidget">
      <property name="styleSheet">
