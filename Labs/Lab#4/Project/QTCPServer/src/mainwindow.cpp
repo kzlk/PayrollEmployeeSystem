@@ -427,6 +427,8 @@ void MainWindow::sendAutorizationStatus(QTcpSocket *socket, bool isAutorized,
             socketStream.setVersion(QDataStream::Qt_5_15);
             if (isAutorized)
             {
+                qDebug() << "Is admin? with login" << login
+                         << dbUtils.checkUserIsAutorized(login);
                 if (dbUtils.checkUserIsAutorized(login))
                 {
                     socketStream << msg::header::autorazation
@@ -996,6 +998,9 @@ void MainWindow::sendDataForPdfReport(QTcpSocket *socket, QString empId,
             send.push_back(res.toUtf8());
             socketStream << msg::header::getPdfData << st.success << pdfName
                          << res.toUtf8();
+            // socketStream << msg::header::getPdfData << send;
+            //  qDebug() << res;
+            //  emit newMessage(res);
             return;
         }
         emit newMessage("Pdf data is empty");

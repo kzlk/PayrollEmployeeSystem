@@ -767,7 +767,9 @@ class DatabaseUtils
                      "' AND designation='" + design + "';");
         qry->exec();
         qry->next();
+
         int x = qry->value(0).toInt();
+
         return x;
     }
 
