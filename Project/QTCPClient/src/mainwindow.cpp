@@ -47,7 +47,7 @@ void MainWindow::readSocket()
 
     QDataStream socketStream(this->socket);
 
-    socketStream.setVersion(QDataStream::Qt_6_3);
+    socketStream.setVersion(QDataStream::Qt_5_15);
 
     // start socket transaction
     socketStream.startTransaction();
@@ -96,7 +96,7 @@ void MainWindow::readSocket()
     else if (headCommand == msg::infoDemp)
     {
         ui->empDesig->clear();
-        ui->searchStackedWidget->setCurrentIndex(3);
+        // ui->searchStackedWidget->setCurrentIndex(3);
         QVector<QString> receiveDep{};
         buffer.clear();
         QByteArray size;
@@ -242,7 +242,17 @@ void MainWindow::readSocket()
         QByteArray html{};
         QString pdfName{};
 
-        socketStream >> status >> html >> pdfName;
+        socketStream >> status >> pdfName >> html;
+        //        while (socketStream.commitTransaction())
+        //        {
+        //            qDebug() << "Hello from commit transact";
+        //            QVariantList list{};
+        //            socketStream >> list;
+        //            ;
+        //            qDebug() << "Received List : ";
+        //            for (auto &i : list)
+        //                qDebug() << i;
+        //        }
 
         if (st.success == status)
         {
@@ -334,14 +344,13 @@ void MainWindow::readSocket()
 
     if (!socketStream.commitTransaction())
     {
-        QString message =
-            QString("%1 :: Waiting for more data to come..after all condition")
-                .arg(socket->socketDescriptor());
+        QString message = QString("%1 :: Waiting for more data to come...")
+                              .arg(socket->socketDescriptor());
         QMessageBox::information(this, "QTCPCLIENT", message);
-        QByteArray buff;
-        socketStream >> buff;
+        // QByteArray buff;
+        // socketStream >> buff;
         qDebug() << ("Comming data: --> " + QString(buffer));
-        qDebug() << buff;
+        // qDebug() << buff;
         return;
     }
 }

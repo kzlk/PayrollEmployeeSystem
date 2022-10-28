@@ -571,7 +571,8 @@ class DatabaseUtils
                          " FROM dbo.adminLogIn INNER JOIN"
                          " dbo.AutorizationUser ON dbo.adminLogIn.adminLogin = "
                          " dbo.AutorizationUser.Admin_id"
-                         " WHERE dbo.adminLogIn.adminLogin = \'admin\' ");
+                         " WHERE dbo.adminLogIn.adminLogin = '%1' ")
+                     .arg(login);
         qDebug() << a;
         if (qry.exec(a))
         {

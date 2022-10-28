@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     m_server = new QTcpServer();
     // LocalHostIPv6 for network
-    if (m_server->listen(QHostAddress::LocalHost,
+    if (m_server->listen(QHostAddress("127.0.0.1"),
                          Connection::SERVER_PORT)) // start server
     {
         connect(this, &MainWindow::newMessage, this,
@@ -992,10 +992,15 @@ void MainWindow::sendDataForPdfReport(QTcpSocket *socket, QString empId,
 
         if (!res.isEmpty())
         {
-            socketStream << msg::header::getPdfData << st.success
-                         << res.toUtf8() << pdfName;
-            // qDebug() << res;
-            // emit newMessage(res);
+            QVariantList send{};
+            send.push_back(st.success);
+            send.push_back(pdfName);
+            send.push_back(res.toUtf8());
+            socketStream << msg::header::getPdfData << st.success << pdfName
+                         << res.toUtf8();
+            // socketStream << msg::header::getPdfData << send;
+            //  qDebug() << res;
+            //  emit newMessage(res);
             return;
         }
         emit newMessage("Pdf data is empty");
@@ -1251,8 +1256,8 @@ void MainWindow::setNewDataForEmployee(QTcpSocket *socket,
 
 quint64 MainWindow::getUniqueNum()
 {
-    QRandomGenerator generator;
-    quint64 rand = generator.generate() & std::numeric_limits<qint64>::max();
+    QRandomGenerator generator = QRandomGenerator::securelySeeded();
+    quint64 rand = generator.generate64();
     emit displayMessage(QString("The rand num generate is  %1").arg(rand));
     return rand;
 }
@@ -1275,9 +1280,6 @@ void MainWindow::sendTotalInfoEmployee(QTcpSocket *socket, int &lastID,
             // send header , last ID, dept, desighTotal
             socketStream << msg::header::totalInfoEmployee << quint32(lastID)
                          << dept.toUtf8() << designTtl.toUtf8();
-            //
-            emit newMessage(
-                &"Sending header -> "[msg::header::totalInfoEmployee]);
         }
         else
             QMessageBox::critical(this, "QTCPServer",
